@@ -3,9 +3,10 @@
 
 var STACK_SIZES = [0.625, 1.25, 2.5, 3.75, 5];
 var KERBIN_GRAVITY = 9.81;
-var BASE_PLATE_RADIUS = 171;
-var CENTER_X = 180;
-var CENTER_Y = 180;
+var CANVAS_SIZE = 335;
+var BASE_PLATE_RADIUS = CANVAS_SIZE / 2 - 1;
+var CENTER_X = CANVAS_SIZE / 2;
+var CENTER_Y = CANVAS_SIZE / 2;
 
 
 function solve() {
@@ -69,7 +70,7 @@ function solve() {
 				var mass = data.payloadMass * 100 / data.payloadFraction;
 				var thrust = rocketConfig.thrust;
 				var twr = thrust / mass / data.gravity;
-				var html = '<h5>Vessel Totals</h5><ul><li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
+				var html = '<h4>Vessel Totals</h4><ul><li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
 					'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
 					'<li>Thrust: ' + Math.round(thrust) + ' kN</li><li>TWR: ' + (Math.round(twr * 100) / 100) + '</li></ul>';
 				$('#rocketTotals').empty().append($.parseHTML(html));
@@ -173,7 +174,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			lineHeight: 1.2
 		});
 
-		var html = '<h5>' + infoHeader + '</h5><ul><li>Stack size: ' + size + ' m</li>' +
+		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>' +
 			'<li>Center engine: ' + engineConfig.central.name.replace(/"/g, '&quot;') + '</li>';
 		if (engineConfig.numOuter > 0) {
 			html += '<li>Outer engines: ' + engineConfig.numOuter + 'x ' +

@@ -4,11 +4,12 @@
 <head>
 
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Engine Configuration Calculator for KSP</title>
 
-<link rel="stylesheet" href="css/bootstrap-2.3.2.min.css" media="all"/>
-<link rel="stylesheet" href="css/bootstrap-2.3.2-responsive.min.css" media="all"/>
+<link rel="stylesheet" href="css/bootstrap-3.0.0.min.css" media="all"/>
 <link rel="stylesheet" href="css/styles.css" media="all"/>
 
 <script src="js/jquery-2.0.3.min.js"></script>
@@ -22,11 +23,14 @@
 
 <div class="container">
 
-<div class="row-fluid">
-	<div class="span12">
-		<h1>Engine Configuration Calculator for KSP</h1>
-		<h6>by <a href="http://forum.kerbalspaceprogram.com/member.php/70339-blizzy78">blizzy</a>,
-			based on Temstar's <a href="http://forum.kerbalspaceprogram.com/showthread.php/28248-Is-asparagus-the-best-staging-system-%28might-contain-science%29?p=346702&viewfull=1#post346702">rocket configuration guide</a></h6>
+<div class="row">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h1>Engine Configuration Calculator for KSP</h1>
+			<h6>by <a href="http://forum.kerbalspaceprogram.com/member.php/70339-blizzy78">blizzy</a>,
+				based on Temstar's <a href="http://forum.kerbalspaceprogram.com/showthread.php/28248-Is-asparagus-the-best-staging-system-%28might-contain-science%29?p=346702&viewfull=1#post346702">rocket
+				configuration guide</a></h6>
+		</div>
 			
 		<p>
 		This calculator can be used to work out the engine layout for a central stack and attached booster stacks
@@ -42,76 +46,75 @@
 	</div>
 </div>
 
-<div class="row-fluid">
-	<div class="span8">
-		<div class="row-fluid rocketConfigs">
-			<div class="span6">
-				<h3>Central Stack</h3>
-		
-				<div class="thumbnail stackDiagram">
-					<canvas width="360" height="360" id="centralConfig"></canvas>
+<div id="calculatorAndOutput" class="row">
+	<div class="col-md-7">
+		<div class="row">
+			<div class="col-lg-7">
+				<div class="panel panel-default">
+					<div class="panel-heading">Central Stack</div>
+					<div class="panel-body">
+						<canvas width="335" height="335" id="centralConfig"></canvas>
+					</div>
 				</div>
-		
-				<span id="centralDescription"></span>
 			</div>
-			<div class="span6">
-				<h3>Booster Stack</h3>
-		
-				<div class="thumbnail stackDiagram">
-					<canvas width="360" height="360" id="boosterConfig"></canvas>
-				</div>
-				
-				<span id="boosterDescription"></span>
-			</div>
+			<div class="col-md-5" id="centralDescription"></div>
 		</div>
-		<div class="row-fluid">
-			<div class="span12">
-				<span id="rocketTotals"></span>
+		<div class="row">
+			<div class="col-lg-7">
+				<div class="panel panel-default">
+					<div class="panel-heading">Booster Stack</div>
+					<div class="panel-body">
+						<canvas width="335" height="335" id="boosterConfig"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5">
+				<div id="boosterDescription"></div>
+				<div id="rocketTotals"></div>
 			</div>
 		</div>
 	</div>
-	<div class="span4">
-		<h3>Configuration Calculator</h3>
+
+	<div class="col-md-5">
+		<div class="panel panel-default">
+		<div class="panel-heading">Configuration Calculator</div>
+		<div class="panel-body">
 		
 		<form id="options" class="form-horizontal">
-			<div class="control-group">
-				<label class="control-label">Payload mass:</label>
-				<div class="controls">
-					<div class="input-append">
-						<input name="payloadMass" type="text" value="44" class="input-medium"/>
-						<span class="add-on">t</span>
-					</div>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Payload mass:</label>
+				<div class="col-md-6 input-group">
+					<input name="payloadMass" type="text" value="44" class="form-control input-sm"/>
+					<span class="input-group-addon">t</span>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label"><a href="http://en.wikipedia.org/wiki/Payload_fraction">Payload fraction</a>:</label>
-				<div class="controls">
-					<div class="input-append">
-						<input name="payloadFraction" type="text" value="15" class="input-medium"/>
-						<span class="add-on">%</span>
-					</div>
+			<div class="form-group">
+				<label class="col-md-6 control-label"><a href="http://en.wikipedia.org/wiki/Payload_fraction">Payload fraction</a>:</label>
+				<div class="col-md-6 input-group">
+					<input name="payloadFraction" type="text" value="15" class="form-control input-sm"/>
+					<span class="input-group-addon">%</span>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Min. <a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
-				<div class="controls">
-					<input name="minTWR" type="text" value="1.6" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Min. <a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
+				<div class="col-md-6">
+					<input name="minTWR" type="text" value="1.6" class="form-control input-sm"/>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Max. TWR:</label>
-				<div class="controls">
-					<input name="maxTWR" type="text" value="1.7" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. TWR:</label>
+				<div class="col-md-6">
+					<input name="maxTWR" type="text" value="1.7" class="form-control input-sm"/>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Central stack size:</label>
-				<div class="controls">
-					<select name="centralStackSize" class="input-medium">
+			<div class="form-group">
+				<label class="col-md-6 control-label">Central stack size:</label>
+				<div class="col-md-6">
+					<select name="centralStackSize" class="form-control input-sm">
 						<option value="0.625">0.625 m</option>
 						<option value="1.25">1.25 m</option>
 						<option value="2.5" selected="true">2.5 m</option>
@@ -121,78 +124,80 @@
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Min. boosters:</label>
-				<div class="controls">
-					<input name="minBoosters" type="text" value="0" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Min. boosters:</label>
+				<div class="col-md-6">
+					<input name="minBoosters" type="text" value="0" class="form-control input-sm"/>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Max. boosters:</label>
-				<div class="controls">
-					<input name="maxBoosters" type="text" value="6" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. boosters:</label>
+				<div class="col-md-6">
+					<input name="maxBoosters" type="text" value="6" class="form-control input-sm"/>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<div class="controls">
+			<div class="form-group">
+				<div class="col-md-6 col-md-offset-6">
 					<label class="checkbox">
 						<input name="allowPartClipping" type="checkbox" value="true" checked="true"/> Allow part clipping
 					</label>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Min. central thrust:</label>
-				<div class="controls">
-					<div class="input-append">
-						<input name="minCentralThrustFraction" type="text" value="20" class="input-medium"/>
-						<span class="add-on">%</span>
-					</div>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Min. central thrust:</label>
+				<div class="col-md-6 input-group">
+					<input name="minCentralThrustFraction" type="text" value="20" class="form-control input-sm"/>
+					<span class="input-group-addon">%</span>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Max. central thrust:</label>
-				<div class="controls">
-					<div class="input-append">
-						<input name="maxCentralThrustFraction" type="text" value="25" class="input-medium"/>
-						<span class="add-on">%</span>
-					</div>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. central thrust:</label>
+				<div class="col-md-6 input-group">
+					<input name="maxCentralThrustFraction" type="text" value="25" class="form-control input-sm"/>
+					<span class="input-group-addon">%</span>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Max. central outer engines:</label>
-				<div class="controls">
-					<input name="maxCentralOuterEngines" type="text" value="4" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. central outer engines:</label>
+				<div class="col-md-6">
+					<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
 				</div>
 			</div>
 
-			<div class="control-group">
-				<label class="control-label">Max. booster outer engines:</label>
-				<div class="controls">
-					<input name="maxBoosterOuterEngines" type="text" value="4" class="input-medium"/>
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. booster outer engines:</label>
+				<div class="col-md-6">
+					<input name="maxBoosterOuterEngines" type="text" value="4" class="form-control input-sm"/>
 				</div>
 			</div>
 			
-			<div class="control-group">
-				<label class="control-label">Engine packs:</label>
-				<div class="controls" id="enginePacks">
+			<div class="form-group">
+				<label class="col-md-6 control-label">Engine packs:</label>
+				<div class="col-md-6" id="enginePacks">
 				</div>
 			</div>
 			
-			<div class="control-group">
+			<div class="form-group">
+				<p class="help-block col-md-10 col-md-offset-1">
 				<strong>Warning:</strong> Calculation may take a while if many engine packs are selected.
 				Please be patient.
+				</p>
 			</div>
 			
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary">Calculate</button>
-				<button type="reset" class="btn">Reset</button>
+			<div class="form-group">
+				<div class="col-md-12 text-center">
+					<button type="submit" class="btn btn-primary">Calculate</button>
+					<button type="reset" class="btn btn-default">Reset</button>
+				</div>
 			</div>
 		</form>
+		
+		</div></div>
 	</div>
 </div>
 
@@ -200,11 +205,11 @@
 
 <footer class="footer">
 	<div class="container">
-		<p>
-		Last updated for KSP 0.21.1 on 2013-08-20.
+		<p class="text-center">
+		Last updated for KSP 0.21.1 on 2013-08-21.
 		</p>
 		
-		<p>
+		<p class="text-center">
 		Copyright &copy; 2013 by Maik Schreiber
 		</p>
 	</div>
