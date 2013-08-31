@@ -92,7 +92,7 @@ function solveStack(minThrust, maxThrust, maxOuterEngines, outerEnginesBalanceRe
 	var engineConfigs = [];
 	
 	var suitableCentralEngines = solveSingleEngine(0, maxThrust, false, vectoringRequired, stackSize,
-		allowPartClipping, enginePacks);
+		false, enginePacks);
 	for (var centralEngineIdx = 0; centralEngineIdx < suitableCentralEngines.length; centralEngineIdx++) {
 		var centralEngine = suitableCentralEngines[centralEngineIdx];
 
@@ -127,9 +127,7 @@ function solveStack(minThrust, maxThrust, maxOuterEngines, outerEnginesBalanceRe
 						}
 					}
 				} else {
-					if ((centralEngine.thrust >= minThrust) &&
-						(centralEngine.size <= stackSize)) {
-
+					if (centralEngine.thrust >= minThrust) {
 						var engineConfig = {
 							central: centralEngine,
 							outer: null,
