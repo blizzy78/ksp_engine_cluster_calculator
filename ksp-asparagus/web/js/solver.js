@@ -1,7 +1,7 @@
 "use strict";
 
 
-var BOOSTER_STACK_SIZES = [1.25, 2.5];
+var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75, 5];
 
 
 function solve(data) {
@@ -39,28 +39,30 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				var remainingMaxThrustSingle = remainingMaxThrust / numBoosters;
 				for (var boosterStackSizeIdx in BOOSTER_STACK_SIZES) {
 					var boosterStackSize = BOOSTER_STACK_SIZES[boosterStackSizeIdx];
-					var suitableBoosterConfigs = solveStack(remainingMinThrustSingle, remainingMaxThrustSingle,
-							maxBoosterOuterEngines, false, false, boosterStackSize,
-							allowPartClipping, enginePacks);
-					for (var boosterConfigIdx in suitableBoosterConfigs) {
-						var boosterConfig = suitableBoosterConfigs[boosterConfigIdx];
-						var totalThrust = centralConfig.thrust + boosterConfig.thrust * numBoosters;
-						if (totalThrust >= minThrust) {
-							var centralThrustFraction = centralConfig.thrust * 100 / totalThrust;
-							if ((centralThrustFraction >= minCentralThrustFraction) &&
-								(centralThrustFraction <= maxCentralThrustFraction)) {
-								
-								var rocketConfig = {
-									central: centralConfig,
-									booster: boosterConfig,
-									numBoosters: numBoosters,
-									thrust: totalThrust,
-									mass: centralConfig.mass + boosterConfig.mass * numBoosters,
-									numParts: centralConfig.numParts + boosterConfig.numParts * numBoosters,
-									centralSize: centralStackSize,
-									boosterSize: boosterStackSize
-								};
-								rocketConfigs.push(rocketConfig);
+					if (boosterStackSize <= centralStackSize) {
+						var suitableBoosterConfigs = solveStack(remainingMinThrustSingle, remainingMaxThrustSingle,
+								maxBoosterOuterEngines, false, false, boosterStackSize,
+								allowPartClipping, enginePacks);
+						for (var boosterConfigIdx in suitableBoosterConfigs) {
+							var boosterConfig = suitableBoosterConfigs[boosterConfigIdx];
+							var totalThrust = centralConfig.thrust + boosterConfig.thrust * numBoosters;
+							if (totalThrust >= minThrust) {
+								var centralThrustFraction = centralConfig.thrust * 100 / totalThrust;
+								if ((centralThrustFraction >= minCentralThrustFraction) &&
+									(centralThrustFraction <= maxCentralThrustFraction)) {
+									
+									var rocketConfig = {
+										central: centralConfig,
+										booster: boosterConfig,
+										numBoosters: numBoosters,
+										thrust: totalThrust,
+										mass: centralConfig.mass + boosterConfig.mass * numBoosters,
+										numParts: centralConfig.numParts + boosterConfig.numParts * numBoosters,
+										centralSize: centralStackSize,
+										boosterSize: boosterStackSize
+									};
+									rocketConfigs.push(rocketConfig);
+								}
 							}
 						}
 					}
@@ -125,7 +127,9 @@ function solveStack(minThrust, maxThrust, maxOuterEngines, outerEnginesBalanceRe
 						}
 					}
 				} else {
-					if (centralEngine.thrust >= minThrust) {
+					if ((centralEngine.thrust >= minThrust) &&
+						(centralEngine.size <= stackSize)) {
+
 						var engineConfig = {
 							central: centralEngine,
 							outer: null,
@@ -176,7 +180,15 @@ function solveSingleEngine(minThrust, maxThrust, allowRadial, vectoringRequired,
 
 function progress(percent) {
 	self.postMessage({
+		type: 'progress',
 		progressPercent: percent
+	});
+}
+
+function log(message) {
+	self.postMessage({
+		type: 'log',
+		message: message
 	});
 }
 
@@ -184,6 +196,7 @@ function progress(percent) {
 self.addEventListener('message', function(e) {
 	var rocketConfigs = solve(e.data);
 	self.postMessage({
+		type: 'result',
 		rocketConfigs: rocketConfigs
 	});
 }, false);

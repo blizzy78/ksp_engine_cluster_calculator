@@ -8,6 +8,8 @@ var BASE_PLATE_RADIUS = CANVAS_SIZE / 2 - 1;
 var CENTER_X = CANVAS_SIZE / 2;
 var CENTER_Y = CANVAS_SIZE / 2;
 
+var DEBUG = false;
+
 
 function solve() {
 	var enginePacks = [];
@@ -39,51 +41,73 @@ function solve() {
 		gravity: KERBIN_GRAVITY,
 		enginePacks: enginePacks
 	};
+	var calculateFor = $('#options select[name="calculateFor"]').val();
 	
 	var worker = new Worker('js/solver.js');
 
 	worker.addEventListener('message', function(e) {
-		if (typeof(e.data.rocketConfigs) === 'object') {
-			var rocketConfigs = e.data.rocketConfigs;
-			if (rocketConfigs.length > 0) {
-				// use the one with highest TWR
-				var rocketConfig;
-				var maxTWR = -1;
-				for (var rocketConfigIdx in rocketConfigs) {
-					var currentRocketConfig = rocketConfigs[rocketConfigIdx];
-					var rocketConfigTWR = currentRocketConfig.thrust / currentRocketConfig.mass;
-					if (rocketConfigTWR > maxTWR) {
-						rocketConfig = currentRocketConfig;
-						maxTWR = rocketConfigTWR;
-					}
-				}
+		switch (e.data.type) {
+			case 'result':
+				var rocketConfigs = e.data.rocketConfigs;
+				if (rocketConfigs.length > 0) {
+					var mass = data.payloadMass * 100 / data.payloadFraction;
 
-				draw($('#centralConfig'), rocketConfig.central, 'Central Stack Layout',
-						$('#centralDescription'), rocketConfig.centralSize);
-				if (rocketConfig.numBoosters > 0) {
-					draw($('#boosterConfig'), rocketConfig.booster, 'Booster Stack Layout', $('#boosterDescription'),
-						rocketConfig.boosterSize, rocketConfig.numBoosters);
-				} else {
-					draw($('#boosterConfig'), '(not required)', null, $('#boosterDescription'), -1, 0);
-				}
-				
-				var mass = data.payloadMass * 100 / data.payloadFraction;
-				var thrust = rocketConfig.thrust;
-				var twr = thrust / mass / data.gravity;
-				var html = '<h4>Vessel Totals</h4><ul><li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
-					'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
-					'<li>Thrust: ' + Math.round(thrust) + ' kN</li><li>TWR: ' + (Math.round(twr * 100) / 100) + '</li></ul>';
-				$('#rocketTotals').empty().append($.parseHTML(html));
-			} else {
-				draw($('#centralConfig'), '(no solution)', null, $('#centralDescription'), -1);
-				draw($('#boosterConfig'), '(no solution)', null, $('#boosterDescription'), -1);
-				$('#rocketTotals').empty();
-			}
+					var rocketConfig;
+					switch (calculateFor) {
+						case 'twr':
+							rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
+								return rocketConfig.thrust / mass
+							});
+							break;
+
+						case 'engineTWR':
+							rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
+								return rocketConfig.thrust / rocketConfig.mass;
+							});
+							break;
+							
+						case 'numParts':
+							rocketConfig = $(rocketConfigs).min(function(rocketConfig) {
+								return rocketConfig.numParts;
+							});
+							break;
+					}
 	
-			$('#options button[type="submit"]').removeAttr('disabled').text('Calculate');
-			$('#options button[type="reset"]').removeAttr('disabled');
-		} else if (typeof(e.data.progressPercent) !== 'undefined') {
-			$('#options button[type="submit"]').text(e.data.progressPercent + '%');
+					draw($('#centralConfig'), rocketConfig.central, 'Central Stack Layout',
+							$('#centralDescription'), rocketConfig.centralSize);
+					if (rocketConfig.numBoosters > 0) {
+						draw($('#boosterConfig'), rocketConfig.booster, 'Booster Stack Layout', $('#boosterDescription'),
+							rocketConfig.boosterSize, rocketConfig.numBoosters);
+					} else {
+						draw($('#boosterConfig'), '(not required)', null, $('#boosterDescription'), -1, 0);
+					}
+					
+					var thrust = rocketConfig.thrust;
+					var twr = thrust / mass / data.gravity;
+					var html = '<h4>Vessel Totals</h4><ul>' +
+						'<li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
+						'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
+						'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
+						'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
+						'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
+					$('#rocketTotals').empty().append($.parseHTML(html));
+				} else {
+					draw($('#centralConfig'), '(no solution)', null, $('#centralDescription'), -1);
+					draw($('#boosterConfig'), '(no solution)', null, $('#boosterDescription'), -1);
+					$('#rocketTotals').empty();
+				}
+		
+				$('#options button[type="submit"]').removeAttr('disabled').text('Calculate');
+				$('#options button[type="reset"]').removeAttr('disabled');
+				break;
+			
+			case 'progress':
+				$('#options button[type="submit"]').text(e.data.progressPercent + '%');
+				break;
+			
+			case 'log':
+				log(e.data.message);
+				break;
 		}
 	}, false);
 
@@ -142,7 +166,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 				var radius = engineConfig.outer.size * stackRadius / size;
 				var textRadiusOffset = ((engineConfig.central.size + engineConfig.outer.size) >= size) ?
 					(size - engineConfig.central.size) * stackRadius / 6 : 0;
-				console.log("textRadiusOffset: " + textRadiusOffset);
+//				log("textRadiusOffset: " + textRadiusOffset);
 				var x = Math.cos(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_X;
 				var y = Math.sin(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_Y;
 				
@@ -234,8 +258,59 @@ function addEnginePacks() {
 	}
 }
 
+function log(message) {
+	if (DEBUG && (typeof(console.log) !== 'undefined')) {
+		console.log(message);
+	}
+}
+
 
 $(function() {
+	$.fn.extend({
+		min: function(valueCallback) {
+			var numElements = this.length;
+			if (numElements >= 2) {
+				var minElement = this[0];
+				var minValue = valueCallback(minElement);
+				for (var i = 1; i < numElements; i++) {
+					var element = this[i];
+					var value = valueCallback(element);
+					if (value < minValue) {
+						minElement = element;
+						minValue = value;
+					}
+				}
+				return minElement;
+			} else if (numElements === 1) {
+				return this[0];
+			} else {
+				return null;
+			}
+		},
+
+		max: function(valueCallback) {
+			var numElements = this.length;
+			if (numElements >= 2) {
+				var maxElement = this[0];
+				var maxValue = valueCallback(maxElement);
+				for (var i = 1; i < numElements; i++) {
+					var element = this[i];
+					var value = valueCallback(element);
+					if (value > maxValue) {
+						maxElement = element;
+						maxValue = value;
+					}
+				}
+				return maxElement;
+			} else if (numElements === 1) {
+				return this[0];
+			} else {
+				return null;
+			}
+		}
+	});
+	
+	
 	addEnginePacks();
 	
 	$('#options').submit(function() {
