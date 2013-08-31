@@ -73,7 +73,7 @@ function solve() {
 							break;
 					}
 	
-					draw($('#centralConfig'), rocketConfig.central, 'Central Stack Layout',
+					draw($('#centralConfig'), rocketConfig.central, 'Center Stack Layout',
 							$('#centralDescription'), rocketConfig.centralSize);
 					if (rocketConfig.numBoosters > 0) {
 						draw($('#boosterConfig'), rocketConfig.booster, 'Booster Stack Layout', $('#boosterDescription'),

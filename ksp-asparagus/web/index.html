@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Engine Configuration Calculator for KSP</title>
+<title>Engine Layout Calculator for KSP</title>
 
 <link rel="stylesheet" href="css/bootstrap-3.0.0.min.css" media="all"/>
 <link rel="stylesheet" href="css/styles.css" media="all"/>
@@ -27,17 +27,18 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="page-header">
-			<h1>Engine Configuration Calculator for KSP</h1>
+			<h1>Engine Layout Calculator for KSP</h1>
 			<h6>by <a href="http://forum.kerbalspaceprogram.com/member.php/70339-blizzy78">blizzy</a>,
 				based on Temstar's <a href="http://forum.kerbalspaceprogram.com/showthread.php/28248-Is-asparagus-the-best-staging-system-%28might-contain-science%29?p=346702&viewfull=1#post346702">rocket
 				configuration guide</a></h6>
 		</div>
 			
 		<p>
-		This calculator can be used to work out the engine layout for a central stack and attached booster stacks
+		This calculator can be used to work out the engine layout for a center stack and attached booster stacks
 		required for liftoff. Note that booster stacks are expected to be staged
 		<a href="http://wiki.kerbalspaceprogram.com/wiki/Tutorial:Asparagus_Staging">&quot;asparagus&quot;-style</a>.
-		Also, to get better results you should allow part clipping because more engines can be put on the fuel tanks.
+		Also, to get better results you should allow part clipping because there is more flexibility in attaching
+		engines to tanks.
 		</p>
 		
 		<p>
@@ -52,7 +53,7 @@
 		<div class="row">
 			<div class="col-lg-7">
 				<div class="panel panel-default">
-					<div class="panel-heading">Central Stack</div>
+					<div class="panel-heading">Center Stack</div>
 					<div class="panel-body">
 						<canvas width="335" height="335" id="centralConfig"></canvas>
 					</div>
@@ -113,7 +114,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Central stack size:</label>
+				<label class="col-md-6 control-label">Center stack size:</label>
 				<div class="col-md-6">
 					<select name="centralStackSize" class="form-control input-sm">
 						<option value="0.625">0.625 m</option>
@@ -148,7 +149,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Min. central thrust:</label>
+				<label class="col-md-6 control-label">Min. center thrust:</label>
 				<div class="col-md-6 input-group">
 					<input name="minCentralThrustFraction" type="text" value="20" class="form-control input-sm"/>
 					<span class="input-group-addon">%</span>
@@ -156,7 +157,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Max. central thrust:</label>
+				<label class="col-md-6 control-label">Max. center thrust:</label>
 				<div class="col-md-6 input-group">
 					<input name="maxCentralThrustFraction" type="text" value="25" class="form-control input-sm"/>
 					<span class="input-group-addon">%</span>
@@ -164,7 +165,7 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Max. central outer engines:</label>
+				<label class="col-md-6 control-label">Max. center outer engines:</label>
 				<div class="col-md-6">
 					<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
 				</div>
