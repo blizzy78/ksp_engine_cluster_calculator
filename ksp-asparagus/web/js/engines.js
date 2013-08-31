@@ -571,7 +571,7 @@ var ENGINE_PACKS = [
 	
 	{
 		name: 'aies',
-		title: 'AIES Aerospace 1.4',
+		title: 'AIES Aerospace 1.4.2',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/35383-0-20-2-AIES-Aerospace-v1-3',
 		engines: AIES_ENGINES
 	},
