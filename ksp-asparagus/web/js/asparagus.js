@@ -198,11 +198,14 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			lineHeight: 1.2
 		});
 
+		var random = Math.round(Math.random() * 100000000);
 		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>' +
-			'<li>Center engine: ' + engineConfig.central.name.replace(/"/g, '&quot;') + '</li>';
+			'<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
+			engineConfig.central.name.replace(/"/g, '&quot;') + '</span></li>';
 		if (engineConfig.numOuter > 0) {
 			html += '<li>Outer engines: ' + engineConfig.numOuter + 'x ' +
-				engineConfig.outer.name.replace(/"/g, '&quot;') + '</li>';
+				'<span id="stack_' + random + '_outer" class="engineTooltip">' + 
+				engineConfig.outer.name.replace(/"/g, '&quot;') + '</span></li>';
 		}
 		html += '</ul><p>Stack thrust: ' + engineConfig.thrust + ' kN</p>';
 		if (numStacksRequired > 1) {
@@ -211,6 +214,10 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			'staging.</strong></p>';
 		}
 		textEl.empty().append($.parseHTML(html));
+		createEngineTooltip('#stack_' + random + '_central', engineConfig.central);
+		if (engineConfig.numOuter > 0) {
+			createEngineTooltip('#stack_' + random + '_outer', engineConfig.outer);
+		}
 	} else {
 		canvas.drawText({
 			x: CENTER_X,
@@ -222,6 +229,22 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		});
 		textEl.empty();
 	}
+}
+
+function createEngineTooltip(selector, engine) {
+	$(selector).tooltip({
+		title: '<h6><strong>' + escapeHTML(engine.name) + '</strong></h6>' +
+			'<p><em>' + escapeHTML(engine.pack.title) + '</em></p>' +
+			'<p>' +
+			'Thrust: ' + engine.thrust + ' kN<br/>' +
+			'Mass: ' + engine.mass + ' t<br/>' +
+			'Size: ' + engine.size + ' m<br/>' +
+			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
+			'</p>',
+		html: true,
+		placement: 'right',
+		container: 'body'
+	});
 }
 
 function addEnginePacks() {
@@ -262,6 +285,19 @@ function log(message) {
 	if (DEBUG && (typeof(console.log) !== 'undefined')) {
 		console.log(message);
 	}
+}
+
+function escapeHTML(s) {
+	var entityMap = {
+		"&": "&amp;",
+		"<": "&lt;",
+		">": "&gt;",
+		'"': '&quot;'
+	};
+	
+	return String(s).replace(/[&<>"]/g, function(c) {
+		return entityMap[c];
+	});
 }
 
 

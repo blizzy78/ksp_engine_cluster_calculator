@@ -626,6 +626,7 @@ for (var packIdx in ENGINE_PACKS) {
 		var engine = pack.engines[engineIdx];
 		if (engine.size > 0) {
 			engine.clippingSize = engine.size * 2 / 3.1;
+			engine.pack = pack;
 		}
 	}
 }

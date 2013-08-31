@@ -20,3 +20,11 @@
 .footer p {
 	color: #777;
 }
+
+.engineTooltip {
+	border-bottom: 1px dotted #333;
+}
+
+.tooltip-inner {
+	text-align: left;
+}
