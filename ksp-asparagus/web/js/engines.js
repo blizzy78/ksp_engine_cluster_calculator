@@ -88,14 +88,6 @@ var KSP_STOCK_ENGINES = [
 		size: -1
 	},
 	{
-		name: 'Torodial Aerospike',
-		thrust: 175,
-		radial: false,
-		mass: 1.5,
-		vectoring: false,
-		size: 1.25
-	},
-	{
 		name: 'LV-N',
 		thrust: 60,
 		radial: false,
@@ -467,14 +459,6 @@ var AIES_ENGINES =
 
 var HOME_ENGINES = [
 	{
-		name: 'HOME Radial Aerospike',
-		thrust: 110,
-		radial: true,
-		mass: 0.5,
-		vectoring: true,
-		size: -1
-	},
-	{
 		name: 'HOME radial engine',
 		thrust: 110,
 		radial: true,
@@ -549,14 +533,6 @@ var SMP_ENGINES = [
 		thrust: 15,
 		radial: false,
 		mass: 0.5,
-		vectoring: true,
-		size: 0.625
-	},
-	{
-		name: 'Small Torodial Aerospike',
-		thrust: 43.75,
-		radial: false,
-		mass: 0.1875,
 		vectoring: true,
 		size: 0.625
 	}
