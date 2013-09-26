@@ -7,6 +7,8 @@ var CANVAS_SIZE = 335;
 var BASE_PLATE_RADIUS = CANVAS_SIZE / 2 - 1;
 var CENTER_X = CANVAS_SIZE / 2;
 var CENTER_Y = CANVAS_SIZE / 2;
+var ENGINE_COLOR_CENTRAL = 'rgba(204, 0, 0, 0.7)';
+var ENGINE_COLOR_OUTER = 'rgba(204, 119, 0, 0.8)';
 
 var DEBUG = false;
 
@@ -136,15 +138,15 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			var angle = 0;
 			for (var i = 0; i < engineConfig.numOuter; i++) {
 				var radius = engineConfig.outer.size * stackRadius / size;
-				var x = Math.cos(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_X;
-				var y = Math.sin(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_Y;
+				var x = Math.sin(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_X;
+				var y = Math.cos(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_Y;
 				
 				// engine
 				canvas.drawArc({
 					x: x,
 					y: y,
 					radius: radius,
-					fillStyle: 'rgba(204, 119, 0, 0.8)'
+					fillStyle: ENGINE_COLOR_OUTER
 				})
 	
 				angle += outerAngle;
@@ -156,7 +158,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			x: CENTER_X,
 			y: CENTER_Y,
 			radius: engineConfig.central.size * stackRadius / size,
-			fillStyle: 'rgba(204, 0, 0, 0.7)'
+			fillStyle: ENGINE_COLOR_CENTRAL
 		});
 	
 		if (engineConfig.numOuter > 0) {
@@ -164,11 +166,13 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			var angle = 0;
 			for (var i = 0; i < engineConfig.numOuter; i++) {
 				var radius = engineConfig.outer.size * stackRadius / size;
-				var textRadiusOffset = ((engineConfig.central.size + engineConfig.outer.size) >= size) ?
-					(size - engineConfig.central.size) * stackRadius / 6 : 0;
-//				log("textRadiusOffset: " + textRadiusOffset);
-				var x = Math.cos(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_X;
-				var y = Math.sin(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_Y;
+				var textRadiusOffset =
+					(((engineConfig.central.size + engineConfig.outer.size) >= size) &&
+							(engineConfig.central.size < size)) ?
+						(size - engineConfig.central.size) / 2 * stackRadius / size :
+						0;
+				var x = Math.sin(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_X;
+				var y = Math.cos(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_Y;
 				
 				// engine name
 				canvas.drawText({
@@ -289,9 +293,9 @@ function log(message) {
 
 function escapeHTML(s) {
 	var entityMap = {
-		"&": "&amp;",
-		"<": "&lt;",
-		">": "&gt;",
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
 		'"': '&quot;'
 	};
 	
