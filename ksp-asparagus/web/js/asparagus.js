@@ -10,7 +10,7 @@ var CENTER_Y = CANVAS_SIZE / 2;
 var ENGINE_COLOR_CENTRAL = 'rgba(204, 0, 0, 0.7)';
 var ENGINE_COLOR_OUTER = 'rgba(204, 119, 0, 0.8)';
 
-var DEBUG = false;
+var DEBUG = true;
 
 
 function solve() {
@@ -50,61 +50,11 @@ function solve() {
 	worker.addEventListener('message', function(e) {
 		switch (e.data.type) {
 			case 'result':
-				var rocketConfigs = e.data.rocketConfigs;
-				if (rocketConfigs.length > 0) {
-					var mass = data.payloadMass * 100 / data.payloadFraction;
-
-					var rocketConfig;
-					switch (calculateFor) {
-						case 'twr':
-							rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
-								return rocketConfig.thrust / mass
-							});
-							break;
-
-						case 'engineTWR':
-							rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
-								return rocketConfig.thrust / rocketConfig.mass;
-							});
-							break;
-							
-						case 'numParts':
-							rocketConfig = $(rocketConfigs).min(function(rocketConfig) {
-								return rocketConfig.numParts;
-							});
-							break;
-					}
-	
-					draw($('#centralConfig'), rocketConfig.central, 'Center Stack Layout',
-							$('#centralDescription'), rocketConfig.centralSize);
-					if (rocketConfig.numBoosters > 0) {
-						draw($('#boosterConfig'), rocketConfig.booster, 'Booster Stack Layout', $('#boosterDescription'),
-							rocketConfig.boosterSize, rocketConfig.numBoosters);
-					} else {
-						draw($('#boosterConfig'), '(not required)', null, $('#boosterDescription'), -1, 0);
-					}
-					
-					var thrust = rocketConfig.thrust;
-					var twr = thrust / mass / data.gravity;
-					var html = '<h4>Vessel Totals</h4><ul>' +
-						'<li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
-						'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
-						'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
-						'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
-						'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
-					$('#rocketTotals').empty().append($.parseHTML(html));
-				} else {
-					draw($('#centralConfig'), '(no solution)', null, $('#centralDescription'), -1);
-					draw($('#boosterConfig'), '(no solution)', null, $('#boosterDescription'), -1);
-					$('#rocketTotals').empty();
-				}
-		
-				$('#options button[type="submit"]').removeAttr('disabled').text('Calculate');
-				$('#options button[type="reset"]').removeAttr('disabled');
+				handleSolverResult(e.data.rocketConfigs, data.payloadMass, data.payloadFraction, data.gravity, calculateFor);
 				break;
 			
 			case 'progress':
-				$('#options button[type="submit"]').text(e.data.progressPercent + '%');
+				handleSolverProgress(e.data.progressPercent);
 				break;
 			
 			case 'log':
@@ -114,6 +64,65 @@ function solve() {
 	}, false);
 
 	worker.postMessage(data);
+}
+
+function handleSolverResult(rocketConfigs, payloadMass, payloadFraction, gravity, calculateFor) {
+	if (rocketConfigs.length > 0) {
+		log(rocketConfigs.length + ' rocket configurations found');
+		
+		var mass = payloadMass * 100 / payloadFraction;
+
+		var rocketConfig;
+		switch (calculateFor) {
+			case 'twr':
+				rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
+					return rocketConfig.thrust / mass
+				});
+				break;
+
+			case 'engineTWR':
+				rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
+					return rocketConfig.thrust / rocketConfig.mass;
+				});
+				break;
+				
+			case 'numParts':
+				rocketConfig = $(rocketConfigs).min(function(rocketConfig) {
+					return rocketConfig.numParts;
+				});
+				break;
+		}
+
+		draw($('#centralConfig'), rocketConfig.central, 'Center Stack Layout',
+				$('#centralDescription'), rocketConfig.centralSize);
+		if (rocketConfig.numBoosters > 0) {
+			draw($('#boosterConfig'), rocketConfig.booster, 'Booster Stack Layout', $('#boosterDescription'),
+				rocketConfig.boosterSize, rocketConfig.numBoosters);
+		} else {
+			draw($('#boosterConfig'), '(not required)', null, $('#boosterDescription'), -1, 0);
+		}
+		
+		var thrust = rocketConfig.thrust;
+		var twr = thrust / mass / gravity;
+		var html = '<h4>Vessel Totals</h4><ul>' +
+			'<li>Mass: ' + (Math.round(mass * 10) / 10) + ' t ' +
+			'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
+			'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
+			'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
+			'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
+		$('#rocketTotals').empty().append($.parseHTML(html));
+	} else {
+		draw($('#centralConfig'), '(no solution)', null, $('#centralDescription'), -1);
+		draw($('#boosterConfig'), '(no solution)', null, $('#boosterDescription'), -1);
+		$('#rocketTotals').empty();
+	}
+
+	$('#options button[type="submit"]').removeAttr('disabled').text('Calculate');
+	$('#options button[type="reset"]').removeAttr('disabled');
+}
+
+function handleSolverProgress(progressPercent) {
+	$('#options button[type="submit"]').text(progressPercent + '%');
 }
 
 function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired) {

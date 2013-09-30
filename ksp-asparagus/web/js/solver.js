@@ -1,7 +1,7 @@
 "use strict";
 
 
-var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75, 5];
+var BOOSTER_STACK_SIZES = [0.625, 1.25, 2.5, 3.75, 5];
 
 
 function solve(data) {
