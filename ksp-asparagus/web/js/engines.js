@@ -561,7 +561,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'dsm',
-		title: 'DSM 1.8',
+		title: 'DSM 1.9',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/7790-0-20-Parts-Pack-Deep-Space-Mission-Pack',
 		engines: DSM_ENGINES
 	},
