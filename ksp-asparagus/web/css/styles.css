@@ -3,7 +3,7 @@
 }
 
 #rocketTotals {
-	margin-top: 100px;
+	margin-top: 85px;
 }
 
 .form-group {
@@ -27,4 +27,9 @@
 
 .tooltip-inner {
 	text-align: left;
+}
+
+.input-group-addon-middle {
+	border-left: 0;
+	border-right: 0;
 }

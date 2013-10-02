@@ -100,15 +100,10 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Min. <a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
-				<div class="col-md-6">
+				<label class="col-md-6 control-label"><a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
+				<div class="col-md-6 input-group">
 					<input name="minTWR" type="text" value="1.6" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. TWR:</label>
-				<div class="col-md-6">
+					<span class="input-group-addon input-group-addon-middle">to</span>
 					<input name="maxTWR" type="text" value="1.7" class="form-control input-sm"/>
 				</div>
 			</div>
@@ -127,16 +122,39 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Min. boosters:</label>
-				<div class="col-md-6">
+				<label class="col-md-6 control-label">Booster stacks:</label>
+				<div class="col-md-6 input-group">
 					<input name="minBoosters" type="text" value="0" class="form-control input-sm"/>
+					<span class="input-group-addon input-group-addon-middle">to</span>
+					<input name="maxBoosters" type="text" value="6" class="form-control input-sm"/>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Max. boosters:</label>
+				<label class="col-md-6 control-label">Max. center outer engines:</label>
 				<div class="col-md-6">
-					<input name="maxBoosters" type="text" value="6" class="form-control input-sm"/>
+					<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. center radial engines:</label>
+				<div class="col-md-6">
+					<input name="maxCentralRadialEngines" type="text" value="4" class="form-control input-sm"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. booster outer engines:</label>
+				<div class="col-md-6">
+					<input name="maxBoosterOuterEngines" type="text" value="4" class="form-control input-sm"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-md-6 control-label">Max. booster radial engines:</label>
+				<div class="col-md-6">
+					<input name="maxBoosterRadialEngines" type="text" value="4" class="form-control input-sm"/>
 				</div>
 			</div>
 
@@ -149,35 +167,15 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-md-6 control-label">Min. center thrust:</label>
+				<label class="col-md-6 control-label">Center stack thrust:</label>
 				<div class="col-md-6 input-group">
 					<input name="minCentralThrustFraction" type="text" value="20" class="form-control input-sm"/>
-					<span class="input-group-addon">%</span>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. center thrust:</label>
-				<div class="col-md-6 input-group">
+					<span class="input-group-addon input-group-addon-middle">to</span>
 					<input name="maxCentralThrustFraction" type="text" value="25" class="form-control input-sm"/>
 					<span class="input-group-addon">%</span>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. center outer engines:</label>
-				<div class="col-md-6">
-					<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. booster outer engines:</label>
-				<div class="col-md-6">
-					<input name="maxBoosterOuterEngines" type="text" value="4" class="form-control input-sm"/>
-				</div>
-			</div>
-			
 			<div class="form-group">
 				<label class="col-md-6 control-label">Calculate for:</label>
 				<div class="col-md-6">
@@ -219,7 +217,7 @@
 <footer class="footer">
 	<div class="container">
 		<p class="text-center">
-		Last updated for KSP 0.21.1 on 2013-10-02.
+		Last updated for KSP 0.21.1 on 2013-10-03.
 		</p>
 		
 		<p class="text-center">

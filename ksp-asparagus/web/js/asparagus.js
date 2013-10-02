@@ -9,8 +9,9 @@ var CENTER_X = CANVAS_SIZE / 2;
 var CENTER_Y = CANVAS_SIZE / 2;
 var ENGINE_COLOR_CENTRAL = 'rgba(204, 0, 0, 0.7)';
 var ENGINE_COLOR_OUTER = 'rgba(204, 119, 0, 0.8)';
+var ENGINE_COLOR_RADIAL = '#008800';
 
-var DEBUG = true;
+var DEBUG = false;
 
 
 function solve() {
@@ -39,22 +40,24 @@ function solve() {
 		minCentralThrustFraction: parseInt($('#options input[name="minCentralThrustFraction"]').val()),
 		maxCentralThrustFraction: parseInt($('#options input[name="maxCentralThrustFraction"]').val()),
 		maxCentralOuterEngines: parseInt($('#options input[name="maxCentralOuterEngines"]').val()),
+		maxCentralRadialEngines: parseInt($('#options input[name="maxCentralRadialEngines"]').val()),
 		maxBoosterOuterEngines: parseInt($('#options input[name="maxBoosterOuterEngines"]').val()),
+		maxBoosterRadialEngines: parseInt($('#options input[name="maxBoosterRadialEngines"]').val()),
+		calculateFor: $('#options select[name="calculateFor"]').val(),
 		gravity: KERBIN_GRAVITY,
-		enginePacks: enginePacks
+		enginePacks: enginePacks,
 	};
-	var calculateFor = $('#options select[name="calculateFor"]').val();
 	
 	var worker = new Worker('js/solver.js');
 
 	worker.addEventListener('message', function(e) {
 		switch (e.data.type) {
 			case 'result':
-				handleSolverResult(e.data.rocketConfigs, data.payloadMass, data.payloadFraction, data.gravity, calculateFor);
+				handleSolverResult(e.data.rocketConfig, data.payloadMass, data.payloadFraction, data.gravity);
 				break;
 			
 			case 'progress':
-				handleSolverProgress(e.data.progressPercent);
+				handleSolverProgress(e.data.progressPercent, e.data.elapsedTime);
 				break;
 			
 			case 'log':
@@ -66,32 +69,9 @@ function solve() {
 	worker.postMessage(data);
 }
 
-function handleSolverResult(rocketConfigs, payloadMass, payloadFraction, gravity, calculateFor) {
-	if (rocketConfigs.length > 0) {
-		log(rocketConfigs.length + ' rocket configurations found');
-		
+function handleSolverResult(rocketConfig, payloadMass, payloadFraction, gravity) {
+	if (rocketConfig !== null) {
 		var mass = payloadMass * 100 / payloadFraction;
-
-		var rocketConfig;
-		switch (calculateFor) {
-			case 'twr':
-				rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
-					return rocketConfig.thrust / mass
-				});
-				break;
-
-			case 'engineTWR':
-				rocketConfig = $(rocketConfigs).max(function(rocketConfig) {
-					return rocketConfig.thrust / rocketConfig.mass;
-				});
-				break;
-				
-			case 'numParts':
-				rocketConfig = $(rocketConfigs).min(function(rocketConfig) {
-					return rocketConfig.numParts;
-				});
-				break;
-		}
 
 		draw($('#centralConfig'), rocketConfig.central, 'Center Stack Layout',
 				$('#centralDescription'), rocketConfig.centralSize);
@@ -109,6 +89,7 @@ function handleSolverResult(rocketConfigs, payloadMass, payloadFraction, gravity
 			'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
 			'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
 			'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
+			(DEBUG ? ('<li>TWR (engines): ' + (Math.round(rocketConfig.thrust / rocketConfig.mass * 100) / 100) + '</li>') : '') +
 			'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
 		$('#rocketTotals').empty().append($.parseHTML(html));
 	} else {
@@ -121,34 +102,50 @@ function handleSolverResult(rocketConfigs, payloadMass, payloadFraction, gravity
 	$('#options button[type="reset"]').removeAttr('disabled');
 }
 
-function handleSolverProgress(progressPercent) {
-	$('#options button[type="submit"]').text(progressPercent + '%');
+function handleSolverProgress(progressPercent, elapsedTime) {
+	var totalTime = elapsedTime * 100 / progressPercent;
+	var remainingTime = totalTime - elapsedTime;
+	var remainingSeconds = remainingTime / 1000;
+	var remainingMinutes = Math.floor(remainingSeconds / 60);
+	remainingSeconds = Math.round(remainingSeconds - remainingMinutes * 60);
+	remainingSeconds = '0' + remainingSeconds;
+	remainingSeconds = remainingSeconds.substr(remainingSeconds.length - 2, 2)
+	$('#options button[type="submit"]').text(Math.round(progressPercent) + '% - ' +
+		remainingMinutes + ':' + remainingSeconds + ' min');
 }
 
 function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired) {
-	var stackRadius = BASE_PLATE_RADIUS * 0.975;
-	
-	canvas
-		.clearCanvas()
-
-		// base plate
-		.drawArc({
-			x: CENTER_X,
-			y: CENTER_Y,
-			radius: BASE_PLATE_RADIUS,
-			strokeWidth: 1,
-			strokeStyle: '#333',
-			fillStyle: '#eee'
-		});
+	var basePlateRadius = BASE_PLATE_RADIUS;
 	
 	if (typeof(engineConfig) !== 'string') {
+		if (engineConfig.numRadial > 0) {
+			basePlateRadius = BASE_PLATE_RADIUS * 0.79;
+		}
+		
+		canvas
+			.clearCanvas()
+	
+			// base plate
+			.drawArc({
+				x: CENTER_X,
+				y: CENTER_Y,
+				radius: basePlateRadius,
+				strokeWidth: 1,
+				strokeStyle: '#333',
+				fillStyle: '#eee'
+			});
+
+		var stackRadius = basePlateRadius * 0.975;
+		var radialSpacing = basePlateRadius - stackRadius;
+
 		if (engineConfig.numOuter > 0) {
 			var outerAngle = 360 / engineConfig.numOuter;
-			var angle = 0;
+			// start at the top
+			var angle = 270;
 			for (var i = 0; i < engineConfig.numOuter; i++) {
 				var radius = engineConfig.outer.size * stackRadius / size;
-				var x = Math.sin(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_X;
-				var y = Math.cos(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_Y;
+				var x = Math.cos(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_X;
+				var y = Math.sin(angle * Math.PI / 180) * (stackRadius - radius) + CENTER_Y;
 				
 				// engine
 				canvas.drawArc({
@@ -156,6 +153,28 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 					y: y,
 					radius: radius,
 					fillStyle: ENGINE_COLOR_OUTER
+				})
+	
+				angle += outerAngle;
+			}
+		}
+		
+		if (engineConfig.numRadial > 0) {
+			var outerAngle = 360 / engineConfig.numRadial;
+			// start at the top
+			var angle = 270;
+			for (var i = 0; i < engineConfig.numRadial; i++) {
+				// show radial engines as being always exactly 0.625 m in size on a 5 m stack
+				var radius = 0.625 * stackRadius / 5;
+				var x = Math.cos(angle * Math.PI / 180) * (basePlateRadius + radialSpacing + radius) + CENTER_X;
+				var y = Math.sin(angle * Math.PI / 180) * (basePlateRadius + radialSpacing + radius) + CENTER_Y;
+				
+				// engine
+				canvas.drawArc({
+					x: x,
+					y: y,
+					radius: radius,
+					fillStyle: ENGINE_COLOR_RADIAL
 				})
 	
 				angle += outerAngle;
@@ -172,7 +191,8 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 	
 		if (engineConfig.numOuter > 0) {
 			var outerAngle = 360 / engineConfig.numOuter;
-			var angle = 0;
+			// start at the top
+			var angle = 270;
 			for (var i = 0; i < engineConfig.numOuter; i++) {
 				var radius = engineConfig.outer.size * stackRadius / size;
 				var textRadiusOffset =
@@ -180,8 +200,8 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 							(engineConfig.central.size < size)) ?
 						(size - engineConfig.central.size) / 2 * stackRadius / size :
 						0;
-				var x = Math.sin(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_X;
-				var y = Math.cos(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_Y;
+				var x = Math.cos(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_X;
+				var y = Math.sin(angle * Math.PI / 180) * (stackRadius - radius + textRadiusOffset) + CENTER_Y;
 				
 				// engine name
 				canvas.drawText({
@@ -214,11 +234,16 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		var random = Math.round(Math.random() * 100000000);
 		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>' +
 			'<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
-			engineConfig.central.name.replace(/"/g, '&quot;') + '</span></li>';
+			escapeHTML(engineConfig.central.name) + '</span></li>';
 		if (engineConfig.numOuter > 0) {
 			html += '<li>Outer engines: ' + engineConfig.numOuter + 'x ' +
 				'<span id="stack_' + random + '_outer" class="engineTooltip">' + 
-				engineConfig.outer.name.replace(/"/g, '&quot;') + '</span></li>';
+				escapeHTML(engineConfig.outer.name) + '</span></li>';
+		}
+		if (engineConfig.numRadial > 0) {
+			html += '<li>Radial engines: ' + engineConfig.numRadial + 'x ' +
+				'<span id="stack_' + random + '_radial" class="engineTooltip">' + 
+				escapeHTML(engineConfig.radial.name) + '</span></li>';
 		}
 		html += '</ul><p>Stack thrust: ' + engineConfig.thrust + ' kN</p>';
 		if (numStacksRequired > 1) {
@@ -231,15 +256,31 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		if (engineConfig.numOuter > 0) {
 			createEngineTooltip('#stack_' + random + '_outer', engineConfig.outer);
 		}
+		if (engineConfig.numRadial > 0) {
+			createEngineTooltip('#stack_' + random + '_radial', engineConfig.radial);
+		}
 	} else {
-		canvas.drawText({
-			x: CENTER_X,
-			y: CENTER_Y,
-			text: engineConfig,
-			fillStyle: '#000',
-			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-			fontSize: 15
-		});
+		canvas
+			.clearCanvas()
+	
+			// base plate
+			.drawArc({
+				x: CENTER_X,
+				y: CENTER_Y,
+				radius: basePlateRadius,
+				strokeWidth: 1,
+				strokeStyle: '#333',
+				fillStyle: '#eee'
+			})
+			
+			.drawText({
+				x: CENTER_X,
+				y: CENTER_Y,
+				text: engineConfig,
+				fillStyle: '#000',
+				fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+				fontSize: 15
+			});
 		textEl.empty();
 	}
 }
@@ -251,7 +292,7 @@ function createEngineTooltip(selector, engine) {
 			'<p>' +
 			'Thrust: ' + engine.thrust + ' kN<br/>' +
 			'Mass: ' + engine.mass + ' t<br/>' +
-			'Size: ' + engine.size + ' m<br/>' +
+			(!engine.radial ? 'Size: ' + engine.size + ' m' : 'Mounted radially') + '<br/>' +
 			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
 			'</p>',
 		html: true,
@@ -263,16 +304,6 @@ function createEngineTooltip(selector, engine) {
 function addEnginePacks() {
 	for (var idx in ENGINE_PACKS) {
 		var enginePack = ENGINE_PACKS[idx];
-		
-		// radial engines are currently not supported
-		var engines = [];
-		for (var engineIdx in enginePack.engines) {
-			var engine = enginePack.engines[engineIdx];
-			if (!engine.radial) {
-				engines.push(engine);
-			}
-		}
-		enginePack.engines = engines;
 		
 		if (enginePack.engines.length > 0) {
 			var html = '<label class="checkbox"><input type="checkbox" name="enginePacks" value="' +
@@ -315,51 +346,6 @@ function escapeHTML(s) {
 
 
 $(function() {
-	$.fn.extend({
-		min: function(valueCallback) {
-			var numElements = this.length;
-			if (numElements >= 2) {
-				var minElement = this[0];
-				var minValue = valueCallback(minElement);
-				for (var i = 1; i < numElements; i++) {
-					var element = this[i];
-					var value = valueCallback(element);
-					if (value < minValue) {
-						minElement = element;
-						minValue = value;
-					}
-				}
-				return minElement;
-			} else if (numElements === 1) {
-				return this[0];
-			} else {
-				return null;
-			}
-		},
-
-		max: function(valueCallback) {
-			var numElements = this.length;
-			if (numElements >= 2) {
-				var maxElement = this[0];
-				var maxValue = valueCallback(maxElement);
-				for (var i = 1; i < numElements; i++) {
-					var element = this[i];
-					var value = valueCallback(element);
-					if (value > maxValue) {
-						maxElement = element;
-						maxValue = value;
-					}
-				}
-				return maxElement;
-			} else if (numElements === 1) {
-				return this[0];
-			} else {
-				return null;
-			}
-		}
-	});
-	
-	
 	addEnginePacks();
 	
 	$('#options').submit(function() {

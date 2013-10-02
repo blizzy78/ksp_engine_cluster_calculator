@@ -608,9 +608,7 @@ for (var packIdx in ENGINE_PACKS) {
 	var pack = ENGINE_PACKS[packIdx];
 	for (var engineIdx in pack.engines) {
 		var engine = pack.engines[engineIdx];
-		if (engine.size > 0) {
-			engine.clippingSize = engine.size * 2 / 3.1;
-			engine.pack = pack;
-		}
+		engine.pack = pack;
+		engine.clippingSize = !engine.radial ? (engine.size * 2 / 3.1) : -1;
 	}
 }
