@@ -478,6 +478,14 @@ var KOSMOS_ENGINES = [
 		size: 1.25
 	},
 	{
+		name: 'RD-0146-N2',
+		thrust: 135,
+		radial: false,
+		mass: 0.233,
+		vectoring: true,
+		size: 1.25
+	},
+	{
 		name: 'RD-275K',
 		thrust: 425,
 		radial: false,
@@ -565,7 +573,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kosmos',
-		title: 'KOSMOS SSPP 4.6',
+		title: 'KOSMOS SSPP 4.7',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/24970-0-19-Kosmos-Spacecraft-Design-Bureau',
 		engines: KOSMOS_ENGINES
 	},
