@@ -52,8 +52,8 @@ function solve() {
 
 	worker.addEventListener('message', function(e) {
 		switch (e.data.type) {
-			case 'result':
-				handleSolverResult(e.data.rocketConfig, data.payloadMass, data.payloadFraction, data.gravity);
+			case 'rocketConfig':
+				handleSolverRocketConfig(e.data.rocketConfig, data.payloadMass, data.payloadFraction, data.gravity);
 				break;
 			
 			case 'progress':
@@ -69,7 +69,7 @@ function solve() {
 	worker.postMessage(data);
 }
 
-function handleSolverResult(rocketConfig, payloadMass, payloadFraction, gravity) {
+function handleSolverRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
 	if (rocketConfig !== null) {
 		var mass = payloadMass * 100 / payloadFraction;
 

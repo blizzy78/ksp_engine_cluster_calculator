@@ -138,7 +138,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 			var now = new Date().getTime();
 			if ((now - lastProgressReported) >= 1000) {
 				var elapsedTime = now - startTime;
-				progress(progressUnits * 100 / maxProgressUnits, elapsedTime);
+				sendProgress(progressUnits * 100 / maxProgressUnits, elapsedTime);
 				lastProgressReported = now;
 			}
 		}
@@ -275,7 +275,7 @@ function solveSingleEngine(minThrust, maxThrust, allowRadial, vectoringRequired,
 	return suitableEngines;
 }
 
-function progress(percent, elapsedTime) {
+function sendProgress(percent, elapsedTime) {
 	self.postMessage({
 		type: 'progress',
 		progressPercent: percent,
@@ -283,10 +283,17 @@ function progress(percent, elapsedTime) {
 	});
 }
 
-function log(message) {
+function sendLog(message) {
 	self.postMessage({
 		type: 'log',
 		message: message
+	});
+}
+
+function sendRocketConfig(rocketConfig) {
+	self.postMessage({
+		type: 'rocketConfig',
+		rocketConfig: rocketConfig
 	});
 }
 
@@ -309,8 +316,5 @@ function getBetterRocketConfig(rocketConfig1, rocketConfig2, valueFunc, lowerIsB
 
 self.addEventListener('message', function(e) {
 	var rocketConfig = solve(e.data);
-	self.postMessage({
-		type: 'result',
-		rocketConfig: rocketConfig
-	});
+	sendRocketConfig(rocketConfig);
 }, false);
