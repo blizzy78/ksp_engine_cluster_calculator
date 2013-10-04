@@ -28,32 +28,32 @@ function solve() {
 	
 	$('#options button[type="submit"], #options button[type="reset"]').attr('disabled', 'true');
 
-	var data = {
-		payloadMass: parseInt($('#options input[name="payloadMass"]').val()),
-		payloadFraction: parseInt($('#options input[name="payloadFraction"]').val()),
-		minTWR: parseFloat($('#options input[name="minTWR"]').val()),
-		maxTWR: parseFloat($('#options input[name="maxTWR"]').val()),
-		centralStackSize: parseFloat($('#options select[name="centralStackSize"]').val()),
-		minBoosters: parseInt($('#options input[name="minBoosters"]').val()),
-		maxBoosters: parseInt($('#options input[name="maxBoosters"]').val()),
-		allowPartClipping: $('#options input[name="allowPartClipping"]')[0].checked,
-		minCentralThrustFraction: parseInt($('#options input[name="minCentralThrustFraction"]').val()),
-		maxCentralThrustFraction: parseInt($('#options input[name="maxCentralThrustFraction"]').val()),
-		maxCentralOuterEngines: parseInt($('#options input[name="maxCentralOuterEngines"]').val()),
-		maxCentralRadialEngines: parseInt($('#options input[name="maxCentralRadialEngines"]').val()),
-		maxBoosterOuterEngines: parseInt($('#options input[name="maxBoosterOuterEngines"]').val()),
-		maxBoosterRadialEngines: parseInt($('#options input[name="maxBoosterRadialEngines"]').val()),
-		calculateFor: $('#options select[name="calculateFor"]').val(),
-		gravity: KERBIN_GRAVITY,
-		enginePacks: enginePacks,
-	};
-	
-	var worker = new Worker('js/solver.js');
+	var minBoosters = parseInt($('#options input[name="minBoosters"]').val());
+	var maxBoosters = parseInt($('#options input[name="maxBoosters"]').val());
+	var maxCentralOuterEngines = parseInt($('#options input[name="maxCentralOuterEngines"]').val());
+	var payloadMass = parseInt($('#options input[name="payloadMass"]').val());
+	var payloadFraction = parseInt($('#options input[name="payloadFraction"]').val());
+	var calculateFor = $('#options select[name="calculateFor"]').val();
+	var gravity = KERBIN_GRAVITY;
 
-	worker.addEventListener('message', function(e) {
+	var workers = [];
+	var workersDone = 0;
+	var rocketConfig = null;
+	var rocketConfigSort = getRocketConfigSort(calculateFor, payloadMass, payloadFraction);
+
+	var handleMessageFunc = function(e) {
 		switch (e.data.type) {
 			case 'rocketConfig':
-				handleSolverRocketConfig(e.data.rocketConfig, data.payloadMass, data.payloadFraction, data.gravity);
+				workersDone++;
+				log('got result #' + workersDone);
+				rocketConfig = getBetterRocketConfig(rocketConfig, e.data.rocketConfig, rocketConfigSort);
+				if (workersDone == workers.length) {
+					log('got all results, showing best');
+					for (var workerIdx in workers) {
+						workers[workerIdx].terminate();
+					}
+					showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity);
+				}
 				break;
 			
 			case 'progress':
@@ -64,12 +64,39 @@ function solve() {
 				log(e.data.message);
 				break;
 		}
-	}, false);
-
-	worker.postMessage(data);
+	};
+	
+	for (var numBoosters = minBoosters; numBoosters <= maxBoosters; numBoosters += 2) {
+		for (var numCentralOuterEngines = 0; numCentralOuterEngines <= maxCentralOuterEngines; numCentralOuterEngines++) {
+			var data = {
+				payloadMass: payloadMass,
+				payloadFraction: payloadFraction,
+				minTWR: parseFloat($('#options input[name="minTWR"]').val()),
+				maxTWR: parseFloat($('#options input[name="maxTWR"]').val()),
+				centralStackSize: parseFloat($('#options select[name="centralStackSize"]').val()),
+				numBoosters: numBoosters,
+				allowPartClipping: $('#options input[name="allowPartClipping"]')[0].checked,
+				minCentralThrustFraction: parseInt($('#options input[name="minCentralThrustFraction"]').val()),
+				maxCentralThrustFraction: parseInt($('#options input[name="maxCentralThrustFraction"]').val()),
+				numCentralOuterEngines: numCentralOuterEngines,
+				maxCentralRadialEngines: parseInt($('#options input[name="maxCentralRadialEngines"]').val()),
+				maxBoosterOuterEngines: parseInt($('#options input[name="maxBoosterOuterEngines"]').val()),
+				maxBoosterRadialEngines: parseInt($('#options input[name="maxBoosterRadialEngines"]').val()),
+				calculateFor: calculateFor,
+				gravity: gravity,
+				enginePacks: enginePacks,
+			};
+			
+			log('starting worker: numBoosters=' + numBoosters + ', numCentralOuterEngines=' + numCentralOuterEngines);
+			var worker = new Worker('js/solver.js');
+			workers.push(worker);
+			worker.addEventListener('message', handleMessageFunc, false);
+			worker.postMessage(data);
+		}
+	}
 }
 
-function handleSolverRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
+function showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
 	if (rocketConfig !== null) {
 		var mass = payloadMass * 100 / payloadFraction;
 
