@@ -135,7 +135,7 @@ var KW_ROCKETRY_ENGINES = [
 	},
 	{
 		name: 'KW Rocketry Griffon-G8D',
-		thrust: 1700,
+		thrust: 1900,
 		radial: false,
 		mass: 8,
 		vectoring: true,
@@ -143,7 +143,7 @@ var KW_ROCKETRY_ENGINES = [
 	},
 	{
 		name: 'KW Rocketry Maverick-V',
-		thrust: 1300,
+		thrust: 1400,
 		radial: false,
 		mass: 6,
 		vectoring: true,
@@ -159,7 +159,7 @@ var KW_ROCKETRY_ENGINES = [
 	},
 	{
 		name: 'KW Rocketry Vesta VR-9D',
-		thrust: 500,
+		thrust: 600,
 		radial: false,
 		mass: 5,
 		vectoring: true,
@@ -167,15 +167,15 @@ var KW_ROCKETRY_ENGINES = [
 	},
 	{
 		name: 'KW Rocketry Griffon XX',
-		thrust: 3800,
+		thrust: 5000,
 		radial: false,
-		mass: 20,
+		mass: 18,
 		vectoring: true,
 		size: 3.75
 	},
 	{
 		name: 'KW Rocketry Titan-T1',
-		thrust: 2700,
+		thrust: 3600,
 		radial: false,
 		mass: 14,
 		vectoring: true,
@@ -183,7 +183,7 @@ var KW_ROCKETRY_ENGINES = [
 	},
 	{
 		name: 'KW Rocketry Wildcat-XR',
-		thrust: 1200,
+		thrust: 1400,
 		radial: false,
 		mass: 8,
 		vectoring: true,
@@ -587,7 +587,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kwRocketry',
-		title: 'KW Rocketry 2.5',
+		title: 'KW Rocketry 2.5.2',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/33168-20-1-KW-Rocketry-0-2-3',
 		engines: KW_ROCKETRY_ENGINES
 	},
