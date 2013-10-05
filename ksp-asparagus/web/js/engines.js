@@ -475,7 +475,8 @@ var KOSMOS_ENGINES = [
 		radial: false,
 		mass: 0.335,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		disabled: true // atmosphere curve not suitable for ascent
 	},
 	{
 		name: 'RD-0146-N2',
@@ -483,7 +484,8 @@ var KOSMOS_ENGINES = [
 		radial: false,
 		mass: 0.233,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		disabled: true // atmosphere curve not suitable for ascent
 	},
 	{
 		name: 'RD-275K',

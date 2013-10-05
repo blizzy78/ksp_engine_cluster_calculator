@@ -16,7 +16,9 @@ function solve(data) {
 		var enginePack = data.enginePacks[enginePackIdx];
 		for (var engineIdx in enginePack.engines) {
 			var engine = enginePack.engines[engineIdx];
-			allEngines.push(engine);
+			if ((typeof(engine.disabled) === 'undefined') || !engine.disabled) {
+				allEngines.push(engine);
+			}
 		}
 	}
 	
