@@ -11,10 +11,12 @@
 
 <link rel="stylesheet" href="css/bootstrap-3.0.0.min.css" media="all"/>
 <link rel="stylesheet" href="css/styles.css" media="all"/>
+<link rel="stylesheet" href="css/slimbox2.css" media="all"/>
 
 <script src="js/jquery-2.0.3.min.js"></script>
 <script src="js/bootstrap-3.0.0.min.js"></script>
 <script src="js/jcanvas-13.09.16.min.js"></script>
+<script src="js/slimbox2-2.05.js"></script>
 <script src="js/engines.js"></script>
 <script src="js/util.js"></script>
 <script src="js/asparagus.js"></script>
@@ -214,12 +216,224 @@
 	</div>
 </div>
 
+<a name="tutorial"></a>
+<div class="row">
+	<div class="col-md-12">
+		<div class="page-header">
+			<h2>How to Build A Complete Rocket</h2>
+		</div>
+
+		<p>
+		Once you have your desired cluster layout worked out, you might ask yourself how to build a complete rocket
+		using that layout. Specifically, how big should your fuel tanks be? The following is a tutorial to help with
+		this step. Click on the images for full sizes.
+		</p>
+		
+		<p>
+		<em>This tutorial uses only stock parts. You might want to consider using the
+		<a href="http://forum.kerbalspaceprogram.com/threads/46447-0-21-1-StretchyTanks-v0-2-2-(updated-8-26-13)">Stretchy Tanks</a>
+		mod for resizable fuel tanks, making min-maxing much easier. It will also help to reduce part count.</em>
+		</p>
+		
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/01_payload.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/01_payload_thumb.png"/></a>
+					<div class="caption">
+						This is our desired payload with a mass of 45 t.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/02_engines_1.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/02_engines_1_thumb.png"/></a>
+					<div class="caption">
+						Attach a starting fuel tank. Then, according to the calculator, attach the center engine.
+						To attach outer engines, use Cubic Octagonal Struts.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/03_engines_2.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/03_engines_2_thumb.png"/></a>
+					<div class="caption">
+						Attach all other engines. You might need to use part clipping here. It doesn't need to be perfect
+						just yet.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/04_center_twr.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/04_center_twr_thumb.png"/></a>
+					<div class="caption">
+						Now choose a combination of fuel tanks so that you get a TWR of about 1.23. This doesn't have to be
+						perfect. Other TWRs such as 1.4 work just fine, too.
+					</div>
+				</div>
+				</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/05_outer_engines_1.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/05_outer_engines_1_thumb.png"/></a>
+					<div class="caption">
+						To attach the outer engines right below the fuel tank, use the Cubic Octagonal Struts again.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/06_outer_engines_2.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/06_outer_engines_2_thumb.png"/></a>
+					<div class="caption">
+						Rotate them so that they are facing in the upwards direction instead of the default downwards
+						(press S two times.)
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/07_outer_engines_3.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/07_outer_engines_3_thumb.png"/></a>
+					<div class="caption">
+						Attach the outer engines again.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/08_center_engine.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/08_center_engine_thumb.png"/></a>
+					<div class="caption">
+						Attach the center engine again. Don't forget to attach the radial engines if your layout requires them.
+					</div>
+				</div>
+				</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/09_center_engines.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/09_center_engines_thumb.png"/></a>
+					<div class="caption">
+						The completed center stack.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/10_booster_engines.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/10_booster_engines_thumb.png"/></a>
+					<div class="caption">
+						For the booster stacks, attach a starting fuel tank and engines.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/11_boosters.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/11_boosters_thumb.png"/></a>
+					<div class="caption">
+						Detach the booster and reattach with symmetry. Then add more fuel tanks until you reach the
+						calculated total vessel mass (300 t in this example.) You can also rearrange the fuel tanks
+						so that a different tank is attached to the decoupler.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/12_fuel_lines.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/12_fuel_lines_thumb.png"/></a>
+					<div class="caption">
+						Add fuel lines for a asparagus staging.
+					</div>
+				</div>
+				</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/13_staging.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/13_staging_thumb.png"/></a>
+					<div class="caption">
+						Rearrange the decouplers in the staging. Notice how the liftoff TWR should be just about what
+						the calculator suggested.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/14_struts_etc.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/14_struts_etc_thumb.png"/></a>
+					<div class="caption">
+						Add struts, winglets, launch clamps, batteries and sepratrons.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/15_before_launch.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/15_before_launch_thumb.png"/></a>
+					<div class="caption">
+						Before liftoff, make sure to disable all thrust vectoring on the booster stacks.
+					</div>
+				</div>
+				</p>
+			</div>
+
+			<div class="col-md-3 col-sm-6">
+				<p>
+				<div class="thumbnail">
+					<a href="img/tutorial/16_orbit.png" class="thumbnail no-border" rel="lightbox-tutorial"><img src="img/tutorial/16_orbit_thumb.png"/></a>
+					<div class="caption">
+						The final stage in a 100 km circular orbit, with more than enough fuel left for a deorbit burn.
+					</div>
+				</div>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 </div>
 
 <footer class="footer">
 	<div class="container">
 		<p class="text-center">
-		Last updated for KSP 0.21.1 on 2013-10-05.
+		Last updated for KSP 0.21.1 on 2013-10-06.
 		</p>
 		
 		<p class="text-center">
