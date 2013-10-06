@@ -130,7 +130,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, maxR
 					var remainingMinThrustSingle = remainingMinThrust / numOuterEngines;
 					var remainingMaxThrustSingle = remainingMaxThrust / numOuterEngines;
 					var suitableOuterEngines = solveEngine(remainingMinThrustSingle, remainingMaxThrustSingle,
-							false, false, remainingSize, allowPartClipping, allEngines);
+							false, vectoringRequired, remainingSize, allowPartClipping, allEngines);
 					for (var outerEngineIdx in suitableOuterEngines) {
 						var outerEngine = suitableOuterEngines[outerEngineIdx];
 						
