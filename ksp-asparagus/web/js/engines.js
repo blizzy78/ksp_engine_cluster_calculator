@@ -49,7 +49,7 @@ var KSP_STOCK_ENGINES = [
 	},
 	{
 		name: 'Rockomax 48-7S',
-		thrust: 20,
+		thrust: 30,
 		radial: false,
 		mass: 0.1,
 		vectoring: true,
@@ -110,7 +110,7 @@ var DSM_ENGINES = [
 
 var KW_ROCKETRY_ENGINES = [
 	{
-		name: 'KW Rocketry Maverick-1D',
+		name: 'Maverick-1D',
 		thrust: 350,
 		radial: false,
 		mass: 2,
@@ -118,7 +118,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 1.25
 	},
 	{
-		name: 'KW Rocketry Vesta VR-1',
+		name: 'Vesta VR-1',
 		thrust: 120,
 		radial: false,
 		mass: 0.6,
@@ -126,7 +126,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 1.25
 	},
 	{
-		name: 'KW Rocketry WildCat-V',
+		name: 'WildCat-V',
 		thrust: 230,
 		radial: false,
 		mass: 1.5,
@@ -134,7 +134,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 1.25
 	},
 	{
-		name: 'KW Rocketry Griffon-G8D',
+		name: 'Griffon-G8D',
 		thrust: 1900,
 		radial: false,
 		mass: 8,
@@ -142,7 +142,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 2.5
 	},
 	{
-		name: 'KW Rocketry Maverick-V',
+		name: 'Maverick-V',
 		thrust: 1400,
 		radial: false,
 		mass: 6,
@@ -158,7 +158,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 2.5
 	},
 	{
-		name: 'KW Rocketry Vesta VR-9D',
+		name: 'Vesta VR-9D',
 		thrust: 600,
 		radial: false,
 		mass: 5,
@@ -166,15 +166,15 @@ var KW_ROCKETRY_ENGINES = [
 		size: 2.5
 	},
 	{
-		name: 'KW Rocketry Griffon XX',
-		thrust: 5000,
+		name: 'Griffon XX',
+		thrust: 4900,
 		radial: false,
 		mass: 18,
 		vectoring: true,
 		size: 3.75
 	},
 	{
-		name: 'KW Rocketry Titan-T1',
+		name: 'Titan-T1',
 		thrust: 3600,
 		radial: false,
 		mass: 14,
@@ -182,7 +182,7 @@ var KW_ROCKETRY_ENGINES = [
 		size: 3.75
 	},
 	{
-		name: 'KW Rocketry Wildcat-XR',
+		name: 'Wildcat-XR',
 		thrust: 1400,
 		radial: false,
 		mass: 8,
@@ -255,7 +255,7 @@ var NP_ENGINES = [
 		name: 'SLS-250 Bearcat Series Two',
 		thrust: 1400,
 		radial: false,
-		mass: 3.25,
+		mass: 5.25,
 		vectoring: true,
 		size: 2.5
 	},
@@ -263,7 +263,23 @@ var NP_ENGINES = [
 		name: 'NERVA Mk. I',
 		thrust: 300,
 		radial: false,
-		mass: 9.5,
+		mass: 11,
+		vectoring: true,
+		size: 2.5
+	},
+	{
+		name: 'Inline Twin Fusion 1.25m',
+		thrust: 75,
+		radial: false,
+		mass: 2.5,
+		vectoring: true,
+		size: 1.25
+	},
+	{
+		name: 'Inline Twin Fusion 2.5m',
+		thrust: 150,
+		radial: false,
+		mass: 5,
 		vectoring: true,
 		size: 2.5
 	},
@@ -279,7 +295,7 @@ var NP_ENGINES = [
 		name: 'Bearcat Series Two Tri-nozzle',
 		thrust: 2200,
 		radial: false,
-		mass: 4.5,
+		mass: 8.5,
 		vectoring: true,
 		size: 3.75
 	},
@@ -287,7 +303,7 @@ var NP_ENGINES = [
 		name: 'TD-180 Bronco Quad',
 		thrust: 2650,
 		radial: false,
-		mass: 12,
+		mass: 10,
 		vectoring: true,
 		size: 3.75
 	},
@@ -295,15 +311,15 @@ var NP_ENGINES = [
 		name: '"The Little Mother"',
 		thrust: 1800,
 		radial: false,
-		mass: 10,
+		mass: 8,
 		vectoring: true,
 		size: 3.75
 	},
 	{
 		name: 'Bearcat Series Two 5x',
-		thrust: 7500,
+		thrust: 10000,
 		radial: false,
-		mass: 19,
+		mass: 40,
 		vectoring: true,
 		size: 5
 	},
@@ -343,7 +359,7 @@ var NP_ENGINES = [
 		name: 'Odin Command Module Trunk Section',
 		thrust: 100,
 		radial: false,
-		mass: 4.4,
+		mass: 0.4,
 		vectoring: true,
 		size: 2.5
 	},
@@ -351,7 +367,7 @@ var NP_ENGINES = [
 		name: 'LM-01 Thor Lander Ascent Package',
 		thrust: 49,
 		radial: false,
-		mass: 1.27925,
+		mass: 0.55,
 		vectoring: true,
 		size: 1.875
 	},
@@ -359,7 +375,7 @@ var NP_ENGINES = [
 		name: 'LM-01 Thor Lander Descent Package',
 		thrust: 65,
 		radial: false,
-		mass: 1.875,
+		mass: 0.65,
 		vectoring: true,
 		size: 1.9
 	}
@@ -368,7 +384,7 @@ var NP_ENGINES = [
 var AIES_ENGINES =
 [
 	{
-		name: 'AIES Constellation-C6',
+		name: 'Constellation-C6',
 		thrust: 200,
 		radial: false,
 		mass: 1.25,
@@ -376,7 +392,7 @@ var AIES_ENGINES =
 		size: 1.25
 	},
 	{
-		name: 'AIES Des-T5',
+		name: 'Des-T5',
 		thrust: 4,
 		radial: true,
 		mass: 0.04,
@@ -384,7 +400,7 @@ var AIES_ENGINES =
 		size: -1
 	},
 	{
-		name: 'AIES Exper-05',
+		name: 'Exper-05',
 		thrust: 160,
 		radial: false,
 		mass: 0.85,
@@ -392,7 +408,7 @@ var AIES_ENGINES =
 		size: 1.25
 	},
 	{
-		name: 'AIES Mogul-MP1500',
+		name: 'Mogul-MP1500',
 		thrust: 1250,
 		radial: false,
 		mass: 5,
@@ -400,7 +416,7 @@ var AIES_ENGINES =
 		size: 2.5
 	},
 	{
-		name: 'AIES Produl-VR2',
+		name: 'Produl-VR2',
 		thrust: 500,
 		radial: false,
 		mass: 1.8,
@@ -408,7 +424,7 @@ var AIES_ENGINES =
 		size: 2.5
 	},
 	{
-		name: 'AIES Galaxy-VR2',
+		name: 'Galaxy-VR2',
 		thrust: 50,
 		radial: false,
 		mass: 0.4,
@@ -416,7 +432,7 @@ var AIES_ENGINES =
 		size: 0.625
 	},
 	{
-		name: 'AIES MODC-2',
+		name: 'MODC-2',
 		thrust: 20,
 		radial: false,
 		mass: 0.2,
@@ -424,7 +440,7 @@ var AIES_ENGINES =
 		size: 0.4
 	},
 	{
-		name: 'AIES Orbit II',
+		name: 'Orbit II',
 		thrust: 300,
 		radial: false,
 		mass: 1.2,
@@ -432,7 +448,7 @@ var AIES_ENGINES =
 		size: 2.5
 	},
 	{
-		name: 'AIES EX-1 SAT',
+		name: 'EX-1 SAT',
 		thrust: 3,
 		radial: false,
 		mass: 0.035,
@@ -440,7 +456,7 @@ var AIES_ENGINES =
 		size: 0.3125
 	},
 	{
-		name: 'AIES M-SE',
+		name: 'M-SE',
 		thrust: 2,
 		radial: false,
 		mass: 0.03,
@@ -448,7 +464,7 @@ var AIES_ENGINES =
 		size: 0.15625
 	},
 	{
-		name: 'AIES Vulcan-VR1',
+		name: 'Vulcan-VR1',
 		thrust: 220,
 		radial: false,
 		mass: 1.5,
@@ -551,7 +567,7 @@ var SMP_ENGINES = [
 var ENGINE_PACKS = [
 	{
 		name: 'kspStock',
-		title: 'KSP Stock 0.21.1',
+		title: 'KSP Stock 0.22.0',
 		engines: KSP_STOCK_ENGINES
 	},
 	
@@ -587,13 +603,13 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kwRocketry',
-		title: 'KW Rocketry 2.5.2',
+		title: 'KW Rocketry 2.5.4',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/33168-20-1-KW-Rocketry-0-2-3',
 		engines: KW_ROCKETRY_ENGINES
 	},
 	{
 		name: 'np',
-		title: 'NovaPunch 2.02',
+		title: 'NovaPunch 2.03',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/3870',
 		engines: NP_ENGINES
 	},
