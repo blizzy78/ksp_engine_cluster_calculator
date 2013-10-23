@@ -597,7 +597,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kspx',
-		title: 'KSPX 0.2.3',
+		title: 'KSPX 0.2.4',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/30472-KSPX-Kerbal-Stock-Part-eXpansion-mod-reposted',
 		engines: KSPX_ENGINES
 	},
