@@ -60,10 +60,40 @@ function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigSort) {
 	} else {
 		var value1 = rocketConfigSort.valueFunc(rocketConfig1);
 		var value2 = rocketConfigSort.valueFunc(rocketConfig2);
+		if (value1 == value2) {
+			value1 = getNumberOfShellsUsed(rocketConfig1);
+			value2 = getNumberOfShellsUsed(rocketConfig2);
+			return (value1 < value2) ? rocketConfig1 : rocketConfig2;
+		}
 		if (rocketConfigSort.lowerIsBetter) {
 			return (value1 < value2) ? rocketConfig1 : rocketConfig2;
 		} else {
 			return (value1 < value2) ? rocketConfig2 : rocketConfig1;
 		}
 	}
+}
+
+function getNumberOfShellsUsed(rocketConfig) {
+	var shells = 0;
+	var centralConfig = rocketConfig.central;
+	if ((centralConfig.central != null) && (centralConfig.central.thrust > 0)) {
+		shells++;
+	}
+	if (centralConfig.numOuter > 0) {
+		shells++;
+	}
+	if (centralConfig.numRadial > 0) {
+		shells++;
+	}
+	var boosterConfig = rocketConfig.booster;
+	if ((boosterConfig.central != null) && (boosterConfig.central.thrust > 0)) {
+		shells++;
+	}
+	if (boosterConfig.numOuter > 0) {
+		shells++;
+	}
+	if (boosterConfig.numRadial > 0) {
+		shells++;
+	}
+	return shells;
 }
