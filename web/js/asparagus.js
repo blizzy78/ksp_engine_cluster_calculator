@@ -332,19 +332,19 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 }
 
 function createEngineTooltip(selector, engine) {
-//	$(selector).tooltip({
-//		title: '<h6><strong>' + escapeHTML(engine.name) + '</strong></h6>' +
-//			'<p><em>' + escapeHTML(engine.pack.title) + '</em></p>' +
-//			'<p>' +
-//			'Thrust: ' + engine.thrust + ' kN<br/>' +
-//			'Mass: ' + engine.mass + ' t<br/>' +
-//			(!engine.radial ? 'Size: ' + engine.size + ' m' : 'Mounted radially') + '<br/>' +
-//			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
-//			'</p>',
-//		html: true,
-//		placement: 'right',
-//		container: 'body'
-//	});
+	$(selector).tooltip({
+		title: '<h6><strong>' + escapeHTML(engine.name) + '</strong></h6>' +
+			'<p><em>' + escapeHTML(engine.pack.title) + '</em></p>' +
+			'<p>' +
+			'Thrust: ' + engine.thrust + ' kN<br/>' +
+			'Mass: ' + engine.mass + ' t<br/>' +
+			(!engine.radial ? 'Size: ' + engine.size + ' m' : 'Mounted radially') + '<br/>' +
+			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
+			'</p>',
+		html: true,
+		placement: 'right',
+		container: 'body'
+	});
 }
 
 function addEnginePacks() {
