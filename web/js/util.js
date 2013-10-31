@@ -86,14 +86,16 @@ function getNumberOfShellsUsed(rocketConfig) {
 		shells++;
 	}
 	var boosterConfig = rocketConfig.booster;
-	if ((boosterConfig.central != null) && (boosterConfig.central.thrust > 0)) {
-		shells++;
-	}
-	if (boosterConfig.numOuter > 0) {
-		shells++;
-	}
-	if (boosterConfig.numRadial > 0) {
-		shells++;
+	if (boosterConfig != null) {
+		if ((boosterConfig.central != null) && (boosterConfig.central.thrust > 0)) {
+			shells++;
+		}
+		if (boosterConfig.numOuter > 0) {
+			shells++;
+		}
+		if (boosterConfig.numRadial > 0) {
+			shells++;
+		}
 	}
 	return shells;
 }
