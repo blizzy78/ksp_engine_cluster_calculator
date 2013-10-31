@@ -115,6 +115,14 @@ var KSP_STOCK_ENGINES = [
 		mass: 2.25,
 		vectoring: true,
 		size: 1.25
+	},
+	{
+		name: 'Torodial Aerospike',
+		thrust: 175,
+		radial: false,
+		mass: 1.5,
+		vectoring: false,
+		size: 1.25
 	}
 ];
 
