@@ -49,8 +49,8 @@ function solve() {
 	var minBoosters = parseInt($('#options input[name="minBoosters"]').val());
 	var maxBoosters = parseInt($('#options input[name="maxBoosters"]').val());
 	var maxCentralOuterEngines = parseInt($('#options input[name="maxCentralOuterEngines"]').val());
-	var payloadMass = parseInt($('#options input[name="payloadMass"]').val());
-	var payloadFraction = parseInt($('#options input[name="payloadFraction"]').val());
+	var payloadMass = parseFloat($('#options input[name="payloadMass"]').val());
+	var payloadFraction = parseFloat($('#options input[name="payloadFraction"]').val());
 	var calculateFor = $('#options select[name="calculateFor"]').val();
 	var gravity = KERBIN_GRAVITY;
 
@@ -66,7 +66,8 @@ function solve() {
 				log('got result #' + workersDone);
 				rocketConfig = getBetterRocketConfig(rocketConfig, e.data.rocketConfig, rocketConfigSort);
 				if (workersDone == workers.length) {
-					log('got all results, showing best');
+					log('got all results, showing best:');
+					log(rocketConfig);
 					for (var workerIdx in workers) {
 						workers[workerIdx].terminate();
 					}
@@ -94,8 +95,8 @@ function solve() {
 				centralStackSize: parseFloat($('#options select[name="centralStackSize"]').val()),
 				numBoosters: numBoosters,
 				allowPartClipping: $('#options input[name="allowPartClipping"]')[0].checked,
-				minCentralThrustFraction: parseInt($('#options input[name="minCentralThrustFraction"]').val()),
-				maxCentralThrustFraction: parseInt($('#options input[name="maxCentralThrustFraction"]').val()),
+				minCentralThrustFraction: parseFloat($('#options input[name="minCentralThrustFraction"]').val()),
+				maxCentralThrustFraction: parseFloat($('#options input[name="maxCentralThrustFraction"]').val()),
 				numCentralOuterEngines: numCentralOuterEngines,
 				maxCentralRadialEngines: parseInt($('#options input[name="maxCentralRadialEngines"]').val()),
 				maxBoosterOuterEngines: parseInt($('#options input[name="maxBoosterOuterEngines"]').val()),
@@ -331,19 +332,19 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 }
 
 function createEngineTooltip(selector, engine) {
-	$(selector).tooltip({
-		title: '<h6><strong>' + escapeHTML(engine.name) + '</strong></h6>' +
-			'<p><em>' + escapeHTML(engine.pack.title) + '</em></p>' +
-			'<p>' +
-			'Thrust: ' + engine.thrust + ' kN<br/>' +
-			'Mass: ' + engine.mass + ' t<br/>' +
-			(!engine.radial ? 'Size: ' + engine.size + ' m' : 'Mounted radially') + '<br/>' +
-			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
-			'</p>',
-		html: true,
-		placement: 'right',
-		container: 'body'
-	});
+//	$(selector).tooltip({
+//		title: '<h6><strong>' + escapeHTML(engine.name) + '</strong></h6>' +
+//			'<p><em>' + escapeHTML(engine.pack.title) + '</em></p>' +
+//			'<p>' +
+//			'Thrust: ' + engine.thrust + ' kN<br/>' +
+//			'Mass: ' + engine.mass + ' t<br/>' +
+//			(!engine.radial ? 'Size: ' + engine.size + ' m' : 'Mounted radially') + '<br/>' +
+//			(engine.vectoring ? 'Thrust vectoring' : 'No thrust vectoring') +
+//			'</p>',
+//		html: true,
+//		placement: 'right',
+//		container: 'body'
+//	});
 }
 
 function addEnginePacks() {
