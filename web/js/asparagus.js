@@ -98,8 +98,10 @@ function solve() {
 				minCentralThrustFraction: parseFloat($('#options input[name="minCentralThrustFraction"]').val()),
 				maxCentralThrustFraction: parseFloat($('#options input[name="maxCentralThrustFraction"]').val()),
 				numCentralOuterEngines: numCentralOuterEngines,
+				minCentralRadialEngines: parseInt($('#options input[name="minCentralRadialEngines"]').val()),
 				maxCentralRadialEngines: parseInt($('#options input[name="maxCentralRadialEngines"]').val()),
 				maxBoosterOuterEngines: parseInt($('#options input[name="maxBoosterOuterEngines"]').val()),
+				minBoosterRadialEngines: parseInt($('#options input[name="minBoosterRadialEngines"]').val()),
 				maxBoosterRadialEngines: parseInt($('#options input[name="maxBoosterRadialEngines"]').val()),
 				calculateFor: calculateFor,
 				gravity: gravity,
@@ -287,7 +289,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		if (engineConfig.central !== null) {
 			html += '<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
 				escapeHTML(engineConfig.central.name) + '</span></li>';
-		} else {
+		} else if (engineConfig.numOuter > 0) {
 			html += '<li>Center engine: (none)</li>';
 		}
 		if (engineConfig.numOuter > 0) {

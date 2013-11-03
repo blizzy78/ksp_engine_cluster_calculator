@@ -53,6 +53,7 @@ function getRocketConfigSort(calculateFor, payloadMass, payloadFraction) {
 }
 
 function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigSort) {
+	var lowerIsBetter = rocketConfigSort.lowerIsBetter;
 	if (rocketConfig1 === null) {
 		return rocketConfig2;
 	} else if (rocketConfig2 === null) {
@@ -63,9 +64,9 @@ function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigSort) {
 		if (value1 == value2) {
 			value1 = getNumberOfShellsUsed(rocketConfig1);
 			value2 = getNumberOfShellsUsed(rocketConfig2);
-			return (value1 < value2) ? rocketConfig1 : rocketConfig2;
+			lowerIsBetter = true;
 		}
-		if (rocketConfigSort.lowerIsBetter) {
+		if (lowerIsBetter) {
 			return (value1 < value2) ? rocketConfig1 : rocketConfig2;
 		} else {
 			return (value1 < value2) ? rocketConfig2 : rocketConfig1;

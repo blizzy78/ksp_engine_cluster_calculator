@@ -105,7 +105,7 @@ test('solveEngine - vectoring', function() {
 
 
 test('solveStack - no vectoring required', function() {
-	var engineConfigs = solveStack(190, 220, 0, 0, 0, true, false, 5, false, ENGINES);
+	var engineConfigs = solveStack(190, 220, 0, 0, 0, 0, true, false, 5, false, ENGINES);
 	equal(engineConfigs.length, 2);
 	equal(engineConfigs[0].thrust, 215);
 	equal(engineConfigs[0].central.name, 'LV-T30');
@@ -114,14 +114,14 @@ test('solveStack - no vectoring required', function() {
 });
 
 test('solveStack - vectoring required', function() {
-	var engineConfigs = solveStack(190, 220, 0, 0, 0, true, true, 5, false, ENGINES);
+	var engineConfigs = solveStack(190, 220, 0, 0, 0, 0, true, true, 5, false, ENGINES);
 	equal(engineConfigs.length, 1);
 	equal(engineConfigs[0].thrust, 200);
 	equal(engineConfigs[0].central.name, 'LV-T45');
 });
 
 test('solveStack - with outer engines', function() {
-	var engineConfigs = solveStack(599, 601, 0, 4, 0, true, true, 5, false, ENGINES);
+	var engineConfigs = solveStack(599, 601, 0, 4, 0, 0, true, true, 5, false, ENGINES);
 	equal(engineConfigs.length, 2);
 	equal(engineConfigs[0].thrust, 600);
 	equal(engineConfigs[0].central.name, 'LV-T45');
@@ -134,7 +134,7 @@ test('solveStack - with outer engines', function() {
 });
 
 test('solveStack - with outer and radial engines', function() {
-	var engineConfigs = solveStack(639, 641, 0, 4, 4, true, true, 5, false, ENGINES);
+	var engineConfigs = solveStack(639, 641, 0, 4, 0, 4, true, true, 5, false, ENGINES);
 	equal(engineConfigs.length, 2);
 	equal(engineConfigs[0].thrust, 640);
 	equal(engineConfigs[0].central.name, 'LV-T45');
@@ -151,7 +151,7 @@ test('solveStack - with outer and radial engines', function() {
 });
 
 test('solveStack - with radial engines', function() {
-	var engineConfigs = solveStack(239, 241, 0, 4, 4, true, true, 5, false, ENGINES);
+	var engineConfigs = solveStack(239, 241, 0, 4, 0, 4, true, true, 5, false, ENGINES);
 	equal(engineConfigs.length, 1);
 	equal(engineConfigs[0].thrust, 240);
 	equal(engineConfigs[0].central.name, 'LV-T45');
