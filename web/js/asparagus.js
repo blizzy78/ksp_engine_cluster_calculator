@@ -183,6 +183,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 
 		var stackRadius = basePlateRadius * 0.975;
 		var radialSpacing = basePlateRadius - stackRadius;
+		var centralSize = (engineConfig.central !== null) ? engineConfig.central.size : 0;
 
 		if (engineConfig.numOuter > 0) {
 			var outerAngle = 360 / engineConfig.numOuter;
@@ -228,12 +229,14 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		}
 
 		// central engine
-		canvas.drawArc({
-			x: CENTER_X,
-			y: CENTER_Y,
-			radius: engineConfig.central.size * stackRadius / size,
-			fillStyle: ENGINE_COLOR_CENTRAL
-		});
+		if (engineConfig.central !== null) {
+			canvas.drawArc({
+				x: CENTER_X,
+				y: CENTER_Y,
+				radius: engineConfig.central.size * stackRadius / size,
+				fillStyle: ENGINE_COLOR_CENTRAL
+			});
+		}
 	
 		if (engineConfig.numOuter > 0) {
 			var outerAngle = 360 / engineConfig.numOuter;
@@ -242,7 +245,7 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			for (var i = 0; i < engineConfig.numOuter; i++) {
 				var radius = engineConfig.outer.size * stackRadius / size;
 				var textRadiusOffset =
-					(((engineConfig.central.size + engineConfig.outer.size) >= size) &&
+					(((centralSize + engineConfig.outer.size) >= size) &&
 							(engineConfig.central.size < size)) ?
 						(size - engineConfig.central.size) / 2 * stackRadius / size :
 						0;
@@ -266,21 +269,27 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		}
 		
 		// central engine name
-		canvas.drawText({
-			x: CENTER_X,
-			y: CENTER_Y,
-			text: engineConfig.central.name,
-			fillStyle: '#fff',
-			fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-			fontSize: 12,
-			maxWidth: engineConfig.central.size * stackRadius / size * 0.9,
-			lineHeight: 1.2
-		});
+		if (engineConfig.central !== null) {
+			canvas.drawText({
+				x: CENTER_X,
+				y: CENTER_Y,
+				text: engineConfig.central.name,
+				fillStyle: '#fff',
+				fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+				fontSize: 12,
+				maxWidth: engineConfig.central.size * stackRadius / size * 0.9,
+				lineHeight: 1.2
+			});
+		}
 
 		var random = Math.round(Math.random() * 100000000);
-		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>' +
-			'<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
-			escapeHTML(engineConfig.central.name) + '</span></li>';
+		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>';
+		if (engineConfig.central !== null) {
+			html += '<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
+				escapeHTML(engineConfig.central.name) + '</span></li>';
+		} else {
+			html += '<li>Center engine: (none)</li>';
+		}
 		if (engineConfig.numOuter > 0) {
 			html += '<li>Outer engines: ' + engineConfig.numOuter + 'x ' +
 				'<span id="stack_' + random + '_outer" class="engineTooltip">' + 
@@ -298,7 +307,9 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 			'staging.</strong></p>';
 		}
 		textEl.empty().append($.parseHTML(html));
-		createEngineTooltip('#stack_' + random + '_central', engineConfig.central);
+		if (engineConfig.central !== null) {
+			createEngineTooltip('#stack_' + random + '_central', engineConfig.central);
+		}
 		if (engineConfig.numOuter > 0) {
 			createEngineTooltip('#stack_' + random + '_outer', engineConfig.outer);
 		}
