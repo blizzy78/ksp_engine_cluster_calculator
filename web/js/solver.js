@@ -290,6 +290,17 @@ function tryOptimizeEngineConfig(engineConfig, maxOuterEngines) {
 			return true;
 		}
 	}
+	
+	if ((engineConfig.numOuter === 1) && (engineConfig.central !== null) &&
+		(engineConfig.outer.size > engineConfig.central.size)) {
+		
+		var oldCentral = engineConfig.central;
+		engineConfig.central = engineConfig.outer;
+		engineConfig.outer = oldCentral;
+		return true;
+	}
+	
+	return false;
 }
 
 function sendProgress(percent, elapsedTime) {
