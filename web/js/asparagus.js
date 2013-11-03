@@ -57,14 +57,14 @@ function solve() {
 	var workers = [];
 	var workersDone = 0;
 	var rocketConfig = null;
-	var rocketConfigSort = getRocketConfigSort(calculateFor, payloadMass, payloadFraction);
+	var rocketConfigComparator = createRocketConfigComparator(calculateFor, payloadMass, payloadFraction);
 
 	var handleMessageFunc = function(e) {
 		switch (e.data.type) {
 			case 'rocketConfig':
 				workersDone++;
 				log('got result #' + workersDone);
-				rocketConfig = getBetterRocketConfig(rocketConfig, e.data.rocketConfig, rocketConfigSort);
+				rocketConfig = getBetterRocketConfig(rocketConfig, e.data.rocketConfig, rocketConfigComparator);
 				if (workersDone == workers.length) {
 					log('got all results, showing best:');
 					log(rocketConfig);

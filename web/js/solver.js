@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 "use strict";
 
 
-self.importScripts('util.js');
+self.importScripts('util.js', 'compare.js');
 
 
 var BOOSTER_STACK_SIZES = [0.625, 1.25, 2.5, 3.75, 5];
@@ -34,7 +34,7 @@ var NO_ENGINE = {
 
 
 function solve(data) {
-	var rocketConfigSort = getRocketConfigSort(data.calculateFor, data.payloadMass, data.payloadFraction);
+	var rocketConfigComparator = createRocketConfigComparator(data.calculateFor, data.payloadMass, data.payloadFraction);
 
 	var allEngines = [];
 	for (var enginePackIdx in data.enginePacks) {
@@ -51,12 +51,12 @@ function solve(data) {
 		data.minCentralThrustFraction, data.maxCentralThrustFraction, data.numBoosters,
 		data.numCentralOuterEngines, data.minCentralRadialEngines, data.maxCentralRadialEngines,
 		data.maxBoosterOuterEngines, data.minBoosterRadialEngines, data.maxBoosterRadialEngines,
-		data.centralStackSize, data.gravity, data.allowPartClipping, rocketConfigSort, allEngines);
+		data.centralStackSize, data.gravity, data.allowPartClipping, rocketConfigComparator, allEngines);
 }
 
 function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThrustFraction, maxCentralThrustFraction,
 	numBoosters, numCentralOuterEngines, minCentralRadialEngines, maxCentralRadialEngines, maxBoosterOuterEngines,
-	minBoosterRadialEngines, maxBoosterRadialEngines, centralStackSize, gravity, allowPartClipping, rocketConfigSort,
+	minBoosterRadialEngines, maxBoosterRadialEngines, centralStackSize, gravity, allowPartClipping, rocketConfigComparator,
 	allEngines) {
 	
 	var startTime = new Date().getTime();
@@ -110,7 +110,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 									centralSize: centralStackSize,
 									boosterSize: boosterStackSize
 								};
-								rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigSort);
+								rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
 							}
 						}
 					}
@@ -127,7 +127,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				centralSize: centralStackSize,
 				boosterSize: -1
 			};
-			rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigSort);
+			rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
 		}
 	}
 	
@@ -221,7 +221,6 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 									((outerEngine.thrust > 0) ? numOuterEngines : 0) +
 									((radialEngine.thrust > 0) ? numRadialEngines : 0)
 							};
-							optimizeEngineConfig(engineConfig, maxOuterEngines);
 							engineConfigs.push(engineConfig);
 						}
 					}
@@ -254,53 +253,6 @@ function solveEngine(minThrust, maxThrust, allowRadial, vectoringRequired, maxSi
 	}
 
 	return suitableEngines;
-}
-
-function optimizeEngineConfig(engineConfig, maxOuterEngines) {
-	var improved;
-	do {
-		improved = tryOptimizeEngineConfig(engineConfig, maxOuterEngines);
-	} while (improved);
-}
-
-function tryOptimizeEngineConfig(engineConfig, maxOuterEngines) {
-	// move single outer engine to central spot
-	if ((engineConfig.numOuter === 1) && (engineConfig.central === null)) {
-		engineConfig.central = engineConfig.outer;
-		engineConfig.outer = null;
-		engineConfig.numOuter = 0;
-		return true;
-	}
-	
-	if ((engineConfig.numRadial > 0) && !engineConfig.radial.radial) {
-		// move radial engines to outer spot
-		if ((engineConfig.numOuter === 0) && (engineConfig.numRadial <= maxOuterEngines)) {
-			engineConfig.outer = engineConfig.radial;
-			engineConfig.numOuter = engineConfig.numRadial;
-			engineConfig.radial = null;
-			engineConfig.numRadial = 0;
-			return true;
-		}
-		
-		// move radial engines to central spot
-		if ((engineConfig.numRadial === 1) && (engineConfig.central === null)) {
-			engineConfig.central = engineConfig.radial;
-			engineConfig.radial = null;
-			engineConfig.numRadial = 0;
-			return true;
-		}
-	}
-	
-	if ((engineConfig.numOuter === 1) && (engineConfig.central !== null) &&
-		(engineConfig.outer.size > engineConfig.central.size)) {
-		
-		var oldCentral = engineConfig.central;
-		engineConfig.central = engineConfig.outer;
-		engineConfig.outer = oldCentral;
-		return true;
-	}
-	
-	return false;
 }
 
 function sendProgress(percent, elapsedTime) {

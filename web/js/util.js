@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 "use strict";
 
+
 function getRocketConfigSort(calculateFor, payloadMass, payloadFraction) {
 	var valueFunc;
 	var lowerIsBetter;
@@ -59,51 +60,30 @@ function getRocketConfigSort(calculateFor, payloadMass, payloadFraction) {
 	};
 }
 
-function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigSort) {
-	var lowerIsBetter = rocketConfigSort.lowerIsBetter;
-	if (rocketConfig1 === null) {
-		return rocketConfig2;
-	} else if (rocketConfig2 === null) {
-		return rocketConfig1;
-	} else {
-		var value1 = rocketConfigSort.valueFunc(rocketConfig1);
-		var value2 = rocketConfigSort.valueFunc(rocketConfig2);
-		if (value1 == value2) {
-			value1 = getNumberOfShellsUsed(rocketConfig1);
-			value2 = getNumberOfShellsUsed(rocketConfig2);
-			lowerIsBetter = true;
-		}
-		if (lowerIsBetter) {
-			return (value1 < value2) ? rocketConfig1 : rocketConfig2;
-		} else {
-			return (value1 < value2) ? rocketConfig2 : rocketConfig1;
-		}
-	}
+function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigComparator) {
+	return (rocketConfigComparator.compare(rocketConfig1, rocketConfig2) <= 0) ? rocketConfig1 : rocketConfig2;
 }
 
 function getNumberOfShellsUsed(rocketConfig) {
-	var shells = 0;
+	var centralShells = 0;
 	var centralConfig = rocketConfig.central;
-	if ((centralConfig.central != null) && (centralConfig.central.thrust > 0)) {
-		shells++;
-	}
-	if (centralConfig.numOuter > 0) {
-		shells++;
-	}
 	if (centralConfig.numRadial > 0) {
-		shells++;
+		centralShells = 3;
+	} else if (centralConfig.numOuter > 0) {
+		centralShells = 2;
+	} else if (centralConfig.central !== null) {
+		centralShells = 1;
 	}
+	var boosterShells = 0;
 	var boosterConfig = rocketConfig.booster;
-	if (boosterConfig != null) {
-		if ((boosterConfig.central != null) && (boosterConfig.central.thrust > 0)) {
-			shells++;
-		}
-		if (boosterConfig.numOuter > 0) {
-			shells++;
-		}
+	if (boosterConfig !== null) {
 		if (boosterConfig.numRadial > 0) {
-			shells++;
+			boosterShells = 3;
+		} else if (boosterConfig.numOuter > 0) {
+			boosterShells = 2;
+		} else if (boosterConfig.central !== null) {
+			boosterShells = 1;
 		}
 	}
-	return shells;
+	return centralShells + boosterShells;
 }
