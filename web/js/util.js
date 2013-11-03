@@ -39,6 +39,13 @@ function getRocketConfigSort(calculateFor, payloadMass, payloadFraction) {
 			lowerIsBetter = false;
 			break;
 			
+		case 'engineMass':
+			valueFunc = function(rocketConfig) {
+				return rocketConfig.mass;
+			};
+			lowerIsBetter = true;
+			break;
+		
 		case 'numParts':
 			valueFunc = function(rocketConfig) {
 				return rocketConfig.numParts;
