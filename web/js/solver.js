@@ -221,7 +221,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 									((outerEngine.thrust > 0) ? numOuterEngines : 0) +
 									((radialEngine.thrust > 0) ? numRadialEngines : 0)
 							};
-							optimizeEngineConfig(engineConfig);
+							optimizeEngineConfig(engineConfig, maxOuterEngines);
 							engineConfigs.push(engineConfig);
 						}
 					}
@@ -256,28 +256,33 @@ function solveEngine(minThrust, maxThrust, allowRadial, vectoringRequired, maxSi
 	return suitableEngines;
 }
 
-function optimizeEngineConfig(engineConfig) {
+function optimizeEngineConfig(engineConfig, maxOuterEngines) {
 	var improved;
 	do {
-		improved = tryOptimizeEngineConfig(engineConfig);
+		improved = tryOptimizeEngineConfig(engineConfig, maxOuterEngines);
 	} while (improved);
 }
 
-function tryOptimizeEngineConfig(engineConfig) {
+function tryOptimizeEngineConfig(engineConfig, maxOuterEngines) {
+	// move single outer engine to central spot
 	if ((engineConfig.numOuter === 1) && (engineConfig.central === null)) {
 		engineConfig.central = engineConfig.outer;
 		engineConfig.outer = null;
 		engineConfig.numOuter = 0;
 		return true;
 	}
+	
 	if ((engineConfig.numRadial > 0) && !engineConfig.radial.radial) {
-		if (engineConfig.numOuter === 0) {
+		// move radial engines to outer spot
+		if ((engineConfig.numOuter === 0) && (engineConfig.numRadial <= maxOuterEngines)) {
 			engineConfig.outer = engineConfig.radial;
 			engineConfig.numOuter = engineConfig.numRadial;
 			engineConfig.radial = null;
 			engineConfig.numRadial = 0;
 			return true;
 		}
+		
+		// move radial engines to central spot
 		if ((engineConfig.numRadial === 1) && (engineConfig.central === null)) {
 			engineConfig.central = engineConfig.radial;
 			engineConfig.radial = null;
