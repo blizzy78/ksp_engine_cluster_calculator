@@ -176,13 +176,19 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 				suitableOuterEngines = solveEngine(remainingMaxThrustSingle, false, vectoringRequired,
 					remainingSize, allowPartClipping, allowNoOuterEngine, allEngines);
 			} else {
-				suitableOuterEngines = [ NO_ENGINE ];
+				if (allowNoOuterEngine) {
+					suitableOuterEngines = [ NO_ENGINE ];
+				} else {
+					continue;
+				}
 			}
-			
-			for (var outerEngineIdx in suitableOuterEngines) {
-				if (suitableOuterEngines[outerEngineIdx].thrust === 0) {
-					allowNoOuterEngine = false;
-					break;
+
+			if (allowNoOuterEngine) {
+				for (var outerEngineIdx in suitableOuterEngines) {
+					if (suitableOuterEngines[outerEngineIdx].thrust === 0) {
+						allowNoOuterEngine = false;
+						break;
+					}
 				}
 			}
 
@@ -204,13 +210,19 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 						suitableRadialEngines = solveEngine(remainingMaxThrustRadialSingle, true, false,
 							RADIAL_MAX_SIZE, allowPartClipping, allowNoRadialEngine, allEngines);
 					} else {
-						suitableRadialEngines = [ NO_ENGINE ];
+						if (allowNoRadialEngine) {
+							suitableRadialEngines = [ NO_ENGINE ];
+						} else {
+							continue;
+						}
 					}
-					
-					for (var radialEngineIdx in suitableRadialEngines) {
-						if (suitableRadialEngines[radialEngineIdx].thrust === 0) {
-							allowNoRadialEngine = false;
-							break;
+
+					if (allowNoRadialEngine) {
+						for (var radialEngineIdx in suitableRadialEngines) {
+							if (suitableRadialEngines[radialEngineIdx].thrust === 0) {
+								allowNoRadialEngine = false;
+								break;
+							}
 						}
 					}
 					
