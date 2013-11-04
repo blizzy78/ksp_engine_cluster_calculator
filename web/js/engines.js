@@ -547,6 +547,14 @@ var KOSMOS_ENGINES = [
 		mass: 1.68,
 		vectoring: true,
 		size: 1.25
+	},
+	{
+		name: 'RD-58SS',
+		thrust: 325,
+		radial: false,
+		mass: 1.4,
+		vectoring: true,
+		size: 1.25
 	}
 ];
 
@@ -620,7 +628,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kosmos',
-		title: 'KOSMOS SSPP 4.7',
+		title: 'KOSMOS SSPP 4.7.2',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/24970-0-19-Kosmos-Spacecraft-Design-Bureau',
 		engines: KOSMOS_ENGINES
 	},
