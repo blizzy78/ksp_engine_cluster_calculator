@@ -180,6 +180,8 @@ function handleSolverProgress(progressPercent, elapsedTime) {
 }
 
 function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired) {
+	$('.engineTooltip').tooltip('hide');
+	
 	var basePlateRadius = BASE_PLATE_RADIUS;
 	
 	if (typeof(engineConfig) !== 'string') {
