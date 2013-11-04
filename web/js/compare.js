@@ -112,3 +112,31 @@ function createSingleRocketConfigComparator(calculateFor, payloadMass, payloadFr
 		compare: func
 	};
 }
+
+function getBetterRocketConfig(rocketConfig1, rocketConfig2, rocketConfigComparator) {
+	return (rocketConfigComparator.compare(rocketConfig1, rocketConfig2) <= 0) ? rocketConfig1 : rocketConfig2;
+}
+
+function getNumberOfShellsUsed(rocketConfig) {
+	var centralShells = 0;
+	var centralConfig = rocketConfig.central;
+	if (centralConfig.numRadial > 0) {
+		centralShells = 3;
+	} else if (centralConfig.numOuter > 0) {
+		centralShells = 2;
+	} else if (centralConfig.central !== null) {
+		centralShells = 1;
+	}
+	var boosterShells = 0;
+	var boosterConfig = rocketConfig.booster;
+	if (boosterConfig !== null) {
+		if (boosterConfig.numRadial > 0) {
+			boosterShells = 3;
+		} else if (boosterConfig.numOuter > 0) {
+			boosterShells = 2;
+		} else if (boosterConfig.central !== null) {
+			boosterShells = 1;
+		}
+	}
+	return centralShells + boosterShells;
+}

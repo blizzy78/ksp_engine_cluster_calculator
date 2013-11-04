@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 "use strict";
 
 
-self.importScripts('util.js', 'compare.js');
+self.importScripts('compare.js');
 
 
 var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75];
