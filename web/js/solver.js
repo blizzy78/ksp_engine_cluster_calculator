@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 self.importScripts('util.js', 'compare.js');
 
 
-var BOOSTER_STACK_SIZES = [0.625, 1.25, 2.5, 3.75, 5];
+var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75];
 var RADIAL_MAX_SIZE = 1.25;
 
 var NO_ENGINE = {
