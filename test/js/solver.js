@@ -73,33 +73,33 @@ function assertEngines(engines, engineNames) {
 module('Solver');
 
 test('solveEngine - no match', function() {
-	var engines = solveEngine(100000, 100001, false, false, 5, false, ENGINES);
+	var engines = solveEngine(1, false, false, 5, false, false, ENGINES);
 	assertEngines(engines, []);
 });
 
 test('solveEngine - single match', function() {
-	var engines = solveEngine(1, 2, false, false, 5, false, ENGINES);
+	var engines = solveEngine(2, false, false, 5, false, false, ENGINES);
 	assertEngines(engines, ['LV-1']);
 });
 
 test('solveEngine - no engine here', function() {
-	var engines = solveEngine(0, 1, false, false, 5, false, ENGINES);
+	var engines = solveEngine(1, false, false, 5, false, true, ENGINES);
 	equal(engines.length, 1);
 	equal(engines[0].thrust, 0);
 });
 
 test('solveEngine - multiple matches', function() {
-	var engines = solveEngine(190, 220, false, false, 5, false, ENGINES);
-	assertEngines(engines, ['LV-T30', 'LV-T45']);
+	var engines = solveEngine(201, false, false, 5, false, false, ENGINES);
+	assertEngines(engines, ['LV-1', 'LV-T45']);
 });
 
 test('solveEngine - radial', function() {
-	var engines = solveEngine(1, 21, true, false, 5, false, ENGINES);
+	var engines = solveEngine(21, true, false, 5, false, false, ENGINES);
 	assertEngines(engines, ['LV-1', 'Rockomax 24-77']);
 });
 
 test('solveEngine - vectoring', function() {
-	var engines = solveEngine(190, 220, false, true, 5, false, ENGINES);
+	var engines = solveEngine(220, false, true, 5, false, false, ENGINES);
 	assertEngines(engines, ['LV-T45']);
 });
 
@@ -158,4 +158,21 @@ test('solveStack - with radial engines', function() {
 	equal(engineConfigs[0].numOuter, 0);
 	equal(engineConfigs[0].numRadial, 2);
 	equal(engineConfigs[0].radial.name, 'Rockomax 24-77');
+});
+
+test('solveStack - no balance required', function() {
+	var engineConfigs = solveStack(234, 236, 0, 4, 0, 4, false, false, 5, false, ENGINES);
+	console.log(engineConfigs);
+	equal(engineConfigs.length, 2);
+	equal(engineConfigs[0].thrust, 235);
+	equal(engineConfigs[0].central.name, 'LV-T30');
+	equal(engineConfigs[0].numOuter, 0);
+	equal(engineConfigs[0].numRadial, 1);
+	equal(engineConfigs[0].radial.name, 'Rockomax 24-77');
+	equal(engineConfigs[1].thrust, 235);
+	equal(engineConfigs[1].central, null);
+	equal(engineConfigs[1].numOuter, 1);
+	equal(engineConfigs[1].outer.name, 'LV-T30');
+	equal(engineConfigs[1].numRadial, 1);
+	equal(engineConfigs[1].radial.name, 'Rockomax 24-77');
 });
