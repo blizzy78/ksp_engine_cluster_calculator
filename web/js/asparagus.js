@@ -44,7 +44,9 @@ function solve() {
 		}
 	});
 	
-	$('#options button[type="submit"], #options button[type="reset"]').attr('disabled', 'true');
+	$('#options button[type="submit"]').hide();
+	$('#stopButton').show();
+	$('#options button[type="reset"]').attr('disabled', 'true');
 
 	var minBoosters = parseInt($('#options input[name="minBoosters"]').val());
 	var maxBoosters = parseInt($('#options input[name="maxBoosters"]').val());
@@ -57,8 +59,23 @@ function solve() {
 	var workers = [];
 	var workersDone = 0;
 	var rocketConfig = null;
+	var progressRocketConfig = null;
 	var rocketConfigComparator = createRocketConfigComparator(calculateFor, payloadMass, payloadFraction);
 
+	var stopFunction = function() {
+		for (var workerIdx in workers) {
+			workers[workerIdx].terminate();
+		}
+		$('#options button[type="submit"]').show();
+		$('#stopButton').hide();
+		$('#options button[type="reset"]').removeAttr('disabled');
+	};
+	
+	$('#stopButton').off('click').on('click', function() {
+		log('stopped');
+		stopFunction();
+	});
+	
 	var handleMessageFunc = function(e) {
 		switch (e.data.type) {
 			case 'rocketConfig':
@@ -68,15 +85,18 @@ function solve() {
 				if (workersDone == workers.length) {
 					log('got all results, showing best:');
 					log(rocketConfig);
-					for (var workerIdx in workers) {
-						workers[workerIdx].terminate();
-					}
+					stopFunction();
 					showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity);
 				}
 				break;
 			
 			case 'progress':
 				handleSolverProgress(e.data.progressPercent, e.data.elapsedTime);
+				break;
+			
+			case 'progress.rocketConfig':
+				progressRocketConfig = getBetterRocketConfig(progressRocketConfig, e.data.rocketConfig, rocketConfigComparator);
+				showRocketConfig(progressRocketConfig, payloadMass, payloadFraction, gravity);
 				break;
 			
 			case 'log':
@@ -145,9 +165,6 @@ function showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
 		draw($('#boosterConfig'), '(no solution)', null, $('#boosterDescription'), -1);
 		$('#rocketTotals').empty();
 	}
-
-	$('#options button[type="submit"]').removeAttr('disabled').text('Calculate');
-	$('#options button[type="reset"]').removeAttr('disabled');
 }
 
 function handleSolverProgress(progressPercent, elapsedTime) {
