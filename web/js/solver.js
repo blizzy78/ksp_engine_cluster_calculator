@@ -164,7 +164,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 			((stackSize - centralEngine.clippingSize) / 2) :
 			((stackSize - centralEngine.size) / 2);
 
-		var allowNoOuterEngine = true;
+		var allowNoOuterEngine = minOuterEngines === 0;
 		for (var numOuterEngines = minOuterEngines; numOuterEngines <= maxOuterEngines; numOuterEngines++) {
 			if (outerAndRadialEnginesBalanceRequired && (numOuterEngines === 1)) {
 				continue;
@@ -192,7 +192,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 				}
 			}
 
-			var allowNoRadialEngine = true;
+			var allowNoRadialEngine = minRadialEngines === 0;
 			for (var outerEngineIdx in suitableOuterEngines) {
 				var outerEngine = suitableOuterEngines[outerEngineIdx];
 				
