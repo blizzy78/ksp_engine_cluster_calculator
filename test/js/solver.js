@@ -81,34 +81,39 @@ module('Solver', {
 });
 
 test('solveEngine - no match', function() {
-	var engines = solveEngine(1, false, false, 5, false, false);
+	var engines = solveEngine(1, false, false, 5, false, false, false);
 	assertEngines(engines, []);
 });
 
 test('solveEngine - single match', function() {
-	var engines = solveEngine(2, false, false, 5, false, false);
+	var engines = solveEngine(2, false, false, 5, false, false, false);
 	assertEngines(engines, ['LV-1']);
 });
 
 test('solveEngine - no engine here', function() {
-	var engines = solveEngine(1, false, false, 5, false, true);
+	var engines = solveEngine(1, false, false, 5, false, false, true);
 	equal(engines.length, 1);
 	equal(engines[0].thrust, 0);
 });
 
 test('solveEngine - multiple matches', function() {
-	var engines = solveEngine(201, false, false, 5, false, false);
+	var engines = solveEngine(201, false, false, 5, false, false, false);
 	assertEngines(engines, ['LV-1', 'LV-T45']);
 });
 
 test('solveEngine - radial', function() {
-	var engines = solveEngine(21, true, false, 5, false, false);
+	var engines = solveEngine(21, true, false, 5, false, false, false);
 	assertEngines(engines, ['LV-1', 'Rockomax 24-77']);
 });
 
 test('solveEngine - vectoring', function() {
-	var engines = solveEngine(220, false, true, 5, false, false);
+	var engines = solveEngine(220, false, true, 5, false, false, false);
 	assertEngines(engines, ['LV-T45']);
+});
+
+test('solveEngine - true radial', function() {
+	var engines = solveEngine(21, true, false, 5, true, false, false);
+	assertEngines(engines, ['Rockomax 24-77']);
 });
 
 

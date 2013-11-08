@@ -126,6 +126,7 @@ function solve() {
 				maxTWR: parseFloat($('#options input[name="maxTWR"]').val()),
 				centralStackSize: parseFloat($('#options select[name="centralStackSize"]').val()),
 				numBoosters: numBoosters,
+				trueRadial: $('#options input[name="trueRadial"]')[0].checked,
 				allowPartClipping: $('#options input[name="allowPartClipping"]')[0].checked,
 				minCentralThrustFraction: parseFloat($('#options input[name="minCentralThrustFraction"]').val()),
 				maxCentralThrustFraction: parseFloat($('#options input[name="maxCentralThrustFraction"]').val()),
