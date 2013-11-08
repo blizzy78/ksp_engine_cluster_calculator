@@ -24,6 +24,7 @@ self.importScripts('compare.js');
 
 var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75];
 var RADIAL_MAX_SIZE = 1.25;
+var ENGINE_PARTITION_BUCKET_THRUST = 50;
 
 var NO_ENGINE = {
 	thrust: 0,
@@ -32,34 +33,29 @@ var NO_ENGINE = {
 	mass: 0
 };
 
+var startTime = new Date();
+var numCallsToSolveEngine = 0;
+var timeSpentInSolveEngine = 0;
+
+var allEngines;
+
 
 function solve(data) {
 	var rocketConfigComparator = createRocketConfigComparator(data.calculateFor, data.payloadMass, data.payloadFraction);
 
-	var allEngines = [];
-	for (var enginePackIdx in data.enginePacks) {
-		var enginePack = data.enginePacks[enginePackIdx];
-		for (var engineIdx in enginePack.engines) {
-			var engine = enginePack.engines[engineIdx];
-			if ((typeof(engine.disabled) === 'undefined') || !engine.disabled) {
-				allEngines.push(engine);
-			}
-		}
-	}
-	
 	return solveRocket(data.payloadMass, data.payloadFraction, data.minTWR, data.maxTWR,
 		data.minCentralThrustFraction, data.maxCentralThrustFraction, data.numBoosters,
 		data.numCentralOuterEngines, data.minCentralRadialEngines, data.maxCentralRadialEngines,
 		data.maxBoosterOuterEngines, data.minBoosterRadialEngines, data.maxBoosterRadialEngines,
-		data.centralStackSize, data.gravity, data.allowPartClipping, rocketConfigComparator, allEngines);
+		data.centralStackSize, data.gravity, data.allowPartClipping, rocketConfigComparator);
 }
 
 function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThrustFraction, maxCentralThrustFraction,
 	numBoosters, numCentralOuterEngines, minCentralRadialEngines, maxCentralRadialEngines, maxBoosterOuterEngines,
-	minBoosterRadialEngines, maxBoosterRadialEngines, centralStackSize, gravity, allowPartClipping, rocketConfigComparator,
-	allEngines) {
+	minBoosterRadialEngines, maxBoosterRadialEngines, centralStackSize, gravity, allowPartClipping, rocketConfigComparator) {
 	
 	var lastProgressRocketConfigSent = 0;
+	var numRocketConfigsFound = 0;
 	
 	var rocketMass = payloadMass * 100 / payloadFraction;
 	var minThrust = rocketMass * minTWR * gravity;
@@ -74,11 +70,11 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 	if (numBoosters > 0) {
 		suitableCentralConfigs = solveStack(minCentralThrust, maxCentralThrust, numCentralOuterEngines,
 			numCentralOuterEngines, minCentralRadialEngines, maxCentralRadialEngines, true, true,
-			centralStackSize, allowPartClipping, allEngines);
+			centralStackSize, allowPartClipping);
 	} else {
 		suitableCentralConfigs = solveStack(minThrust, maxThrust, numCentralOuterEngines, numCentralOuterEngines,
 			minCentralRadialEngines, maxCentralRadialEngines, true, true,
-			centralStackSize, allowPartClipping, allEngines);
+			centralStackSize, allowPartClipping);
 	}
 	
 	for (var suitableCentralConfigIdx in suitableCentralConfigs) {
@@ -94,7 +90,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				if (boosterStackSize <= centralStackSize) {
 					var suitableBoosterConfigs = solveStack(remainingMinThrustSingle, remainingMaxThrustSingle,
 							0, maxBoosterOuterEngines, minBoosterRadialEngines, maxBoosterRadialEngines, false, false,
-							boosterStackSize, allowPartClipping, allEngines);
+							boosterStackSize, allowPartClipping);
 					for (var boosterConfigIdx in suitableBoosterConfigs) {
 						var boosterConfig = suitableBoosterConfigs[boosterConfigIdx];
 						var totalThrust = centralConfig.thrust + boosterConfig.thrust * numBoosters;
@@ -114,6 +110,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 									boosterSize: boosterStackSize
 								};
 								rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
+								numRocketConfigsFound++;
 								
 								var now = new Date().getTime();
 								if ((now - lastProgressRocketConfigSent) > 2000) {
@@ -137,6 +134,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				boosterSize: -1
 			};
 			rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
+			numRocketConfigsFound++;
 
 			var now = new Date().getTime();
 			if ((now - lastProgressRocketConfigSent) > 2000) {
@@ -146,16 +144,19 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 		}
 	}
 	
-	return rocketConfig;
+	return {
+		rocketConfig: rocketConfig,
+		numRocketConfigsFound: numRocketConfigsFound
+	};
 }
 
 function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minRadialEngines, maxRadialEngines,
-	outerAndRadialEnginesBalanceRequired, vectoringRequired, stackSize, allowPartClipping, allEngines) {
+	outerAndRadialEnginesBalanceRequired, vectoringRequired, stackSize, allowPartClipping) {
 	
 	var engineConfigs = [];
 	
 	var suitableCentralEngines = solveEngine(maxThrust, false, vectoringRequired, stackSize,
-		false, true, allEngines);
+		false, true);
 	for (var centralEngineIdx in suitableCentralEngines) {
 		var centralEngine = suitableCentralEngines[centralEngineIdx];
 
@@ -174,7 +175,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 			if (numOuterEngines > 0) {
 				var remainingMaxThrustSingle = remainingMaxThrust / numOuterEngines;
 				suitableOuterEngines = solveEngine(remainingMaxThrustSingle, false, vectoringRequired,
-					remainingSize, allowPartClipping, allowNoOuterEngine, allEngines);
+					remainingSize, allowPartClipping, allowNoOuterEngine);
 			} else {
 				if (allowNoOuterEngine) {
 					suitableOuterEngines = [ NO_ENGINE ];
@@ -208,7 +209,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 					if (numRadialEngines > 0) {
 						var remainingMaxThrustRadialSingle = remainingMaxThrustRadial / numRadialEngines;
 						suitableRadialEngines = solveEngine(remainingMaxThrustRadialSingle, true, false,
-							RADIAL_MAX_SIZE, allowPartClipping, allowNoRadialEngine, allEngines);
+							RADIAL_MAX_SIZE, allowPartClipping, allowNoRadialEngine);
 					} else {
 						if (allowNoRadialEngine) {
 							suitableRadialEngines = [ NO_ENGINE ];
@@ -258,19 +259,23 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 }
 
 function solveEngine(maxThrust, allowRadial, vectoringRequired, maxSize, allowPartClipping,
-	allowNoEngine, allEngines) {
+	allowNoEngine) {
 	
+	numCallsToSolveEngine++;
+	var solveEngineStartTime = new Date();
+
+	var bucket = Math.min(getPartitionBucket(maxThrust), allEngines.length - 1);
+	var engines = allEngines[bucket];
 	var suitableEngines = [];
-	for (var engineIdx in allEngines) {
-		var engine = allEngines[engineIdx];
+
+	for (var engineIdx in engines) {
+		var engine = engines[engineIdx];
 		if ((engine.thrust <= maxThrust) &&
 			(allowRadial || !engine.radial) &&
-			(!vectoringRequired || engine.vectoring)) {
-			
-			var engineSize = allowPartClipping ? engine.clippingSize : engine.size;
-			if (engineSize <= maxSize) {
-				suitableEngines.push(engine);
-			}
+			(!vectoringRequired || engine.vectoring) &&
+			((allowPartClipping ? engine.clippingSize : engine.size) <= maxSize)) {
+
+			suitableEngines.push(engine);
 		}
 	}
 
@@ -279,7 +284,57 @@ function solveEngine(maxThrust, allowRadial, vectoringRequired, maxSize, allowPa
 		suitableEngines.push(NO_ENGINE);
 	}
 
+	var solveEngineEndTime = new Date();
+	
+	timeSpentInSolveEngine += (solveEngineEndTime.getTime() - solveEngineStartTime.getTime());
+	
 	return suitableEngines;
+}
+
+function partitionEngines(enginePacks) {
+	var result = [];
+	
+	var maxThrust = -1;
+	for (var enginePackIdx in enginePacks) {
+		var enginePack = enginePacks[enginePackIdx];
+		for (var engineIdx in enginePack.engines) {
+			var engine = enginePack.engines[engineIdx];
+			if (!isEngineDisabled(engine)) {
+				if (engine.thrust > maxThrust) {
+					maxThrust = engine.thrust;
+				}
+			}
+		}
+	}
+	var maxBucket = getPartitionBucket(maxThrust);
+	
+	for (var enginePackIdx in enginePacks) {
+		var enginePack = enginePacks[enginePackIdx];
+		for (var engineIdx in enginePack.engines) {
+			var engine = enginePack.engines[engineIdx];
+			if (!isEngineDisabled(engine)) {
+				var bucket = getPartitionBucket(engine.thrust);
+				do {
+					var bucketEngines = result[bucket];
+					if (typeof(bucketEngines) === 'undefined') {
+						bucketEngines = [];
+						result[bucket] = bucketEngines;
+					}
+					bucketEngines.push(engine);
+				} while (++bucket <= maxBucket);
+			}
+		}
+	}
+	
+	return result;
+}
+
+function getPartitionBucket(thrust) {
+	return Math.floor(thrust / ENGINE_PARTITION_BUCKET_THRUST);
+}
+
+function isEngineDisabled(engine) {
+	return (typeof(engine.disabled) !== 'undefined') && engine.disabled;
 }
 
 function sendProgress(percent, elapsedTime) {
@@ -304,15 +359,21 @@ function sendLog(message) {
 	});
 }
 
-function sendRocketConfig(rocketConfig) {
+function sendRocketConfig(rocketConfig, numRocketConfigsFound) {
 	self.postMessage({
 		type: 'rocketConfig',
-		rocketConfig: rocketConfig
+		rocketConfig: rocketConfig,
+		timeTaken: new Date().getTime() - startTime.getTime(),
+		numRocketConfigsFound: numRocketConfigsFound,
+		numCallsToSolveEngine: numCallsToSolveEngine,
+		timeSpentInSolveEngine: timeSpentInSolveEngine
 	});
 }
 
 
 self.addEventListener('message', function(e) {
-	var rocketConfig = solve(e.data);
-	sendRocketConfig(rocketConfig);
+	allEngines = partitionEngines(e.data.enginePacks);
+	
+	var result = solve(e.data);
+	sendRocketConfig(result.rocketConfig, result.numRocketConfigsFound);
 }, false);

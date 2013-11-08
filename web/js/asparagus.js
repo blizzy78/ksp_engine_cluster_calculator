@@ -75,15 +75,27 @@ function solve() {
 		log('stopped');
 		stopFunction();
 	});
-	
+
+	var timeTaken = 0;
+	var numRocketConfigsFound = 0;
+	var timeSpentInSolveEngine = 0;
 	var handleMessageFunc = function(e) {
 		switch (e.data.type) {
 			case 'rocketConfig':
 				workersDone++;
-				log('got result #' + workersDone);
+				log('got result #' + workersDone + ', number of rocket configs found: ' + e.data.numRocketConfigsFound + ', ' +
+					'number of calls to solveEngine(): ' + e.data.numCallsToSolveEngine + ', ' +
+					'time spent in solveEngine(): ' + e.data.timeSpentInSolveEngine + ' ms');
 				rocketConfig = getBetterRocketConfig(rocketConfig, e.data.rocketConfig, rocketConfigComparator);
+				timeTaken += e.data.timeTaken;
+				numRocketConfigsFound += e.data.numRocketConfigsFound;
+				timeSpentInSolveEngine += e.data.timeSpentInSolveEngine;
 				if (workersDone == workers.length) {
-					log('got all results, showing best:');
+					var endTime = new Date();
+					log('got all results, number of rocket configs found: ' + numRocketConfigsFound + ', ' +
+						'time taken: ' + timeTaken + ' ms, ' +
+						'time spent in solveEngine(): ' + timeSpentInSolveEngine + ' ms');
+					log('showing best result:');
 					log(rocketConfig);
 					stopFunction();
 					showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity);
