@@ -561,41 +561,41 @@ var KOSMOS_ENGINES = [
 var SMP_ENGINES = [
 	{
 		name: 'Small Rockomax "Skipper"',
-		thrust: 36.8,
+		thrust: 38,
 		radial: false,
-		mass: 0.0625,
+		mass: 0.35,
 		vectoring: true,
 		size: 0.625
 	},
 	{
 		name: 'Small Rockomax "Mainsail"',
-		thrust: 85,
+		thrust: 54,
 		radial: false,
-		mass: 0.09375,
+		mass: 0.55,
 		vectoring: true,
 		size: 0.625
 	},
 	{
 		name: 'Small Rockomax "Poodle"',
-		thrust: 13.75,
+		thrust: 14,
 		radial: false,
-		mass: 0.0390625,
+		mass: 0.25,
 		vectoring: true,
 		size: 0.625
 	},
 	{
 		name: 'Small LV-909',
-		thrust: 12.5,
+		thrust: 8.5,
 		radial: false,
-		mass: 0.0325,
+		mass: 0.15,
 		vectoring: true,
 		size: 0.625
 	},
 	{
 		name: 'Small LV-N',
-		thrust: 15,
+		thrust: 10,
 		radial: false,
-		mass: 0.5,
+		mass: 0.79,
 		vectoring: true,
 		size: 0.625
 	}
@@ -652,7 +652,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'smp',
-		title: 'Sceppie\'s 0.5m Minipack 0.21.0.1',
+		title: 'Sceppie\'s 0.5m Minipack 0.22.0.1',
 		url: 'http://kerbalspaceport.com/0-18-2-sceppies-0-5m-minipack/',
 		engines: SMP_ENGINES
 	}
