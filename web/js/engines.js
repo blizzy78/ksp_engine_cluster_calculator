@@ -598,6 +598,14 @@ var SMP_ENGINES = [
 		mass: 0.79,
 		vectoring: true,
 		size: 0.625
+	},
+	{
+		name: 'Small Torodial Aerospike',
+		thrust: 22.5,
+		radial: false,
+		mass: 0.3,
+		vectoring: false,
+		size: 0.625
 	}
 ];
 
@@ -652,7 +660,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'smp',
-		title: 'Sceppie\'s 0.5m Minipack 0.22.0.1',
+		title: 'Sceppie\'s 0.5m Minipack 0.22.0.2',
 		url: 'http://kerbalspaceport.com/0-18-2-sceppies-0-5m-minipack/',
 		engines: SMP_ENGINES
 	}
