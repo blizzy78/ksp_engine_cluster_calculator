@@ -648,7 +648,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kwRocketry',
-		title: 'KW Rocketry 2.5.4',
+		title: 'KW Rocketry 2.5.5',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/33168-20-1-KW-Rocketry-0-2-3',
 		engines: KW_ROCKETRY_ENGINES
 	},
