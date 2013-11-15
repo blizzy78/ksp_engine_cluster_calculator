@@ -171,6 +171,7 @@ function showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
 			'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
 			'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
 			(DEBUG ? ('<li>TWR (engines): ' + (Math.round(rocketConfig.thrust / rocketConfig.mass * 100) / 100) + '</li>') : '') +
+			(DEBUG ? ('<li>Isp at sea level: ' + Math.round(getSpecificImpulse(rocketConfig)) + '</li>') : '') +
 			'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
 		$('#rocketTotals').empty().append($.parseHTML(html));
 	} else {

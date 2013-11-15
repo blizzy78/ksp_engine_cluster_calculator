@@ -26,7 +26,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 4,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 300
 	},
 	{
 		name: 'LV-T30',
@@ -34,7 +35,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 1.25,
 		vectoring: false,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	},
 	{
 		name: 'Rockomax "Mainsail"',
@@ -42,7 +44,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 6,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 280
 	},
 	{
 		name: 'LV-T45',
@@ -50,7 +53,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 1.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	},
 	{
 		name: 'Rockomax "Poodle"',
@@ -58,7 +62,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 2.5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 270
 	},
 	{
 		name: 'LV-909',
@@ -66,7 +71,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 0.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 300
 	},
 	{
 		name: 'Rockomax 48-7S',
@@ -74,7 +80,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 0.1,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 300
 	},
 	{
 		name: 'LV-1',
@@ -82,7 +89,8 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 0.03,
 		vectoring: false,
-		size: 0.625
+		size: 0.625,
+		isp: 220
 	},
 	{
 		name: 'LV-1R',
@@ -90,7 +98,8 @@ var KSP_STOCK_ENGINES = [
 		radial: true,
 		mass: 0.03,
 		vectoring: false,
-		size: -1
+		size: -1,
+		isp: 220
 	},
 	{
 		name: 'Rockomax Mark 55',
@@ -98,7 +107,8 @@ var KSP_STOCK_ENGINES = [
 		radial: true,
 		mass: 0.9,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 290
 	},
 	{
 		name: 'Rockomax 24-77',
@@ -106,7 +116,8 @@ var KSP_STOCK_ENGINES = [
 		radial: true,
 		mass: 0.09,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 250
 	},
 	{
 		name: 'LV-N',
@@ -114,15 +125,17 @@ var KSP_STOCK_ENGINES = [
 		radial: false,
 		mass: 2.25,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 220
 	},
 	{
-		name: 'Torodial Aerospike',
+		name: 'Toroidal Aerospike',
 		thrust: 175,
 		radial: false,
 		mass: 1.5,
 		vectoring: false,
-		size: 1.25
+		size: 1.25,
+		isp: 388
 	}
 ];
 
@@ -133,7 +146,8 @@ var DSM_ENGINES = [
 		radial: false,
 		mass: 2,
 		vectoring: false,
-		size: 2.5
+		size: 2.5,
+		isp: 200
 	}
 ];
 
@@ -144,7 +158,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 2,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	},
 	{
 		name: 'Vesta VR-1',
@@ -152,7 +167,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 0.6,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 350
 	},
 	{
 		name: 'WildCat-V',
@@ -160,7 +176,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 1.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 325
 	},
 	{
 		name: 'Griffon-G8D',
@@ -168,7 +185,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 8,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 280
 	},
 	{
 		name: 'Maverick-V',
@@ -176,7 +194,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 6,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 285
 	},
 	{
 		name: 'Service Propulsion System',
@@ -184,7 +203,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 2.25,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 270
 	},
 	{
 		name: 'Vesta VR-9D',
@@ -192,7 +212,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 310
 	},
 	{
 		name: 'Griffon XX',
@@ -200,7 +221,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 18,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 265
 	},
 	{
 		name: 'Titan-T1',
@@ -208,7 +230,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 14,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 270
 	},
 	{
 		name: 'Wildcat-XR',
@@ -216,7 +239,8 @@ var KW_ROCKETRY_ENGINES = [
 		radial: false,
 		mass: 8,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 275
 	}
 ];
 
@@ -227,7 +251,8 @@ var KSPX_ENGINES = [
 		radial: false,
 		mass: 5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 220
 	}
 ];
 
@@ -238,7 +263,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 1.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 330
 	},
 	{
 		name: 'LF-A30',
@@ -246,7 +272,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 2,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 375
 	},
 	{
 		name: 'Basic Bertha Mini Quad',
@@ -254,7 +281,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 1.25,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 335
 	},
 	{
 		name: 'K2-X',
@@ -262,7 +290,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 1.2,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 350
 	},
 	{
 		name: 'RMA-3 Orbital Achievement Device',
@@ -270,7 +299,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 0.65,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 300
 	},
 	{
 		name: '4X-800',
@@ -278,7 +308,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 6.5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 275
 	},
 	{
 		name: 'SLS-250 Bearcat Series Two',
@@ -286,7 +317,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 5.25,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 290
 	},
 	{
 		name: 'NERVA Mk. I',
@@ -294,7 +326,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 11,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 200
 	},
 	{
 		name: 'Inline Twin Fusion 1.25m',
@@ -302,7 +335,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 2.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 220
 	},
 	{
 		name: 'Inline Twin Fusion 2.5m',
@@ -310,7 +344,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 200
 	},
 	{
 		name: 'Orbital Bertha',
@@ -318,7 +353,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 3,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 335
 	},
 	{
 		name: 'Bearcat Series Two Tri-nozzle',
@@ -326,7 +362,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 8.5,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 260
 	},
 	{
 		name: 'TD-180 Bronco Quad',
@@ -334,7 +371,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 10,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 275
 	},
 	{
 		name: '"The Little Mother"',
@@ -342,7 +380,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 8,
 		vectoring: true,
-		size: 3.75
+		size: 3.75,
+		isp: 265
 	},
 	{
 		name: 'Bearcat Series Two 5x',
@@ -350,7 +389,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 40,
 		vectoring: true,
-		size: 5
+		size: 5,
+		isp: 255
 	},
 	{
 		name: 'The Matriarch',
@@ -358,7 +398,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 18,
 		vectoring: true,
-		size: 5
+		size: 5,
+		isp: 265
 	},
 	{
 		name: 'Radial Large Liquid Booster',
@@ -366,7 +407,8 @@ var NP_ENGINES = [
 		radial: true,
 		mass: 0.8,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 280
 	},
 	{
 		name: 'Radial Liquid Booster',
@@ -374,7 +416,8 @@ var NP_ENGINES = [
 		radial: true,
 		mass: 0.4,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 280
 	},
 	{
 		name: 'SAS-2 Vernier Pod',
@@ -382,7 +425,8 @@ var NP_ENGINES = [
 		radial: true,
 		mass: 0.2,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 280
 	},
 	{
 		name: 'Odin Command Module Trunk Section',
@@ -390,7 +434,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 0.4,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 355
 	},
 	{
 		name: 'LM-01 Thor Lander Ascent Package',
@@ -398,7 +443,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 0.55,
 		vectoring: true,
-		size: 1.875
+		size: 1.875,
+		isp: 320
 	},
 	{
 		name: 'LM-01 Thor Lander Descent Package',
@@ -406,7 +452,8 @@ var NP_ENGINES = [
 		radial: false,
 		mass: 0.65,
 		vectoring: true,
-		size: 1.9
+		size: 1.9,
+		isp: 310
 	}
 ];
 
@@ -418,7 +465,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 1.25,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	},
 	{
 		name: 'Des-T5',
@@ -426,7 +474,8 @@ var AIES_ENGINES =
 		radial: true,
 		mass: 0.04,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 250
 	},
 	{
 		name: 'Exper-05',
@@ -434,7 +483,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 0.85,
 		vectoring: false,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	},
 	{
 		name: 'Mogul-MP1500',
@@ -442,7 +492,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 5,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 280
 	},
 	{
 		name: 'Produl-VR2',
@@ -450,7 +501,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 1.8,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 320
 	},
 	{
 		name: 'Galaxy-VR2',
@@ -458,7 +510,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 0.4,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 300
 	},
 	{
 		name: 'MODC-2',
@@ -466,7 +519,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 0.2,
 		vectoring: true,
-		size: 0.4
+		size: 0.4,
+		isp: 300
 	},
 	{
 		name: 'Orbit II',
@@ -474,7 +528,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 1.2,
 		vectoring: true,
-		size: 2.5
+		size: 2.5,
+		isp: 320
 	},
 	{
 		name: 'EX-1 SAT',
@@ -482,7 +537,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 0.035,
 		vectoring: true,
-		size: 0.3125
+		size: 0.3125,
+		isp: 220
 	},
 	{
 		name: 'M-SE',
@@ -490,7 +546,8 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 0.03,
 		vectoring: true,
-		size: 0.15625
+		size: 0.15625,
+		isp: 220
 	},
 	{
 		name: 'Vulcan-VR1',
@@ -498,18 +555,20 @@ var AIES_ENGINES =
 		radial: false,
 		mass: 1.5,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 320
 	}
 ];
 
 var HOME_ENGINES = [
 	{
-		name: 'HOME radial engine',
+		name: 'HOME Radial Aerospike',
 		thrust: 110,
 		radial: true,
 		mass: 0.5,
 		vectoring: true,
-		size: -1
+		size: -1,
+		isp: 388
 	}
 ];
 
@@ -521,7 +580,8 @@ var KOSMOS_ENGINES = [
 		mass: 0.335,
 		vectoring: true,
 		size: 1.25,
-		disabled: true // atmosphere curve not suitable for ascent
+		disabled: true, // atmosphere curve not suitable for ascent
+		isp: 200
 	},
 	{
 		name: 'RD-0146-N2',
@@ -530,7 +590,8 @@ var KOSMOS_ENGINES = [
 		mass: 0.233,
 		vectoring: true,
 		size: 1.25,
-		disabled: true // atmosphere curve not suitable for ascent
+		disabled: true, // atmosphere curve not suitable for ascent
+		isp: 188
 	},
 	{
 		name: 'RD-275K',
@@ -538,7 +599,8 @@ var KOSMOS_ENGINES = [
 		radial: false,
 		mass: 2.25,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 333
 	},
 	{
 		name: 'RD-33NK',
@@ -546,7 +608,8 @@ var KOSMOS_ENGINES = [
 		radial: false,
 		mass: 1.68,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 297
 	},
 	{
 		name: 'RD-58SS',
@@ -554,7 +617,8 @@ var KOSMOS_ENGINES = [
 		radial: false,
 		mass: 1.4,
 		vectoring: true,
-		size: 1.25
+		size: 1.25,
+		isp: 361
 	}
 ];
 
@@ -565,7 +629,8 @@ var SMP_ENGINES = [
 		radial: false,
 		mass: 0.35,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 270
 	},
 	{
 		name: 'Small Rockomax "Mainsail"',
@@ -573,7 +638,8 @@ var SMP_ENGINES = [
 		radial: false,
 		mass: 0.55,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 260
 	},
 	{
 		name: 'Small Rockomax "Poodle"',
@@ -581,7 +647,8 @@ var SMP_ENGINES = [
 		radial: false,
 		mass: 0.25,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 270
 	},
 	{
 		name: 'Small LV-909',
@@ -589,7 +656,8 @@ var SMP_ENGINES = [
 		radial: false,
 		mass: 0.15,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 310
 	},
 	{
 		name: 'Small LV-N',
@@ -597,15 +665,17 @@ var SMP_ENGINES = [
 		radial: false,
 		mass: 0.79,
 		vectoring: true,
-		size: 0.625
+		size: 0.625,
+		isp: 100
 	},
 	{
-		name: 'Small Torodial Aerospike',
+		name: 'Small Toroidal Aerospike',
 		thrust: 22.5,
 		radial: false,
 		mass: 0.3,
 		vectoring: false,
-		size: 0.625
+		size: 0.625,
+		isp: 378
 	}
 ];
 

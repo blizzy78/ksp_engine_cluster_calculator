@@ -112,3 +112,91 @@ test('createCompoundComparator - multiple', function() {
 	ok(comparator.compare(11, 12) < 0);
 	ok(comparator.compare(12, 11) > 0);
 });
+
+test('getSpecificImpulseOfEngineConfig - single', function() {
+	var engineConfig = {
+		central: {
+			thrust: 120,
+			isp: 290
+		},
+		numOuter: 0,
+		numRadial: 0
+	};
+	equal(getSpecificImpulseOfEngineConfig(engineConfig), 290);
+});
+
+test('getSpecificImpulseOfEngineConfig - two', function() {
+	var engineConfig = {
+		central: {
+			thrust: 120,
+			isp: 290
+		},
+		numOuter: 1,
+		outer: {
+			thrust: 20,
+			isp: 250
+		},
+		numRadial: 0
+	};
+	equal(Math.round(getSpecificImpulseOfEngineConfig(engineConfig) * 10) / 10, 283.5);
+});
+
+test('getSpecificImpulseOfEngineConfig - three', function() {
+	var engineConfig = {
+		central: {
+			thrust: 120,
+			isp: 290
+		},
+		numOuter: 1,
+		outer: {
+			thrust: 20,
+			isp: 250
+		},
+		numRadial: 1,
+		radial: {
+			thrust: 1.5,
+			isp: 220
+		}
+	};
+	equal(Math.round(getSpecificImpulseOfEngineConfig(engineConfig) * 10) / 10, 282.7);
+});
+
+test('getSpecificImpulse', function() {
+	var rocketConfig = {
+		thrust: 281.5,
+		central: {
+			thrust: 140,
+			central: {
+				thrust: 120,
+				isp: 290
+			},
+			numOuter: 1,
+			outer: {
+				thrust: 20,
+				isp: 250
+			},
+			numRadial: 0,
+			isp: 283.519553
+		},
+		numBoosters: 1,
+		booster: {
+			thrust: 141.5,
+			central: {
+				thrust: 120,
+				isp: 290
+			},
+			numOuter: 1,
+			outer: {
+				thrust: 20,
+				isp: 250
+			},
+			numRadial: 1,
+			radial: {
+				thrust: 1.5,
+				isp: 220
+			},
+			isp: 282.654435
+		}
+	};
+	equal(Math.round(getSpecificImpulse(rocketConfig) * 10) / 10, 283.1);
+});

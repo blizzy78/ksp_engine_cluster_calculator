@@ -110,6 +110,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 									centralSize: centralStackSize,
 									boosterSize: boosterStackSize
 								};
+								newRocketConfig.isp = getSpecificImpulse(newRocketConfig);
 								rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
 								numRocketConfigsFound++;
 								
@@ -134,6 +135,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				centralSize: centralStackSize,
 				boosterSize: -1
 			};
+			newRocketConfig.isp = getSpecificImpulse(newRocketConfig);
 			rocketConfig = getBetterRocketConfig(rocketConfig, newRocketConfig, rocketConfigComparator);
 			numRocketConfigsFound++;
 
@@ -248,6 +250,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 									((outerEngine.thrust > 0) ? numOuterEngines : 0) +
 									((radialEngine.thrust > 0) ? numRadialEngines : 0)
 							};
+							engineConfig.isp = getSpecificImpulseOfEngineConfig(engineConfig);
 							engineConfigs.push(engineConfig);
 						}
 					}

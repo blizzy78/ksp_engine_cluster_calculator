@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 "use strict";
 
 
-var SORT_PRIORITIES = [ 'engineTWR', 'twr', 'engineMass', 'numParts', 'numShells' ];
+var SORT_PRIORITIES = [ 'engineTWR', 'twr', 'isp', 'engineMass', 'numParts', 'numShells' ];
 
 
 function createCompoundComparator(initialComparator) {
@@ -39,6 +39,17 @@ function createCompoundComparator(initialComparator) {
 		thenCompare: function(nextComparator) {
 			comparators.push(nextComparator);
 			return this;
+		},
+		
+		dump: function() {
+			var result = '';
+			for (var comparatorIdx in comparators) {
+				if (result.length > 0) {
+					result += ', ';
+				}
+				result += comparators[comparatorIdx].name;
+			}
+			return result;
 		}
 	};
 }
@@ -51,6 +62,9 @@ function createRocketConfigComparator(calculateFor, payloadMass, payloadFraction
 		if (priority !== calculateFor) {
 			comparator.thenCompare(createSingleRocketConfigComparator(priority, payloadMass, payloadFraction));
 		}
+	}
+	if (typeof(log) !== 'undefined') {
+		log('comparator: ' + comparator.dump());
 	}
 	return comparator;
 }
@@ -106,9 +120,16 @@ function createSingleRocketConfigComparator(calculateFor, payloadMass, payloadFr
 				return shells1 - shells2;
 			};
 			break;
+		
+		case 'isp':
+			func = function(rocketConfig1, rocketConfig2) {
+				return rocketConfig2.isp - rocketConfig1.isp;
+			};
+			break;
 	}
 	
 	return {
+		name: calculateFor,
 		compare: func
 	};
 }
@@ -139,4 +160,31 @@ function getNumberOfShellsUsed(rocketConfig) {
 		}
 	}
 	return centralShells + boosterShells;
+}
+
+function getSpecificImpulse(rocketConfig) {
+	var totalThrust = rocketConfig.thrust;
+	var divisor = rocketConfig.central.thrust / rocketConfig.central.isp;
+	if (rocketConfig.numBoosters > 0) {
+		divisor += rocketConfig.numBoosters * rocketConfig.booster.thrust / rocketConfig.booster.isp;
+	}
+	return totalThrust / divisor;
+}
+
+function getSpecificImpulseOfEngineConfig(engineConfig) {
+	var totalThrust = 0;
+	var divisor = 0;
+	if (engineConfig.central !== null) {
+		totalThrust += engineConfig.central.thrust;
+		divisor += engineConfig.central.thrust / engineConfig.central.isp;
+	}
+	if (engineConfig.numOuter > 0) {
+		totalThrust += engineConfig.outer.thrust * engineConfig.numOuter;
+		divisor += engineConfig.numOuter * engineConfig.outer.thrust / engineConfig.outer.isp;
+	}
+	if (engineConfig.numRadial > 0) {
+		totalThrust += engineConfig.radial.thrust * engineConfig.numRadial;
+		divisor += engineConfig.numRadial * engineConfig.radial.thrust / engineConfig.radial.isp;
+	}
+	return totalThrust / divisor;
 }
