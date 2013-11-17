@@ -427,33 +427,6 @@ var NP_ENGINES = [
 		vectoring: true,
 		size: -1,
 		isp: 280
-	},
-	{
-		name: 'Odin Command Module Trunk Section',
-		thrust: 100,
-		radial: false,
-		mass: 0.4,
-		vectoring: true,
-		size: 2.5,
-		isp: 355
-	},
-	{
-		name: 'LM-01 Thor Lander Ascent Package',
-		thrust: 49,
-		radial: false,
-		mass: 0.55,
-		vectoring: true,
-		size: 1.875,
-		isp: 320
-	},
-	{
-		name: 'LM-01 Thor Lander Descent Package',
-		thrust: 65,
-		radial: false,
-		mass: 0.65,
-		vectoring: true,
-		size: 1.9,
-		isp: 310
 	}
 ];
 
