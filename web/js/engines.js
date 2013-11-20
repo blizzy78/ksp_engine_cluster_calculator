@@ -652,6 +652,55 @@ var SMP_ENGINES = [
 	}
 ];
 
+var RLA_ENGINES = [
+	{
+		name: 'Rockomax "Cutter" Linear Aerospike',
+		thrust: 210,
+		radial: false,
+		mass: 1.5,
+		vectoring: false,
+		size: 0.625,
+		isp: 340
+	},
+	{
+		name: 'Rockomax "Spinnaker"',
+		thrust: 30,
+		radial: false,
+		mass: 0.125,
+		vectoring: true,
+		size: 0.625,
+		isp: 280
+	},
+	{
+		name: 'LV-T5',
+		thrust: 5,
+		radial: false,
+		mass: 0.05,
+		vectoring: true,
+		size: 0.625,
+		isp: 330
+	},
+	{
+		name: 'TtH-2B "Kingfisher"',
+		thrust: 15,
+		radial: false,
+		mass: 0.1,
+		vectoring: true,
+		size: 0.625,
+		isp: 310
+	},
+	{
+		name: 'LV-Nc',
+		thrust: 6.5,
+		radial: false,
+		mass: 0.25,
+		vectoring: false,
+		size: 0.625,
+		isp: 220
+	}
+];
+
+
 var ENGINE_PACKS = [
 	{
 		name: 'kspStock',
@@ -700,6 +749,12 @@ var ENGINE_PACKS = [
 		title: 'NovaPunch 2.03',
 		url: 'http://forum.kerbalspaceprogram.com/showthread.php/3870',
 		engines: NP_ENGINES
+	},
+	{
+		name: 'rla',
+		title: 'RLA Stockalike 0.9.1',
+		url: 'http://kerbalspaceport.com/rla-stockalike-0-1/',
+		engines: RLA_ENGINES
 	},
 	{
 		name: 'smp',
