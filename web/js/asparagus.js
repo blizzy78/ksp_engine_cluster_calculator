@@ -128,6 +128,7 @@ function solve() {
 				numBoosters: numBoosters,
 				trueRadial: $('#options input[name="trueRadial"]')[0].checked,
 				allowPartClipping: $('#options input[name="allowPartClipping"]')[0].checked,
+				allowThrustLimiting: $('#options input[name="allowThrustLimiting"]')[0].checked,
 				minCentralThrustFraction: parseFloat($('#options input[name="minCentralThrustFraction"]').val()),
 				maxCentralThrustFraction: parseFloat($('#options input[name="maxCentralThrustFraction"]').val()),
 				numCentralOuterEngines: numCentralOuterEngines,
@@ -170,7 +171,7 @@ function showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
 			'(engines: ' + (Math.round(rocketConfig.mass * 10) / 10) + ' t)</li>' +
 			'<li>Thrust: ' + Math.round(thrust) + ' kN</li>' +
 			'<li>TWR: ' + (Math.round(twr * 100) / 100) + '</li>' +
-			(DEBUG ? ('<li>TWR (engines): ' + (Math.round(rocketConfig.thrust / rocketConfig.mass * 100) / 100) + '</li>') : '') +
+			(DEBUG ? ('<li>TWR (engines): ' + (Math.round(thrust / rocketConfig.mass / gravity * 100) / 100) + '</li>') : '') +
 			(DEBUG ? ('<li>Isp at sea level: ' + Math.round(getSpecificImpulse(rocketConfig)) + '</li>') : '') +
 			'<li>Number of engines: ' + rocketConfig.numParts + '</li></ul>';
 		$('#rocketTotals').empty().append($.parseHTML(html));
@@ -321,19 +322,25 @@ function draw(canvas, engineConfig, infoHeader, textEl, size, numStacksRequired)
 		var html = '<h4>' + infoHeader + '</h4><ul><li>Stack size: ' + size + ' m</li>';
 		if (engineConfig.central !== null) {
 			html += '<li>Center engine: <span id="stack_' + random + '_central" class="engineTooltip">' +
-				escapeHTML(engineConfig.central.name) + '</span></li>';
+				escapeHTML(engineConfig.central.name) + '</span>' +
+				((engineConfig.centralLimit < 100) ? ' (limited to ' + engineConfig.centralLimit + '%)' : '') +
+				'</li>';
 		} else if (engineConfig.numOuter > 0) {
 			html += '<li>Center engine: (none)</li>';
 		}
 		if (engineConfig.numOuter > 0) {
 			html += '<li>Outer engines: ' + engineConfig.numOuter + 'x ' +
 				'<span id="stack_' + random + '_outer" class="engineTooltip">' + 
-				escapeHTML(engineConfig.outer.name) + '</span></li>';
+				escapeHTML(engineConfig.outer.name) + '</span>' +
+				((engineConfig.outerLimit < 100) ? ' (limited to ' + engineConfig.outerLimit + '%)' : '') +
+				'</li>';
 		}
 		if (engineConfig.numRadial > 0) {
 			html += '<li>Radial engines: ' + engineConfig.numRadial + 'x ' +
 				'<span id="stack_' + random + '_radial" class="engineTooltip">' + 
-				escapeHTML(engineConfig.radial.name) + '</span></li>';
+				escapeHTML(engineConfig.radial.name) + '</span>' +
+				((engineConfig.radialLimit < 100) ? ' (limited to ' + engineConfig.radialLimit + '%)' : '') +
+				'</li>';
 		}
 		html += '</ul><p>Stack thrust: ' + engineConfig.thrust + ' kN</p>';
 		if (numStacksRequired > 1) {

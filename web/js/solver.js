@@ -24,6 +24,8 @@ self.importScripts('compare.js');
 
 var BOOSTER_STACK_SIZES = [1.25, 2.5, 3.75];
 var RADIAL_MAX_SIZE = 1.25;
+var THRUST_LIMIT_PERCENTAGE_STEPS = 5;
+var THRUST_LIMIT_MIN_PERCENTAGE = 80;
 var ENGINE_PARTITION_BUCKET_THRUST = 50;
 
 var NO_ENGINE = {
@@ -47,13 +49,14 @@ function solve(data) {
 		data.minCentralThrustFraction, data.maxCentralThrustFraction, data.numBoosters,
 		data.numCentralOuterEngines, data.minCentralRadialEngines, data.maxCentralRadialEngines,
 		data.maxBoosterOuterEngines, data.minBoosterRadialEngines, data.maxBoosterRadialEngines,
-		data.centralStackSize, data.gravity, data.trueRadial, data.allowPartClipping, rocketConfigComparator);
+		data.centralStackSize, data.gravity, data.trueRadial, data.allowPartClipping, data.allowThrustLimiting,
+		rocketConfigComparator);
 }
 
 function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThrustFraction, maxCentralThrustFraction,
 	numBoosters, numCentralOuterEngines, minCentralRadialEngines, maxCentralRadialEngines, maxBoosterOuterEngines,
 	minBoosterRadialEngines, maxBoosterRadialEngines, centralStackSize, gravity, trueRadial, allowPartClipping,
-	rocketConfigComparator) {
+	allowThrustLimiting, rocketConfigComparator) {
 	
 	var lastProgressRocketConfigSent = 0;
 	var numRocketConfigsFound = 0;
@@ -71,11 +74,11 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 	if (numBoosters > 0) {
 		suitableCentralConfigs = solveStack(minCentralThrust, maxCentralThrust, numCentralOuterEngines,
 			numCentralOuterEngines, minCentralRadialEngines, maxCentralRadialEngines, true, true,
-			centralStackSize, trueRadial, allowPartClipping);
+			centralStackSize, trueRadial, allowPartClipping, allowThrustLimiting);
 	} else {
 		suitableCentralConfigs = solveStack(minThrust, maxThrust, numCentralOuterEngines, numCentralOuterEngines,
 			minCentralRadialEngines, maxCentralRadialEngines, true, true,
-			centralStackSize, trueRadial, allowPartClipping);
+			centralStackSize, trueRadial, allowPartClipping, allowThrustLimiting);
 	}
 	
 	for (var suitableCentralConfigIdx in suitableCentralConfigs) {
@@ -91,7 +94,7 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 				if (boosterStackSize <= centralStackSize) {
 					var suitableBoosterConfigs = solveStack(remainingMinThrustSingle, remainingMaxThrustSingle,
 							0, maxBoosterOuterEngines, minBoosterRadialEngines, maxBoosterRadialEngines, false, false,
-							boosterStackSize, trueRadial, allowPartClipping);
+							boosterStackSize, trueRadial, allowPartClipping, allowThrustLimiting);
 					for (var boosterConfigIdx in suitableBoosterConfigs) {
 						var boosterConfig = suitableBoosterConfigs[boosterConfigIdx];
 						var totalThrust = centralConfig.thrust + boosterConfig.thrust * numBoosters;
@@ -154,16 +157,19 @@ function solveRocket(payloadMass, payloadFraction, minTWR, maxTWR, minCentralThr
 }
 
 function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minRadialEngines, maxRadialEngines,
-	outerAndRadialEnginesBalanceRequired, vectoringRequired, stackSize, trueRadial, allowPartClipping) {
+	outerAndRadialEnginesBalanceRequired, vectoringRequired, stackSize, trueRadial, allowPartClipping,
+	allowThrustLimiting) {
 	
 	var engineConfigs = [];
 	
 	var suitableCentralEngines = solveEngine(maxThrust, false, vectoringRequired, stackSize,
-		false, false, true);
+		false, false, true, allowThrustLimiting);
 	for (var centralEngineIdx in suitableCentralEngines) {
-		var centralEngine = suitableCentralEngines[centralEngineIdx];
+		var centralEngineConfig = suitableCentralEngines[centralEngineIdx];
+		var centralEngine = centralEngineConfig.engine;
+		var centralEngineThrust = centralEngine.thrust * centralEngineConfig.limit / 100;
 
-		var remainingMaxThrust = maxThrust - centralEngine.thrust;
+		var remainingMaxThrust = maxThrust - centralEngineThrust;
 		var remainingSize = allowPartClipping ?
 			((stackSize - centralEngine.clippingSize) / 2) :
 			((stackSize - centralEngine.size) / 2);
@@ -178,10 +184,13 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 			if (numOuterEngines > 0) {
 				var remainingMaxThrustSingle = remainingMaxThrust / numOuterEngines;
 				suitableOuterEngines = solveEngine(remainingMaxThrustSingle, false, vectoringRequired,
-					remainingSize, false, allowPartClipping, allowNoOuterEngine);
+					remainingSize, false, allowPartClipping, allowNoOuterEngine, allowThrustLimiting);
 			} else {
 				if (allowNoOuterEngine) {
-					suitableOuterEngines = [ NO_ENGINE ];
+					suitableOuterEngines = [{
+						engine: NO_ENGINE,
+						limit: 100
+					}];
 				} else {
 					continue;
 				}
@@ -189,7 +198,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 
 			if (allowNoOuterEngine) {
 				for (var outerEngineIdx in suitableOuterEngines) {
-					if (suitableOuterEngines[outerEngineIdx].thrust === 0) {
+					if (suitableOuterEngines[outerEngineIdx].engine.thrust === 0) {
 						allowNoOuterEngine = false;
 						break;
 					}
@@ -198,9 +207,11 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 
 			var allowNoRadialEngine = minRadialEngines === 0;
 			for (var outerEngineIdx in suitableOuterEngines) {
-				var outerEngine = suitableOuterEngines[outerEngineIdx];
+				var outerEngineConfig = suitableOuterEngines[outerEngineIdx];
+				var outerEngine = outerEngineConfig.engine;
+				var outerEngineThrust = outerEngine.thrust * outerEngineConfig.limit / 100;
 				
-				var outerEnginesThrust = outerEngine.thrust * numOuterEngines;
+				var outerEnginesThrust = outerEngineThrust * numOuterEngines;
 				var remainingMaxThrustRadial = remainingMaxThrust - outerEnginesThrust;
 				
 				for (var numRadialEngines = minRadialEngines; numRadialEngines <= maxRadialEngines; numRadialEngines++) {
@@ -212,10 +223,14 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 					if (numRadialEngines > 0) {
 						var remainingMaxThrustRadialSingle = remainingMaxThrustRadial / numRadialEngines;
 						suitableRadialEngines = solveEngine(remainingMaxThrustRadialSingle, true, false,
-							RADIAL_MAX_SIZE, trueRadial, allowPartClipping, allowNoRadialEngine);
+							RADIAL_MAX_SIZE, trueRadial, allowPartClipping, allowNoRadialEngine,
+							allowThrustLimiting);
 					} else {
 						if (allowNoRadialEngine) {
-							suitableRadialEngines = [ NO_ENGINE ];
+							suitableRadialEngines = [{
+								engine: NO_ENGINE,
+								limit: 100
+							}];
 						} else {
 							continue;
 						}
@@ -223,7 +238,7 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 
 					if (allowNoRadialEngine) {
 						for (var radialEngineIdx in suitableRadialEngines) {
-							if (suitableRadialEngines[radialEngineIdx].thrust === 0) {
+							if (suitableRadialEngines[radialEngineIdx].engine.thrust === 0) {
 								allowNoRadialEngine = false;
 								break;
 							}
@@ -231,24 +246,29 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 					}
 					
 					for (var radialEngineIdx in suitableRadialEngines) {
-						var radialEngine = suitableRadialEngines[radialEngineIdx];
+						var radialEngineConfig = suitableRadialEngines[radialEngineIdx];
+						var radialEngine = radialEngineConfig.engine;
+						var radialEngineThrust = radialEngine.thrust * radialEngineConfig.limit / 100;
 						
-						var radialEnginesThrust = radialEngine.thrust * numRadialEngines;
+						var radialEnginesThrust = radialEngineThrust * numRadialEngines;
 						
-						var totalThrust = centralEngine.thrust + outerEnginesThrust + radialEnginesThrust;
+						var totalThrust = centralEngineThrust + outerEnginesThrust + radialEnginesThrust;
 						if (totalThrust >= minThrust) {
 							var engineConfig = {
-								central: (centralEngine.thrust > 0) ? centralEngine : null,
-								outer: (outerEngine.thrust > 0) ? outerEngine : null,
-								numOuter: (outerEngine.thrust > 0) ? numOuterEngines : 0,
-								radial: (radialEngine.thrust > 0) ? radialEngine : null,
-								numRadial: (radialEngine.thrust > 0) ? numRadialEngines : 0,
+								central: (centralEngineThrust > 0) ? centralEngine : null,
+								centralLimit: (centralEngineThrust > 0) ? centralEngineConfig.limit : 100,
+								outer: (outerEngineThrust > 0) ? outerEngine : null,
+								outerLimit: (outerEngineThrust > 0) ? outerEngineConfig.limit : 100,
+								numOuter: (outerEngineThrust > 0) ? numOuterEngines : 0,
+								radial: (radialEngineThrust > 0) ? radialEngine : null,
+								radialLimit: (radialEngineThrust > 0) ? radialEngineConfig.limit : 100,
+								numRadial: (radialEngineThrust > 0) ? numRadialEngines : 0,
 								thrust: totalThrust,
 								mass: centralEngine.mass + outerEngine.mass * numOuterEngines +
 									radialEngine.mass * numRadialEngines,
-								numParts: ((centralEngine.thrust > 0) ? 1 : 0) +
-									((outerEngine.thrust > 0) ? numOuterEngines : 0) +
-									((radialEngine.thrust > 0) ? numRadialEngines : 0)
+								numParts: ((centralEngineThrust > 0) ? 1 : 0) +
+									((outerEngineThrust > 0) ? numOuterEngines : 0) +
+									((radialEngineThrust > 0) ? numRadialEngines : 0)
 							};
 							engineConfig.isp = getSpecificImpulseOfEngineConfig(engineConfig);
 							engineConfigs.push(engineConfig);
@@ -263,30 +283,51 @@ function solveStack(minThrust, maxThrust, minOuterEngines, maxOuterEngines, minR
 }
 
 function solveEngine(maxThrust, allowRadial, vectoringRequired, maxSize, trueRadial, allowPartClipping,
-	allowNoEngine) {
+	allowNoEngine, allowThrustLimiting) {
 	
 	numCallsToSolveEngine++;
 	var solveEngineStartTime = new Date();
 
-	var bucket = Math.min(getPartitionBucket(maxThrust), allEngines.length - 1);
+	var maxPartitioningThrust = allowThrustLimiting ? maxThrust * 100 / THRUST_LIMIT_MIN_PERCENTAGE : maxThrust;
+	var bucket = Math.min(getPartitionBucket(maxPartitioningThrust), allEngines.length - 1);
 	var engines = allEngines[bucket];
 	var suitableEngines = [];
 
 	for (var engineIdx in engines) {
 		var engine = engines[engineIdx];
-		if ((engine.thrust <= maxThrust) &&
+		var thrustLimits = [];
+		if (allowThrustLimiting) {
+			for (var limit = 100; limit >= THRUST_LIMIT_MIN_PERCENTAGE; limit -= THRUST_LIMIT_PERCENTAGE_STEPS) {
+				if ((engine.thrust * limit / 100) <= maxThrust) {
+					thrustLimits.push(limit);
+				}
+			}
+		} else {
+			if (engine.thrust <= maxThrust) {
+				thrustLimits.push(100);
+			}
+		}
+		if ((thrustLimits.length > 0) &&
 			(allowRadial || !engine.radial) &&
 			(!vectoringRequired || engine.vectoring) &&
 			(!trueRadial || engine.radial) &&
 			((allowPartClipping ? engine.clippingSize : engine.size) <= maxSize)) {
 
-			suitableEngines.push(engine);
+			for (var limitIdx in thrustLimits) {
+				suitableEngines.push({
+					engine: engine,
+					limit: thrustLimits[limitIdx]
+				});
+			}
 		}
 	}
 
 	// allow for "no engine here"
 	if (allowNoEngine) {
-		suitableEngines.push(NO_ENGINE);
+		suitableEngines.push({
+			engine: NO_ENGINE,
+			limit: 100
+		});
 	}
 
 	var solveEngineEndTime = new Date();
