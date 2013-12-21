@@ -598,25 +598,25 @@ var KOSMOS_ENGINES = [
 var SMP_ENGINES = [
 	{
 		name: 'Small Rockomax "Skipper"',
-		thrust: 38,
+		thrust: 40,
 		radial: false,
 		mass: 0.35,
 		vectoring: true,
 		size: 0.625,
-		isp: 270
+		isp: 265
 	},
 	{
 		name: 'Small Rockomax "Mainsail"',
-		thrust: 54,
+		thrust: 60,
 		radial: false,
-		mass: 0.55,
+		mass: 0.52,
 		vectoring: true,
 		size: 0.625,
 		isp: 260
 	},
 	{
 		name: 'Small Rockomax "Poodle"',
-		thrust: 14,
+		thrust: 15,
 		radial: false,
 		mass: 0.25,
 		vectoring: true,
@@ -625,9 +625,9 @@ var SMP_ENGINES = [
 	},
 	{
 		name: 'Small LV-909',
-		thrust: 8.5,
+		thrust: 9,
 		radial: false,
-		mass: 0.15,
+		mass: 0.14,
 		vectoring: true,
 		size: 0.625,
 		isp: 310
@@ -636,16 +636,16 @@ var SMP_ENGINES = [
 		name: 'Small LV-N',
 		thrust: 10,
 		radial: false,
-		mass: 0.79,
+		mass: 0.75,
 		vectoring: true,
 		size: 0.625,
 		isp: 100
 	},
 	{
 		name: 'Small Toroidal Aerospike',
-		thrust: 22.5,
+		thrust: 25,
 		radial: false,
-		mass: 0.3,
+		mass: 0.25,
 		vectoring: false,
 		size: 0.625,
 		isp: 378
@@ -711,13 +711,13 @@ var ENGINE_PACKS = [
 	{
 		name: 'aies',
 		title: 'AIES Aerospace 1.4.2',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/35383-0-20-2-AIES-Aerospace-v1-3',
+		url: 'http://forum.kerbalspaceprogram.com/threads/35383',
 		engines: AIES_ENGINES
 	},
 	{
 		name: 'dsm',
 		title: 'DSM 1.9',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/7790-0-20-Parts-Pack-Deep-Space-Mission-Pack',
+		url: 'http://forum.kerbalspaceprogram.com/threads/7790',
 		engines: DSM_ENGINES
 	},
 	{
@@ -729,36 +729,36 @@ var ENGINE_PACKS = [
 	{
 		name: 'kosmos',
 		title: 'KOSMOS SSPP 4.7.2',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/24970-0-19-Kosmos-Spacecraft-Design-Bureau',
+		url: 'http://forum.kerbalspaceprogram.com/threads/24970',
 		engines: KOSMOS_ENGINES
 	},
 	{
 		name: 'kspx',
-		title: 'KSPX 0.2.4',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/30472-KSPX-Kerbal-Stock-Part-eXpansion-mod-reposted',
+		title: 'KSPX 0.2.5',
+		url: 'http://forum.kerbalspaceprogram.com/threads/30472',
 		engines: KSPX_ENGINES
 	},
 	{
 		name: 'kwRocketry',
 		title: 'KW Rocketry 2.5.5',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/33168-20-1-KW-Rocketry-0-2-3',
+		url: 'http://forum.kerbalspaceprogram.com/threads/51037',
 		engines: KW_ROCKETRY_ENGINES
 	},
 	{
 		name: 'np',
 		title: 'NovaPunch 2.03',
-		url: 'http://forum.kerbalspaceprogram.com/showthread.php/3870',
+		url: 'http://forum.kerbalspaceprogram.com/threads/3870',
 		engines: NP_ENGINES
 	},
 	{
 		name: 'rla',
-		title: 'RLA Stockalike 0.9.1',
-		url: 'http://kerbalspaceport.com/rla-stockalike-0-1/',
+		title: 'RLA Stockalike 0.9.4',
+		url: 'http://forum.kerbalspaceprogram.com/threads/24593',
 		engines: RLA_ENGINES
 	},
 	{
 		name: 'smp',
-		title: 'Sceppie\'s 0.5m Minipack 0.22.0.2',
+		title: 'Sceppie\'s 0.5m Minipack 0.23.0.2',
 		url: 'http://kerbalspaceport.com/0-18-2-sceppies-0-5m-minipack/',
 		engines: SMP_ENGINES
 	}
