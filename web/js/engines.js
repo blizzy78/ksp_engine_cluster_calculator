@@ -93,6 +93,15 @@ var KSP_STOCK_ENGINES = [
 		isp: 220
 	},
 	{
+		name: 'LV-N',
+		thrust: 60,
+		radial: false,
+		mass: 2.25,
+		vectoring: true,
+		size: 1.25,
+		isp: 220
+	},
+	{
 		name: 'LV-1R',
 		thrust: 1.5,
 		radial: true,
@@ -111,6 +120,15 @@ var KSP_STOCK_ENGINES = [
 		isp: 290
 	},
 	{
+		name: 'R.A.P.I.E.R.',
+		thrust: 175,
+		radial: false,
+		mass: 1.75,
+		vectoring: true,
+		size: 1.25,
+		isp: 320
+	},
+	{
 		name: 'Rockomax 24-77',
 		thrust: 20,
 		radial: true,
@@ -118,15 +136,6 @@ var KSP_STOCK_ENGINES = [
 		vectoring: true,
 		size: -1,
 		isp: 250
-	},
-	{
-		name: 'LV-N',
-		thrust: 60,
-		radial: false,
-		mass: 2.25,
-		vectoring: true,
-		size: 1.25,
-		isp: 220
 	},
 	{
 		name: 'Toroidal Aerospike',
@@ -704,7 +713,7 @@ var RLA_ENGINES = [
 var ENGINE_PACKS = [
 	{
 		name: 'kspStock',
-		title: 'KSP Stock 0.22.0',
+		title: 'KSP Stock 0.23.0',
 		engines: KSP_STOCK_ENGINES
 	},
 	
