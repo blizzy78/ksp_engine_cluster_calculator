@@ -31,6 +31,9 @@ var ENGINE_COLOR_RADIAL = '#008800';
 
 var DEBUG = false;
 
+// initially set to false for the first automatic calculation
+var sendResultsToServer = false;
+
 
 function solve() {
 	var enginePacks = [];
@@ -99,6 +102,11 @@ function solve() {
 					log(rocketConfig);
 					stopFunction();
 					showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity);
+					if (sendResultsToServer) {
+						sendToServer();
+					} else {
+						sendResultsToServer = true;
+					}
 				}
 				break;
 			
@@ -149,6 +157,15 @@ function solve() {
 			worker.postMessage(data);
 		}
 	}
+}
+
+function sendToServer() {
+	$.ajax({
+		url: 'http://blizzy.de/asparagus/calculation-done',
+		type: 'POST',
+		dataType: 'json',
+		data: {}
+	});
 }
 
 function showRocketConfig(rocketConfig, payloadMass, payloadFraction, gravity) {
