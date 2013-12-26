@@ -166,7 +166,7 @@ function getSpecificImpulse(rocketConfig) {
 	var totalThrust = rocketConfig.thrust;
 	var divisor = rocketConfig.central.thrust / rocketConfig.central.isp;
 	if (rocketConfig.numBoosters > 0) {
-		divisor += rocketConfig.numBoosters * rocketConfig.booster.thrust / rocketConfig.booster.isp;
+		divisor += rocketConfig.booster.thrust * rocketConfig.numBoosters / rocketConfig.booster.isp;
 	}
 	return totalThrust / divisor;
 }
@@ -179,12 +179,14 @@ function getSpecificImpulseOfEngineConfig(engineConfig) {
 		divisor += engineConfig.central.thrust / engineConfig.central.isp;
 	}
 	if (engineConfig.numOuter > 0) {
-		totalThrust += engineConfig.outer.thrust * engineConfig.numOuter;
-		divisor += engineConfig.numOuter * engineConfig.outer.thrust / engineConfig.outer.isp;
+		var outerThrust = engineConfig.outer.thrust * engineConfig.numOuter;
+		totalThrust += outerThrust;
+		divisor += outerThrust / engineConfig.outer.isp;
 	}
 	if (engineConfig.numRadial > 0) {
-		totalThrust += engineConfig.radial.thrust * engineConfig.numRadial;
-		divisor += engineConfig.numRadial * engineConfig.radial.thrust / engineConfig.radial.isp;
+		var radialThrust = engineConfig.radial.thrust * engineConfig.numRadial;
+		totalThrust += radialThrust;
+		divisor += radialThrust / engineConfig.radial.isp;
 	}
 	return totalThrust / divisor;
 }
