@@ -56,3 +56,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	border: 0;
 	padding: 0;
 }
+
+p.donate {
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+p.donate .indent {
+	margin-left: 20px;
+}
