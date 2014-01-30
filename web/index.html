@@ -26,13 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <title>Engine Cluster Calculator for KSP</title>
 
-<link rel="stylesheet" href="css/bootstrap-3.0.2.min.css" media="all"/>
+<link rel="stylesheet" href="css/bootstrap-3.0.3.min.css" media="all"/>
 <link rel="stylesheet" href="css/styles.css" media="all"/>
 <link rel="stylesheet" href="css/slimbox2.css" media="all"/>
 
-<script src="js/jquery-2.0.3.min.js"></script>
-<script src="js/bootstrap-3.0.2.min.js"></script>
-<script src="js/jcanvas-13.11.07.min.js"></script>
+<script src="js/jquery-2.1.0.min.js"></script>
+<script src="js/bootstrap-3.0.3.min.js"></script>
+<script src="js/jcanvas-14.01.22.min.js"></script>
 <script src="js/slimbox2-2.05.js"></script>
 <script src="js/engines.js"></script>
 <script src="js/compare.js"></script>
@@ -59,201 +59,217 @@ Also, to get better results you should allow part clipping because there is more
 engines to tanks.
 </p>
 
-<p>
-<small><em>This page uses advanced HTML and JavaScript features, so better get a
-<a href="http://www.browserchoice.eu">modern web browser</a>. Most specifically, Internet Explorer 9 or older
-are not supported.</em></small>
-</p>
-
 <p class="donate">
 	<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PCRP5Y2MUS62A"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
 	<a href="http://bit.ly/1dwimeT" class="indent"><img src="http://blizzy.de/flattr-badge-large.png"/></a>
 </p>
 
-<div id="calculatorAndOutput" class="row">
-	<div class="col-md-7">
+<div class="row">
+	<div class="col-lg-10 col-md-9 col-sm-12">
 		<div class="row">
-			<div class="col-lg-7">
+			<div class="col-lg-5 col-md-7">
 				<div class="panel panel-default">
 					<div class="panel-heading">Center Stack</div>
 					<div class="panel-body">
 						<canvas width="335" height="335" id="centralConfig"></canvas>
+						<div id="centralDescription"></div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-5" id="centralDescription"></div>
-		</div>
-		<div class="row">
-			<div class="col-lg-7">
 				<div class="panel panel-default">
 					<div class="panel-heading">Booster Stack</div>
 					<div class="panel-body">
 						<canvas width="335" height="335" id="boosterConfig"></canvas>
+						<div id="boosterDescription"></div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-5">
-				<div id="boosterDescription"></div>
-				<div id="rocketTotals"></div>
+		
+			<div class="col-lg-7 col-md-5">
+				<div class="panel panel-default">
+				<div class="panel-heading">Configuration Calculator</div>
+				<div class="panel-body">
+				
+				<form id="options" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-md-5 control-label">Payload mass:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="payloadMass" type="text" value="44" class="form-control input-sm"/>
+								<span class="input-group-addon">t</span>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label"><a href="http://en.wikipedia.org/wiki/Payload_fraction">Payload fraction</a>:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="payloadFraction" type="text" value="15" class="form-control input-sm"/>
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label"><a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="minTWR" type="text" value="1.6" class="form-control input-sm"/>
+								<span class="input-group-addon input-group-addon-middle">to</span>
+								<input name="maxTWR" type="text" value="1.7" class="form-control input-sm"/>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Center stack size:</label>
+						<div class="col-md-7">
+							<select name="centralStackSize" class="form-control input-sm">
+								<option value="0.625">0.625 m</option>
+								<option value="1.25">1.25 m</option>
+								<option value="2.5" selected="true">2.5 m</option>
+								<option value="3.75">3.75 m</option>
+								<option value="5">5 m</option>
+							</select>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Booster stacks:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="minBoosters" type="text" value="4" class="form-control input-sm"/>
+								<span class="input-group-addon input-group-addon-middle">to</span>
+								<input name="maxBoosters" type="text" value="6" class="form-control input-sm"/>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Max. center outer engines:</label>
+						<div class="col-md-7">
+							<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Center radial engines:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="minCentralRadialEngines" type="text" value="0" class="form-control input-sm"/>
+								<span class="input-group-addon input-group-addon-middle">to</span>
+								<input name="maxCentralRadialEngines" type="text" value="0" class="form-control input-sm"/>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Max. booster outer engines:</label>
+						<div class="col-md-7">
+							<input name="maxBoosterOuterEngines" type="text" value="4" class="form-control input-sm"/>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-5 control-label">Booster radial engines:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="minBoosterRadialEngines" type="text" value="0" class="form-control input-sm"/>
+								<span class="input-group-addon input-group-addon-middle">to</span>
+								<input name="maxBoosterRadialEngines" type="text" value="4" class="form-control input-sm"/>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<div class="col-md-7 col-md-offset-5">
+							<label class="checkbox">
+								<input name="trueRadial" type="checkbox" value="true" checked="true"/> True radial engines
+							</label>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<div class="col-md-7 col-md-offset-5">
+							<label class="checkbox">
+								<input name="allowPartClipping" type="checkbox" value="true" checked="true"/> Allow part clipping
+							</label>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<div class="col-md-7 col-md-offset-5">
+							<label class="checkbox">
+								<input name="allowThrustLimiting" type="checkbox" value="true"/> Allow thrust limiting
+							</label>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Center stack thrust:</label>
+						<div class="col-md-7">
+							<div class="input-group">
+								<input name="minCentralThrustFraction" type="text" value="20" class="form-control input-sm"/>
+								<span class="input-group-addon input-group-addon-middle">to</span>
+								<input name="maxCentralThrustFraction" type="text" value="25" class="form-control input-sm"/>
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Calculate for:</label>
+						<div class="col-md-7">
+							<select name="calculateFor" class="form-control input-sm">
+								<option value="twr">Best TWR (vessel)</option>
+								<option value="engineTWR" selected="true">Best TWR (engines only)</option>
+								<option value="isp">Best Isp at sea level</option>
+								<option value="engineMass">Min. engines mass</option>
+								<option value="numParts">Min. number of engines</option>
+							</select>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<label class="col-md-5 control-label">Engine packs:</label>
+						<div class="col-md-7">
+							<div class="input-group" id="enginePacks">
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<p class="help-block col-md-10 col-md-offset-1">
+						<strong>Warning:</strong> Calculation may take a while if many engine packs are selected.
+						Please be patient.
+						</p>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-md-12 text-center">
+							<button type="submit" class="btn btn-primary">Calculate</button>
+							<button id="stopButton" type="button" class="btn btn-warning" style="display: none;">Stop</button>
+							<button type="reset" class="btn btn-default">Reset</button>
+						</div>
+					</div>
+		
+					<div class="form-group">
+						<p class="col-md-10 col-md-offset-1" id="rocketTotals"></p>
+					</div>
+				</form>
+				
+				</div></div>
 			</div>
 		</div>
 	</div>
-
-	<div class="col-md-5">
-		<div class="panel panel-default">
-		<div class="panel-heading">Configuration Calculator</div>
-		<div class="panel-body">
-		
-		<form id="options" class="form-horizontal">
-			<div class="form-group">
-				<label class="col-md-6 control-label">Payload mass:</label>
-				<div class="col-md-6 input-group">
-					<input name="payloadMass" type="text" value="44" class="form-control input-sm"/>
-					<span class="input-group-addon">t</span>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label"><a href="http://en.wikipedia.org/wiki/Payload_fraction">Payload fraction</a>:</label>
-				<div class="col-md-6 input-group">
-					<input name="payloadFraction" type="text" value="15" class="form-control input-sm"/>
-					<span class="input-group-addon">%</span>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label"><a href="http://en.wikipedia.org/wiki/Thrust-to-weight_ratio">TWR</a>:</label>
-				<div class="col-md-6 input-group">
-					<input name="minTWR" type="text" value="1.6" class="form-control input-sm"/>
-					<span class="input-group-addon input-group-addon-middle">to</span>
-					<input name="maxTWR" type="text" value="1.7" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Center stack size:</label>
-				<div class="col-md-6">
-					<select name="centralStackSize" class="form-control input-sm">
-						<option value="0.625">0.625 m</option>
-						<option value="1.25">1.25 m</option>
-						<option value="2.5" selected="true">2.5 m</option>
-						<option value="3.75">3.75 m</option>
-						<option value="5">5 m</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Booster stacks:</label>
-				<div class="col-md-6 input-group">
-					<input name="minBoosters" type="text" value="4" class="form-control input-sm"/>
-					<span class="input-group-addon input-group-addon-middle">to</span>
-					<input name="maxBoosters" type="text" value="6" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. center outer engines:</label>
-				<div class="col-md-6">
-					<input name="maxCentralOuterEngines" type="text" value="4" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Center radial engines:</label>
-				<div class="col-md-6 input-group">
-					<input name="minCentralRadialEngines" type="text" value="0" class="form-control input-sm"/>
-					<span class="input-group-addon input-group-addon-middle">to</span>
-					<input name="maxCentralRadialEngines" type="text" value="0" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Max. booster outer engines:</label>
-				<div class="col-md-6">
-					<input name="maxBoosterOuterEngines" type="text" value="4" class="form-control input-sm"/>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-md-6 control-label">Booster radial engines:</label>
-				<div class="col-md-6 input-group">
-					<input name="minBoosterRadialEngines" type="text" value="0" class="form-control input-sm"/>
-					<span class="input-group-addon input-group-addon-middle">to</span>
-					<input name="maxBoosterRadialEngines" type="text" value="4" class="form-control input-sm"/>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-md-6 col-md-offset-6">
-					<label class="checkbox">
-						<input name="trueRadial" type="checkbox" value="true" checked="true"/> True radial engines
-					</label>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-md-6 col-md-offset-6">
-					<label class="checkbox">
-						<input name="allowPartClipping" type="checkbox" value="true" checked="true"/> Allow part clipping
-					</label>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-md-6 col-md-offset-6">
-					<label class="checkbox">
-						<input name="allowThrustLimiting" type="checkbox" value="true"/> Allow thrust limiting
-					</label>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Center stack thrust:</label>
-				<div class="col-md-6 input-group">
-					<input name="minCentralThrustFraction" type="text" value="20" class="form-control input-sm"/>
-					<span class="input-group-addon input-group-addon-middle">to</span>
-					<input name="maxCentralThrustFraction" type="text" value="25" class="form-control input-sm"/>
-					<span class="input-group-addon">%</span>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Calculate for:</label>
-				<div class="col-md-6">
-					<select name="calculateFor" class="form-control input-sm">
-						<option value="twr">Best TWR (vessel)</option>
-						<option value="engineTWR" selected="true">Best TWR (engines only)</option>
-						<option value="isp">Best Isp at sea level</option>
-						<option value="engineMass">Min. engines mass</option>
-						<option value="numParts">Min. number of engines</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-md-6 control-label">Engine packs:</label>
-				<div class="col-md-6" id="enginePacks">
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<p class="help-block col-md-10 col-md-offset-1">
-				<strong>Warning:</strong> Calculation may take a while if many engine packs are selected.
-				Please be patient.
-				</p>
-			</div>
-			
-			<div class="form-group">
-				<div class="col-md-12 text-center">
-					<button type="submit" class="btn btn-primary">Calculate</button>
-					<button id="stopButton" type="button" class="btn btn-warning" style="display: none;">Stop</button>
-					<button type="reset" class="btn btn-default">Reset</button>
-				</div>
-			</div>
-		</form>
-		
-		</div></div>
+	
+	<div class="col-lg-2 col-md-3 visible-lg">
+		<iframe src="http://rcm-eu.amazon-adsystem.com/e/cm?t=iqcomputing-21&o=3&p=14&l=ur1&category=books&banner=1M571J8WJ7M3HJYRDP82&f=ifr"
+			class="pull-right" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
+	</div>
+	<div class="col-lg-2 col-md-3 visible-md">
+		<iframe src="http://rcm-eu.amazon-adsystem.com/e/cm?t=iqcomputing-21&o=3&p=14&l=ur1&category=books&banner=1M571J8WJ7M3HJYRDP82&f=ifr"
+			class="pull-right" width="160" height="600" scrolling="no" border="0" marginwidth="0" frameborder="0"></iframe>
 	</div>
 </div>
 
@@ -272,8 +288,8 @@ are not supported.</em></small>
 		
 		<p>
 		<em>This tutorial uses only stock parts. You might want to consider using the
-		<a href="http://forum.kerbalspaceprogram.com/threads/46447-0-21-1-StretchyTanks-v0-2-2-(updated-8-26-13)">Stretchy Tanks</a>
-		mod for resizable fuel tanks, making min-maxing much easier. It will also help to reduce part count.</em>
+		<a href="http://forum.kerbalspaceprogram.com/threads/57422">StretchySRB</a> mod for resizable fuel tanks,
+		making min-maxing much easier. It will also help to reduce part count.</em>
 		</p>
 		
 		<div class="row">
@@ -468,6 +484,9 @@ are not supported.</em></small>
 		</div>
 	</div>
 </div>
+
+<iframe src="http://rcm-eu.amazon-adsystem.com/e/cm?t=iqcomputing-21&o=3&p=48&l=ur1&category=books&banner=16X0FXSFTP2BDHQ90TR2&f=ifr"
+	class="bottom-banner center-block" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border: none;" frameborder="0"></iframe>
 
 </div>
 
