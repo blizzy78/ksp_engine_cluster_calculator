@@ -695,7 +695,7 @@ var ENGINE_PACKS = [
 	
 	{
 		name: 'aies',
-		title: 'AIES Aerospace 1.4.2',
+		title: 'AIES Aerospace 1.5.0',
 		url: 'http://forum.kerbalspaceprogram.com/threads/35383',
 		engines: AIES_ENGINES
 	},
@@ -713,7 +713,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kwRocketry',
-		title: 'KW Rocketry 2.5.5',
+		title: 'KW Rocketry 2.5.6B',
 		url: 'http://forum.kerbalspaceprogram.com/threads/51037',
 		engines: KW_ROCKETRY_ENGINES
 	},
