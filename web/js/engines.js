@@ -148,18 +148,6 @@ var KSP_STOCK_ENGINES = [
 	}
 ];
 
-var DSM_ENGINES = [
-	{
-		name: 'DSM 2.5m 4X',
-		thrust: 400,
-		radial: false,
-		mass: 2,
-		vectoring: false,
-		size: 2.5,
-		isp: 200
-	}
-];
-
 var KW_ROCKETRY_ENGINES = [
 	{
 		name: 'Maverick-1D',
@@ -542,18 +530,6 @@ var AIES_ENGINES =
 	}
 ];
 
-var HOME_ENGINES = [
-	{
-		name: 'HOME Radial Aerospike',
-		thrust: 110,
-		radial: true,
-		mass: 0.5,
-		vectoring: true,
-		size: -1,
-		isp: 388
-	}
-];
-
 var KOSMOS_ENGINES = [
 	{
 		name: 'RD-0146',
@@ -722,18 +698,6 @@ var ENGINE_PACKS = [
 		title: 'AIES Aerospace 1.4.2',
 		url: 'http://forum.kerbalspaceprogram.com/threads/35383',
 		engines: AIES_ENGINES
-	},
-	{
-		name: 'dsm',
-		title: 'DSM 1.9',
-		url: 'http://forum.kerbalspaceprogram.com/threads/7790',
-		engines: DSM_ENGINES
-	},
-	{
-		name: 'home',
-		title: 'H.O.M.E. 1.0.5',
-		url: 'http://kerbalspaceport.com/0-18-1-h-o-m-e-start-kit/',
-		engines: HOME_ENGINES
 	},
 	{
 		name: 'kosmos',
