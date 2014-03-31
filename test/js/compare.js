@@ -45,6 +45,12 @@ test('createSingleRocketConfigComparator - twr', function() {
 	equal(createSingleRocketConfigComparator('twr', 10, 15).compare({ thrust: 100 }, { thrust: 100 }), 0);
 });
 
+test('createSingleRocketConfigComparator - isp', function() {
+	ok(createSingleRocketConfigComparator('isp', 0, 0).compare({ isp: 500 }, { isp: 1000 }) > 0);
+	ok(createSingleRocketConfigComparator('isp', 0, 0).compare({ isp: 1000 }, { isp: 500 }) < 0);
+	equal(createSingleRocketConfigComparator('isp', 0, 0).compare({ isp: 500 }, { isp: 500 }), 0);
+});
+
 test('createSingleRocketConfigComparator - numParts', function() {
 	ok(createSingleRocketConfigComparator('numParts', 0, 0).compare({ numParts: 2 }, { numParts: 5 }) < 0);
 	ok(createSingleRocketConfigComparator('numParts', 0, 0).compare({ numParts: 5 }, { numParts: 2 }) > 0);
