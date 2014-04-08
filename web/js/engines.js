@@ -21,6 +21,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var KSP_STOCK_ENGINES = [
 	{
+		name: 'LFB KR-1x2',
+		thrust: 2000,
+		radial: false,
+		mass: 10.4,
+		vectoring: true,
+		size: 2.5,
+		isp: 320
+	},
+	{
+		name: 'Kerbodyne KR-2L',
+		thrust: 2500,
+		radial: false,
+		mass: 6.5,
+		vectoring: true,
+		size: 3.75,
+		isp: 280
+	},
+	{
+		name: 'S3 KS-25x4',
+		thrust: 3200,
+		radial: false,
+		mass: 9.75,
+		vectoring: true,
+		size: 3.75,
+		isp: 320
+	},
+	{
 		name: 'Rockomax "Skipper"',
 		thrust: 650,
 		radial: false,
@@ -85,7 +112,7 @@ var KSP_STOCK_ENGINES = [
 	},
 	{
 		name: 'LV-1',
-		thrust: 1.5,
+		thrust: 4,
 		radial: false,
 		mass: 0.03,
 		vectoring: false,
@@ -103,7 +130,7 @@ var KSP_STOCK_ENGINES = [
 	},
 	{
 		name: 'LV-1R',
-		thrust: 1.5,
+		thrust: 4,
 		radial: true,
 		mass: 0.03,
 		vectoring: false,
@@ -291,7 +318,7 @@ var NP_ENGINES = [
 		isp: 350
 	},
 	{
-		name: 'RMA-3 Orbital Achievement Device',
+		name: 'RMA-3',
 		thrust: 75,
 		radial: false,
 		mass: 0.65,
@@ -327,7 +354,7 @@ var NP_ENGINES = [
 		isp: 200
 	},
 	{
-		name: 'Inline Twin Fusion 1.25m',
+		name: 'In-line Twin Fusion 1.25m',
 		thrust: 75,
 		radial: false,
 		mass: 2.5,
@@ -336,7 +363,7 @@ var NP_ENGINES = [
 		isp: 220
 	},
 	{
-		name: 'Inline Twin Fusion 2.5m',
+		name: 'In-line Twin Fusion 2.5m',
 		thrust: 150,
 		radial: false,
 		mass: 5,
@@ -348,55 +375,64 @@ var NP_ENGINES = [
 		name: 'Orbital Bertha',
 		thrust: 475,
 		radial: false,
-		mass: 3,
+		mass: 3.8,
 		vectoring: true,
 		size: 2.5,
 		isp: 335
 	},
 	{
 		name: 'Bearcat Series Two Tri-nozzle',
-		thrust: 2200,
+		thrust: 2400,
 		radial: false,
-		mass: 8.5,
+		mass: 9.25,
 		vectoring: true,
 		size: 3.75,
-		isp: 260
+		isp: 270
 	},
 	{
 		name: 'TD-180 Bronco Quad',
-		thrust: 2650,
+		thrust: 3000,
+		radial: false,
+		mass: 10.7,
+		vectoring: true,
+		size: 3.75,
+		isp: 280
+	},
+	{
+		name: '"The Little Mother"',
+		thrust: 2000,
 		radial: false,
 		mass: 10,
 		vectoring: true,
 		size: 3.75,
-		isp: 275
-	},
-	{
-		name: '"The Little Mother"',
-		thrust: 1800,
-		radial: false,
-		mass: 8,
-		vectoring: true,
-		size: 3.75,
-		isp: 265
+		isp: 290
 	},
 	{
 		name: 'Bearcat Series Two 5x',
 		thrust: 10000,
 		radial: false,
-		mass: 40,
-		vectoring: true,
-		size: 5,
-		isp: 255
-	},
-	{
-		name: 'The Matriarch',
-		thrust: 4500,
-		radial: false,
-		mass: 18,
+		mass: 30,
 		vectoring: true,
 		size: 5,
 		isp: 265
+	},
+	{
+		name: 'The Matriarch',
+		thrust: 5000,
+		radial: false,
+		mass: 17.5,
+		vectoring: true,
+		size: 5,
+		isp: 275
+	},
+	{
+		name: 'Freyja Light Duty Rocket Motor',
+		thrust: 35,
+		radial: false,
+		mass: 0.16,
+		vectoring: true,
+		size: 0.3125,
+		isp: 300
 	},
 	{
 		name: 'Radial Large Liquid Booster',
@@ -689,13 +725,13 @@ var RLA_ENGINES = [
 var ENGINE_PACKS = [
 	{
 		name: 'kspStock',
-		title: 'KSP Stock 0.23.0',
+		title: 'KSP Stock 0.23.5',
 		engines: KSP_STOCK_ENGINES
 	},
 	
 	{
 		name: 'aies',
-		title: 'AIES Aerospace 1.5.0',
+		title: 'AIES Aerospace 1.5.1',
 		url: 'http://forum.kerbalspaceprogram.com/threads/35383',
 		engines: AIES_ENGINES
 	},
@@ -707,7 +743,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'kspx',
-		title: 'KSPX 0.2.5',
+		title: 'KSPX 0.2.6.1',
 		url: 'http://forum.kerbalspaceprogram.com/threads/30472',
 		engines: KSPX_ENGINES
 	},
@@ -719,7 +755,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'np',
-		title: 'NovaPunch 2.03',
+		title: 'NovaPunch 2.03.5',
 		url: 'http://forum.kerbalspaceprogram.com/threads/3870',
 		engines: NP_ENGINES
 	},
