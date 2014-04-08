@@ -27,7 +27,8 @@ var KSP_STOCK_ENGINES = [
 		mass: 10.4,
 		vectoring: true,
 		size: 2.5,
-		isp: 320
+		isp: 320,
+		disabled: true   // no engine/tank combinations for now
 	},
 	{
 		name: 'Kerbodyne KR-2L',
