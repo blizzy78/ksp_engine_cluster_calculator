@@ -426,7 +426,7 @@ var NP_ENGINES = [
 		isp: 275
 	},
 	{
-		name: 'Freyja Light Duty Rocket Motor',
+		name: 'Freyja Light Duty',
 		thrust: 35,
 		radial: false,
 		mass: 0.16,
