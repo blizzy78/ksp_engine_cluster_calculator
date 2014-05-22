@@ -310,13 +310,31 @@ var NP_ENGINES = [
 		isp: 335
 	},
 	{
-		name: 'K2-X',
+		name: 'K2-X 1.25 m',
 		thrust: 195,
 		radial: false,
 		mass: 1.2,
 		vectoring: true,
 		size: 1.25,
 		isp: 350
+	},
+	{
+		name: 'K2-X 3.75 m',
+		thrust: 1600,
+		radial: false,
+		mass: 7,
+		vectoring: true,
+		size: 3.75,
+		isp: 290
+	},
+	{
+		name: 'K2-X 5 m',
+		thrust: 5000,
+		radial: false,
+		mass: 18,
+		vectoring: true,
+		size: 5,
+		isp: 270
 	},
 	{
 		name: 'RMA-3',
@@ -355,7 +373,7 @@ var NP_ENGINES = [
 		isp: 200
 	},
 	{
-		name: 'In-line Twin Fusion 1.25m',
+		name: 'In-line Twin Fusion 1.25 m',
 		thrust: 75,
 		radial: false,
 		mass: 2.5,
@@ -364,7 +382,7 @@ var NP_ENGINES = [
 		isp: 220
 	},
 	{
-		name: 'In-line Twin Fusion 2.5m',
+		name: 'In-line Twin Fusion 2.5 m',
 		thrust: 150,
 		radial: false,
 		mass: 5,
@@ -403,10 +421,19 @@ var NP_ENGINES = [
 		name: '"The Little Mother"',
 		thrust: 2000,
 		radial: false,
-		mass: 10,
+		mass: 6,
 		vectoring: true,
 		size: 3.75,
-		isp: 290
+		isp: 285
+	},
+	{
+		name: 'Advanced Heavy Lifter Engine',
+		thrust: 7500,
+		radial: false,
+		mass: 26,
+		vectoring: true,
+		size: 5,
+		isp: 265
 	},
 	{
 		name: 'Bearcat Series Two 5x',
@@ -419,12 +446,21 @@ var NP_ENGINES = [
 	},
 	{
 		name: 'The Matriarch',
-		thrust: 5000,
+		thrust: 4000,
 		radial: false,
-		mass: 17.5,
+		mass: 13.8,
 		vectoring: true,
 		size: 5,
 		isp: 275
+	},
+	{
+		name: 'The Micro Mother',
+		thrust: 1000,
+		radial: false,
+		mass: 4.5,
+		vectoring: true,
+		size: 2.5,
+		isp: 295
 	},
 	{
 		name: 'Freyja Light Duty',
@@ -436,15 +472,6 @@ var NP_ENGINES = [
 		isp: 300
 	},
 	{
-		name: 'Radial Large Liquid Booster',
-		thrust: 150,
-		radial: true,
-		mass: 0.8,
-		vectoring: true,
-		size: -1,
-		isp: 280
-	},
-	{
 		name: 'Radial Liquid Booster',
 		thrust: 75,
 		radial: true,
@@ -454,10 +481,10 @@ var NP_ENGINES = [
 		isp: 280
 	},
 	{
-		name: 'SAS-2 Vernier Pod',
-		thrust: 33,
+		name: 'Radial Large Liquid Booster',
+		thrust: 150,
 		radial: true,
-		mass: 0.2,
+		mass: 0.8,
 		vectoring: true,
 		size: -1,
 		isp: 280
@@ -756,7 +783,7 @@ var ENGINE_PACKS = [
 	},
 	{
 		name: 'np',
-		title: 'NovaPunch 2.03.5',
+		title: 'NovaPunch 2.04',
 		url: 'http://forum.kerbalspaceprogram.com/threads/3870',
 		engines: NP_ENGINES
 	},
