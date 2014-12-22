@@ -145,7 +145,7 @@ var KSP_STOCK_ENGINES = [
 		mass: 0.9,
 		vectoring: true,
 		size: -1,
-		isp: 290
+		isp: 320
 	},
 	{
 		name: 'R.A.P.I.E.R.',
@@ -173,6 +173,16 @@ var KSP_STOCK_ENGINES = [
 		vectoring: false,
 		size: 1.25,
 		isp: 388
+	}
+	{
+		name: 'O-10 MonoPropellant Engine',
+		thrust: 175,
+		radial: true,
+		mass: 1.5,
+		vectoring: false,
+		size: -1,
+		isp: 320
+		disabled: true//No Monopropellent engines for nwo
 	}
 ];
 
@@ -753,7 +763,7 @@ var RLA_ENGINES = [
 var ENGINE_PACKS = [
 	{
 		name: 'kspStock',
-		title: 'KSP Stock 0.23.5',
+		title: 'KSP Stock 0.90',
 		engines: KSP_STOCK_ENGINES
 	},
 	
