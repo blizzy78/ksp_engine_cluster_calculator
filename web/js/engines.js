@@ -183,7 +183,7 @@ var KSP_STOCK_ENGINES = [
 		vectoring: false,
 		size: -1,
 		isp: 320
-		disabled: true//No Monopropellent engines for nwo
+		disabled: true  //No Monopropellent engines for nwo
 	}
 ];
 
