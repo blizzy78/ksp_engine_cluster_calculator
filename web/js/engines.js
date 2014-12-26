@@ -175,16 +175,16 @@ var KSP_STOCK_ENGINES = [
 		isp: 388
 	
 	},
-	{
-		name: 'O-10 MonoPropellant Engine',
-		thrust: 20,
-		radial: true,
-		mass: 0.09,
-		vectoring: false,
-		size: -1,
-		isp: 320
-		disabled: true  //No Monopropellent engines for nwo
-	}
+//	{
+//		name: 'O-10 MonoPropellant Engine',
+//		thrust: 20,
+//		radial: true,
+//		mass: 0.09,
+//		vectoring: false,
+//		size: -1,
+//		isp: 320
+//		disabled: true  //No Monopropellent engines for nwo
+//	}
 ];
 
 var KW_ROCKETRY_ENGINES = [
