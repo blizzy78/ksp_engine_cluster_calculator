@@ -174,7 +174,7 @@ var KSP_STOCK_ENGINES = [
 		size: 1.25,
 		isp: 388
 	
-	],
+	},
 	{
 		name: 'O-10 MonoPropellant Engine',
 		thrust: 20,
